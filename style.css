@@ -866,6 +866,14 @@ code {
   border-left-color: var(--clr-green);
 }
 
+[data-accent="purple"].project-card {
+  border-left-color: var(--clr-purple);
+}
+
+[data-accent="pink"].project-card {
+  border-left-color: var(--clr-pink);
+}
+
 .project-card__header {
   display: flex;
   align-items: center;

@@ -11,11 +11,16 @@
         content="Microservices-based full-stack application built with FastAPI, React, and Docker for managing user routines with PDF export and JWT Auth.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://nfportfolio.vercel.app/routine-maker.html">
-    <!-- Fonts and CSS -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" href="/project-styles.css">
-    
+
     <!-- Vercel Web Analytics -->
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
@@ -24,178 +29,181 @@
 </head>
 
 <body>
-    <!-- Top Navigation -->
+    <!-- ===== NAV ===== -->
     <nav class="nav" id="nav">
-        <div class="container nav__inner">
-            <a href="/" class="nav__logo">NF.</a>
-            <div class="nav__links">
-                <a href="/#about">ABOUT</a>
-                <a href="/#projects">PROJECTS</a>
-                <a href="/#experience">EXPERIENCE</a>
-                <a href="/#contact">CONTACT</a>
-            </div>
-            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
-                    <circle cx="12" cy="12" r="5"></circle>
-                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-                <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
-                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
+        <a href="/" class="nav__logo">NF<span class="accent">.</span></a>
+        <div class="nav__links">
+            <a href="/#about">About</a>
+            <a href="/#projects">Projects</a>
+            <a href="/#experience">Experience</a>
+            <a href="/#contact">Contact</a>
+        </div>
+        <div class="nav__actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span class="theme-toggle__icon theme-toggle__icon--sun">☀️</span>
+                <span class="theme-toggle__icon theme-toggle__icon--moon">🌙</span>
+            </button>
+            <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
 
-    <!-- Case Study Header -->
-    <header class="project-header">
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/#about">About</a>
+        <a href="/#projects">Projects</a>
+        <a href="/#experience">Experience</a>
+        <a href="/#contact">Contact</a>
+    </div>
+
+    <main class="project-showcase">
         <div class="container">
-            <h1 class="project-header__title">RoutineMaker</h1>
-            <p class="project-header__subtitle">Microservices-based Routine Management Platform</p>
+
+            <a href="/index.html#projects" class="brutalist-back-btn">
+                <span>&#8592;</span> Back to Projects
+            </a>
+
+            <header class="project-showcase__header">
+                <h1 class="project-showcase__title">RoutineMaker</h1>
+                <p class="project-showcase__subtitle">Microservices-based Routine Management Platform</p>
+
+                <div class="project-showcase__links">
+                    <a href="https://github.com/NFRohan/routineMaker" target="_blank" rel="noopener"
+                        class="brutalist-btn brutalist-btn--primary">View on GitHub ↗</a>
+                </div>
+            </header>
 
             <img class="project-showcase__gallery-item" src="./Images/RoutineMaker Images/routine_Epox.png"
-                alt="RoutineMaker Dashboard showing a sample routine schedule" loading="lazy" style="margin-top:24px;">
+                alt="RoutineMaker Dashboard showing a sample routine schedule" loading="lazy"
+                style="margin-top:24px; margin-bottom: 2rem;">
 
-            <div class="project-header__meta">
-                <div class="meta-item">
-                    <span class="meta-label">ROLE</span>
-                    <span>Full-Stack Engineer</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">TECH STACK</span>
-                    <span>FastAPI • React • Docker • PostgreSQL • Nginx</span>
-                </div>
-                <div class="meta-item">
-                    <span class="meta-label">LINKS</span>
-                    <a href="https://github.com/NFRohan/routineMaker" target="_blank" class="btn btn--outline"
-                        style="padding: 4px 12px; font-size: 0.9rem;">GITHUB ↗</a>
-                </div>
+            <div class="project-showcase__content">
+                <article class="project-showcase__body">
+                    <section id="overview" class="project-section">
+                        <h2>Overview & Architecture</h2>
+                        <p>RoutineMaker is a full-stack web application designed to help users manage their daily
+                            routines
+                            sustainably. Built from the ground up to utilize modern, decoupled service architecture, it
+                            features a React frontend consuming APIs from multiple Python FastAPI backends, fully
+                            orchestrated by Docker Compose and reverse-proxied through Nginx.</p>
+
+                        <div class="mermaid">
+                            graph TD
+                            Client([Web Client / React SPA]) --> Nginx[Nginx Reverse Proxy]
+
+                            subgraph Docker Network
+                            Nginx -. "API Gateway Routing" .-> AuthSvc
+                            Nginx -. "API Gateway Routing" .-> BackendSvc
+                            Nginx -. "Static Files" .-> Frontend
+
+                            AuthSvc[Auth Service<br />FastAPI:8001] --> DB[(PostgreSQL)]
+                            BackendSvc[Core Backend Service<br />FastAPI:8000] --> DB
+                            Frontend[React Static Server]
+                            end
+
+                            style Client fill:#ffe156,stroke:#1a1a1a,stroke-width:2px,color:#1a1a1a
+                            style Nginx fill:#ffffff,stroke:#1a1a1a,stroke-width:2px,color:#1a1a1a
+                            style AuthSvc fill:#ffffff,stroke:#1a1a1a,stroke-width:2px,color:#1a1a1a
+                            style BackendSvc fill:#ffffff,stroke:#1a1a1a,stroke-width:2px,color:#1a1a1a
+                            style Frontend fill:#ffffff,stroke:#1a1a1a,stroke-width:2px,color:#1a1a1a
+                            style DB fill:#1a1a1a,stroke:#1a1a1a,stroke-width:2px,color:#ffffff
+                        </div>
+                    </section>
+
+                    <section id="microservices" class="project-section">
+                        <h2>Microservices Design</h2>
+                        <p>Instead of building a monolith, RoutineMaker enforces strict boundaries between its primary
+                            domains. This structural decision enables horizontal scaling of individual components and
+                            isolated development environments.</p>
+
+                        <div class="eng-highlight">
+                            <div class="eng-highlight__title">The Auth Service</div>
+                            <p>A completely isolated FastAPI instance designated solely for user identity. It handles
+                                user
+                                registration, Argon2 password hashing via Passlib, and JWT token issuance. By decoupling
+                                auth, the core backend doesn't need to manage credential flows natively.</p>
+                        </div>
+
+                        <div class="eng-highlight">
+                            <div class="eng-highlight__title">The Core Backend</div>
+                            <p>A second FastAPI service dedicated entirely to business logic. It handles the CRUD
+                                operations
+                                for routines and class sessions, interacting with the SQLAlchemy ORM layer to persist
+                                data
+                                to a shared PostgreSQL database container.</p>
+                        </div>
+
+                        <div class="eng-highlight">
+                            <div class="eng-highlight__title">Nginx API Gateway</div>
+                            <p>Rather than exposing multiple ports to the client, an Nginx container serves as the
+                                system's
+                                front-door. It routes <code>/api/auth/*</code> traffic to the auth service,
+                                <code>/api/*</code> to the core backend, and serves the static React bundle generated by
+                                Vite
+                                for all other root requests.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section id="security" class="project-section">
+                        <h2>Security & Authentication</h2>
+                        <p>Security was prioritized from day one using industry best-practices.</p>
+                        <ul>
+                            <li><strong>Password Hashing:</strong> Utilized the Argon2 algorithm, which is purposefully
+                                designed for secure password hashing and resists GPU-based cracking attempts far better
+                                than older hashes like MD5 or SHA512.</li>
+                            <li><strong>JWT Authentication:</strong> Secure, stateless token-based authentication. The
+                                JWT
+                                is signed using a secret configuration key and restricts access to user-specific routes.
+                            </li>
+                            <li><strong>SQL Injection Prevention:</strong> Abstracted raw database logic away utilizing
+                                the
+                                SQLAlchemy ORM, ensuring all queries are parameterized automatically.</li>
+                            <li><strong>CORS Protection:</strong> Explicitly configured Cross-Origin Resource Sharing
+                                middleware in FastAPI to prevent unauthorized domains from polling the API endpoints.
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section id="features" class="project-section">
+                        <h2>Key Features</h2>
+                        <ul>
+                            <li><strong>Dynamic Routine Building:</strong> Create distinct routines and dynamically
+                                attach unlimited custom "sessions" (classes/tasks) to them visually.</li>
+                            <li><strong>Session Cancellation:</strong> Toggle cancellation states on individual sessions
+                                temporarily without deleting them from the core schedule schema.</li>
+                            <li><strong>PDF Exporting:</strong> Users can request a physical copy of their schedule. The
+                                backend programmatically generates and returns a formatted PDF document using a
+                                dedicated <code>pdf_utils.py</code> generator.</li>
+                        </ul>
+                    </section>
+                </article>
+
+                <aside class="project-sidebar">
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Engineering Focus</div>
+                        <p style="margin:0; font-family:var(--font-primary); font-size:1rem; font-weight:500;">
+                            Full-Stack Web App</p>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Technologies</div>
+                        <div class="skill-group__badges">
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Nginx</span>
+                        </div>
+                    </div>
+                </aside>
             </div>
-        </div>
-    </header>
 
-    <!-- Project Content -->
-    <main class="container project-content">
-        <div class="project-grid">
-            <!-- Sidebar Navigation -->
-            <aside class="project-sidebar">
-                <nav>
-                    <ul>
-                        <li><a href="#overview">Overview & Architecture</a></li>
-                        <li><a href="#microservices">Microservices Design</a></li>
-                        <li><a href="#security">Security & Auth</a></li>
-                        <li><a href="#features">Key Features</a></li>
-                    </ul>
-                </nav>
-            </aside>
-
-            <!-- Main Content Area -->
-            <div class="project-body">
-                <section id="overview" class="project-section">
-                    <h2>Overview & Architecture</h2>
-                    <p>RoutineMaker is a full-stack web application designed to help users manage their daily routines
-                        sustainably. Built from the ground up to utilize modern, decoupled service architecture, it
-                        features a React frontend consuming APIs from multiple Python FastAPI backends, fully
-                        orchestrated by Docker Compose and reverse-proxied through Nginx.</p>
-
-                    <div class="mermaid">
-                        graph TD
-                        Client([Web Client / React SPA]) --> Nginx[Nginx Reverse Proxy]
-
-                        subgraph Docker Network
-                        Nginx -. "API Gateway Routing" .-> AuthSvc
-                        Nginx -. "API Gateway Routing" .-> BackendSvc
-                        Nginx -. "Static Files" .-> Frontend
-
-                        AuthSvc[Auth Service<br />FastAPI:8001] --> DB[(PostgreSQL)]
-                        BackendSvc[Core Backend Service<br />FastAPI:8000] --> DB
-                        Frontend[React Static Server]
-                        end
-
-                        style Client fill:#ffe156,stroke:#1a1a1a,stroke-width:2px,color:#1a1a1a
-                        style Nginx fill:#ffffff,stroke:#1a1a1a,stroke-width:2px,color:#1a1a1a
-                        style AuthSvc fill:#ffffff,stroke:#1a1a1a,stroke-width:2px,color:#1a1a1a
-                        style BackendSvc fill:#ffffff,stroke:#1a1a1a,stroke-width:2px,color:#1a1a1a
-                        style Frontend fill:#ffffff,stroke:#1a1a1a,stroke-width:2px,color:#1a1a1a
-                        style DB fill:#1a1a1a,stroke:#1a1a1a,stroke-width:2px,color:#ffffff
-                    </div>
-                </section>
-
-                <section id="microservices" class="project-section">
-                    <h2>Microservices Design</h2>
-                    <p>Instead of building a monolith, RoutineMaker enforces strict boundaries between its primary
-                        domains. This structural decision enables horizontal scaling of individual components and
-                        isolated development environments.</p>
-
-                    <div class="eng-highlight">
-                        <div class="eng-highlight__title">The Auth Service</div>
-                        <p>A completely isolated FastAPI instance designated solely for user identity. It handles user
-                            registration, Argon2 password hashing via Passlib, and JWT token issuance. By decoupling
-                            auth, the core backend doesn't need to manage credential flows natively.</p>
-                    </div>
-
-                    <div class="eng-highlight">
-                        <div class="eng-highlight__title">The Core Backend</div>
-                        <p>A second FastAPI service dedicated entirely to business logic. It handles the CRUD operations
-                            for routines and class sessions, interacting with the SQLAlchemy ORM layer to persist data
-                            to a shared PostgreSQL database container.</p>
-                    </div>
-
-                    <div class="eng-highlight">
-                        <div class="eng-highlight__title">Nginx API Gateway</div>
-                        <p>Rather than exposing multiple ports to the client, an Nginx container serves as the system's
-                            front-door. It routes <code>/api/auth/*</code> traffic to the auth service,
-                            <code>/api/*</code> to the core backend, and serves the static React bundle generated by
-                            Vite
-                            for all other root requests.
-                        </p>
-                    </div>
-                </section>
-
-                <section id="security" class="project-section">
-                    <h2>Security & Authentication</h2>
-                    <p>Security was prioritized from day one using industry best-practices.</p>
-                    <ul>
-                        <li><strong>Password Hashing:</strong> Utilized the Argon2 algorithm, which is purposefully
-                            designed for secure password hashing and resists GPU-based cracking attempts far better
-                            than older hashes like MD5 or SHA512.</li>
-                        <li><strong>JWT Authentication:</strong> Secure, stateless token-based authentication. The JWT
-                            is signed using a secret configuration key and restricts access to user-specific routes.
-                        </li>
-                        <li><strong>SQL Injection Prevention:</strong> Abstracted raw database logic away utilizing the
-                            SQLAlchemy ORM, ensuring all queries are parameterized automatically.</li>
-                        <li><strong>CORS Protection:</strong> Explicitly configured Cross-Origin Resource Sharing
-                            middleware in FastAPI to prevent unauthorized domains from polling the API endpoints.</li>
-                    </ul>
-                </section>
-
-                <section id="features" class="project-section">
-                    <h2>Key Features</h2>
-                    <ul>
-                        <li><strong>Dynamic Routine Building:</strong> Create distinct routines and dynamically attach
-                            unlimited custom "sessions" (classes/tasks) to them visually.</li>
-                        <li><strong>Session Cancellation:</strong> Toggle cancellation states on individual sessions
-                            temporarily without deleting them from the core schedule schema.</li>
-                        <li><strong>PDF Exporting:</strong> Users can request a physical copy of their schedule. The
-                            backend programmatically generates and returns a formatted PDF document using a dedicated
-                            <code>pdf_utils.py</code> generator.
-                        </li>
-                    </ul>
-                </section>
-
-            </div>
         </div>
     </main>
 
-    <!-- Minimal Footer -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="container footer__inner">
             <p>Built with stubbornness & caffeine.</p>
