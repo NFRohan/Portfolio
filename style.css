@@ -303,6 +303,7 @@ code {
 /* ---------- Section ---------- */
 .section {
   padding: var(--section-py) 0;
+  border-bottom: var(--border-thick);
 }
 
 .section__title {
@@ -845,9 +846,17 @@ code {
 /* ============================================================
    PROJECTS SECTION
    ============================================================ */
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 32px;
+}
+
 .project-card {
-  margin-bottom: 32px;
+  margin-bottom: 0;
   border-left: 8px solid var(--clr-black);
+  display: flex;
+  flex-direction: column;
 }
 
 [data-accent="yellow"].project-card {
@@ -876,11 +885,10 @@ code {
 
 .project-card__header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  flex-wrap: wrap;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 8px;
 }
 
 .project-card__title {
@@ -907,6 +915,12 @@ code {
   position: relative;
   padding-left: 20px;
   line-height: 1.6;
+  font-size: 0.95rem;
+  color: var(--clr-text-muted);
+}
+
+.project-card__highlights li strong {
+  color: var(--clr-text);
 }
 
 .project-card__highlights li::before {

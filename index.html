@@ -9,19 +9,19 @@
     content="Portfolio of Nayeem Fardin — Systems Engineer, ML Practitioner, and Cloud Native Builder. Explore projects in MLOps, distributed systems, and AI." />
 
   <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="Nayeem Fardin | Systems Engineer Portfolio" />
+  <meta property="og:title" content="Engineering Portfolio" />
   <meta property="og:description"
     content="Systems Engineer & ML Practitioner crafting robust backends, MLOps pipelines, and cloud-native infrastructure." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://nayeemfardin.vercel.app" />
-  <meta property="og:image" content="https://nayeemfardin.vercel.app/Images/background.png" />
+  <meta property="og:image" content="https://nayeemfardin.vercel.app/background.png" />
 
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Nayeem Fardin | Systems Engineer Portfolio" />
+  <meta name="twitter:title" content="Engineering Portfolio" />
   <meta name="twitter:description"
     content="Systems Engineer & ML Practitioner crafting robust backends, MLOps pipelines, and cloud-native infrastructure." />
-  <meta name="twitter:image" content="https://nayeemfardin.vercel.app/Images/background.png" />
+  <meta name="twitter:image" content="https://nayeemfardin.vercel.app/background.png" />
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -137,9 +137,15 @@
         <div class="about__education reveal">
           <div class="brutalist-card brutalist-card--highlight">
             <span class="card__label">Education</span>
-            <h3>B.Sc. in Computer Science & Engineering</h3>
-            <p>Islamic University of Technology (IUT)</p>
-            <p class="card__meta">Expected Sep 2026</p>
+            <div style="display: flex; align-items: center; gap: 16px;">
+              <div style="flex: 1;">
+                <h3>B.Sc. in Computer Science & Engineering</h3>
+                <p>Islamic University of Technology (IUT)</p>
+                <p class="card__meta">Expected Sep 2026</p>
+              </div>
+              <img src="./Images/IUT_logo_v_1.png" alt="IUT Logo"
+                style="width: 150px; height: 150px; border-radius: 4px; object-fit: contain;">
+            </div>
           </div>
         </div>
       </div>
@@ -224,197 +230,203 @@
     <div class="container">
       <h2 class="section__title reveal">PROJECTS<span class="accent">.</span></h2>
 
-      <!-- Project 1: ShelfWatch -->
-      <article class="brutalist-card project-card reveal" data-accent="yellow">
-        <div class="project-card__header">
-          <h3 class="project-card__title">ShelfWatch</h3>
-          <div style="display: flex; gap: 8px;">
-            <a href="/shelfwatch.html" class="brutalist-btn brutalist-btn--small"
-              style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
-            <a href="https://github.com/NFRohan/ShelfWatch" target="_blank" rel="noopener"
-              class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+      <div class="projects__grid">
+        <!-- Project 1: ShelfWatch -->
+        <article class="brutalist-card project-card reveal" data-accent="yellow">
+          <div class="project-card__header">
+            <h3 class="project-card__title">ShelfWatch</h3>
+            <div style="display: flex; gap: 8px;">
+              <a href="/shelfwatch.html" class="brutalist-btn brutalist-btn--small"
+                style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
+              <a href="https://github.com/NFRohan/ShelfWatch" target="_blank" rel="noopener"
+                class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+            </div>
           </div>
-        </div>
-        <div class="project-card__tags">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">YOLOv11</span>
-          <span class="tech-tag">AWS EKS</span>
-          <span class="tech-tag">FastAPI</span>
-          <span class="tech-tag">Docker</span>
-          <span class="tech-tag">ONNX</span>
-          <span class="tech-tag">Prometheus</span>
-          <span class="tech-tag">ArgoCD</span>
-          <span class="tech-tag">Helm</span>
-        </div>
-        <ul class="project-card__highlights">
-          <li>Fine-tuned and deployed <strong>YOLOv11</strong> on <strong>AWS EKS</strong> for dense retail product
-            detection.</li>
-          <li>Scalable inference service using <strong>Helm</strong> + <strong>ArgoCD</strong> (GitOps-driven
-            deployments).</li>
-          <li><strong>4×</strong> CPU inference speedup and <strong>70–90%</strong> cost savings via <strong>INT8
-              quantization</strong>, <strong>AMX</strong> and <strong>Spot</strong> diversification.</li>
-          <li>Canary releases with <strong>Argo Rollouts</strong> + smoke tests;
-            <strong>Loki/Prometheus/Grafana</strong> for logging and observability.
-          </li>
-          <li>DevSecOps in <strong>GitHub Actions</strong> with <strong>Trivy</strong> and <strong>pip-audit</strong>
-            for secure <strong>ECR</strong> promotion.</li>
-        </ul>
-      </article>
-
-      <!-- Project 2: PixTools -->
-      <article class="brutalist-card project-card reveal" data-accent="cyan">
-        <div class="project-card__header">
-          <h3 class="project-card__title">PixTools</h3>
-          <div style="display: flex; gap: 8px;">
-            <a href="/pixtools.html" class="brutalist-btn brutalist-btn--small"
-              style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
-            <a href="https://github.com/NFRohan/PixTools" target="_blank" rel="noopener"
-              class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+          <div class="project-card__tags">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">YOLOv11</span>
+            <span class="tech-tag">AWS EKS</span>
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">ONNX</span>
+            <span class="tech-tag">Prometheus</span>
+            <span class="tech-tag">ArgoCD</span>
+            <span class="tech-tag">Helm</span>
           </div>
-        </div>
-        <div class="project-card__tags">
-          <span class="tech-tag">FastAPI</span>
-          <span class="tech-tag">Celery</span>
-          <span class="tech-tag">RabbitMQ</span>
-          <span class="tech-tag">Terraform</span>
-          <span class="tech-tag">AWS</span>
-          <span class="tech-tag">K3s</span>
-          <span class="tech-tag">Redis</span>
-        </div>
-        <ul class="project-card__highlights">
-          <li>Architected a dual-node K3s cluster on <strong>AWS</strong> (On-Demand control + Spot data plane) with
-            full <strong>Terraform</strong> IaC and automated SSM reconciliation for async image processing queued
-            through <strong>RabbitMQ</strong>.</li>
-          <li>Optimized cost with <strong>EC2 Spot</strong> and graceful eviction via <strong>AWS Node Termination
-              Handler</strong>.</li>
-          <li>Resilience under load with <strong>Redis</strong> idempotency keys, <strong>pybreaker</strong> circuit
-            breakers, and <strong>k6</strong> stress tests.</li>
-          <li>Zero-Trust <strong>GitHub Actions (OIDC)</strong> CI/CD; telemetry and traces to <strong>Grafana
-              LGTM</strong> via <strong>Alloy</strong>.</li>
-          <li>Decoupled ML inference from fast conversions via dedicated queues to prevent worker starvation.</li>
-        </ul>
-      </article>
+          <ul class="project-card__highlights">
+            <li>Fine-tuned and deployed <strong>YOLOv11</strong> on <strong>AWS EKS</strong> for dense retail product
+              detection.</li>
+            <li>Scalable inference service using <strong>Helm</strong> + <strong>ArgoCD</strong> (GitOps-driven
+              deployments).</li>
+            <li><strong>4×</strong> CPU inference speedup and <strong>70–90%</strong> cost savings via <strong>INT8
+                quantization</strong>, <strong>AMX</strong> and <strong>Spot</strong> diversification.</li>
+            <li>Canary releases with <strong>Argo Rollouts</strong> + smoke tests;
+              <strong>Loki/Prometheus/Grafana</strong> for logging and observability.
+            </li>
+            <li>DevSecOps in <strong>GitHub Actions</strong> with <strong>Trivy</strong> and <strong>pip-audit</strong>
+              for secure <strong>ECR</strong> promotion.</li>
+          </ul>
+        </article>
 
-      <!-- Project 3: StatusMonitor -->
-      <article class="brutalist-card project-card reveal" data-accent="coral">
-        <div class="project-card__header">
-          <h3 class="project-card__title">StatusMonitor</h3>
-          <div style="display: flex; gap: 8px;">
-            <a href="/statusmonitor.html" class="brutalist-btn brutalist-btn--small"
-              style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
-            <a href="https://github.com/NFRohan/statusmonitor" target="_blank" rel="noopener"
-              class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+        <!-- Project 2: PixTools -->
+        <article class="brutalist-card project-card reveal" data-accent="cyan">
+          <div class="project-card__header">
+            <h3 class="project-card__title">PixTools</h3>
+            <div style="display: flex; gap: 8px;">
+              <a href="/pixtools.html" class="brutalist-btn brutalist-btn--small"
+                style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
+              <a href="https://github.com/NFRohan/PixTools" target="_blank" rel="noopener"
+                class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+            </div>
           </div>
-        </div>
-        <div class="project-card__tags">
-          <span class="tech-tag">FastAPI</span>
-          <span class="tech-tag">React 19</span>
-          <span class="tech-tag">Apache Kafka</span>
-          <span class="tech-tag">InfluxDB</span>
-          <span class="tech-tag">PostgreSQL</span>
-          <span class="tech-tag">Docker</span>
-        </div>
-        <ul class="project-card__highlights">
-          <li>Distributed monitoring platform with <strong>FastAPI</strong> microservices (ingestion/auth/alerting)
-            across <strong>Docker</strong>, designed for independent scaling.</li>
-          <li>Windows agent (<strong>psutil</strong> + <strong>PDH</strong>) streaming metrics via
-            <strong>Kafka</strong> to decouple producers/consumers.
-          </li>
-          <li>Reduced alert noise with in-memory cooldowns; real-time <strong>Telegram</strong> alerts + full history
-            for auditability.</li>
-          <li>Lowered storage cost using <strong>InfluxDB</strong> downsampling + tiered retention; secured onboarding
-            with <strong>Argon2</strong> + <strong>JWT</strong>.</li>
-        </ul>
-      </article>
-
-      <!-- Project 4: Crawler RAG DocHelper -->
-      <article class="brutalist-card project-card reveal" data-accent="green">
-        <div class="project-card__header">
-          <h3 class="project-card__title">Crawler RAG DocHelper</h3>
-          <div style="display: flex; gap: 8px;">
-            <a href="/crawler-rag.html" class="brutalist-btn brutalist-btn--small"
-              style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
-            <a href="https://github.com/NFRohan/crawler-rag-dochelper" target="_blank" rel="noopener"
-              class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+          <div class="project-card__tags">
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">Celery</span>
+            <span class="tech-tag">RabbitMQ</span>
+            <span class="tech-tag">Terraform</span>
+            <span class="tech-tag">AWS</span>
+            <span class="tech-tag">K3s</span>
+            <span class="tech-tag">Redis</span>
           </div>
-        </div>
-        <div class="project-card__tags">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">LangChain</span>
-          <span class="tech-tag">Pinecone</span>
-          <span class="tech-tag">Gemini 2.5</span>
-          <span class="tech-tag">Cohere</span>
-        </div>
-        <ul class="project-card__highlights">
-          <li>Hybrid-search RAG for docs using <strong>Semantic</strong> (HuggingFace) + <strong>Keyword</strong> (BM25)
-            retrieval in <strong>Pinecone</strong> to boost relevance.</li>
-          <li>Automated ingestion by crawling <code>llms.txt</code> via <strong>Tavily</strong> with caching to avoid
-            redundant fetches.</li>
-          <li>Added <strong>Cohere Rerank</strong> before <strong>Gemini 2.5</strong> generation to reduce noisy
-            context.</li>
-          <li>Exposed query-time alpha-weighting to tune keyword precision vs semantic recall.</li>
-        </ul>
-      </article>
+          <ul class="project-card__highlights">
+            <li>Architected a dual-node K3s cluster on <strong>AWS</strong> (On-Demand control + Spot data plane) with
+              full <strong>Terraform</strong> IaC and automated SSM reconciliation for async image processing queued
+              through <strong>RabbitMQ</strong>.</li>
+            <li>Optimized cost with <strong>EC2 Spot</strong> and graceful eviction via <strong>AWS Node Termination
+                Handler</strong>.</li>
+            <li>Resilience under load with <strong>Redis</strong> idempotency keys, <strong>pybreaker</strong> circuit
+              breakers, and <strong>k6</strong> stress tests.</li>
+            <li>Zero-Trust <strong>GitHub Actions (OIDC)</strong> CI/CD; telemetry and traces to <strong>Grafana
+                LGTM</strong> via <strong>Alloy</strong>.</li>
+            <li>Decoupled ML inference from fast conversions via dedicated queues to prevent worker starvation.</li>
+          </ul>
+        </article>
 
-      <!-- Project 5: interviewPrepper -->
-      <article class="brutalist-card project-card reveal" data-accent="purple">
-        <div class="project-card__header">
-          <h3 class="project-card__title">interviewPrepper</h3>
-          <div style="display: flex; gap: 8px;">
-            <a href="/interview-prepper.html" class="brutalist-btn brutalist-btn--small"
-              style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
-            <a href="https://github.com/NFRohan/interviewPrepper" target="_blank" rel="noopener"
-              class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+        <!-- Project 3: StatusMonitor -->
+        <article class="brutalist-card project-card reveal" data-accent="coral">
+          <div class="project-card__header">
+            <h3 class="project-card__title">StatusMonitor</h3>
+            <div style="display: flex; gap: 8px;">
+              <a href="/statusmonitor.html" class="brutalist-btn brutalist-btn--small"
+                style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
+              <a href="https://github.com/NFRohan/statusmonitor" target="_blank" rel="noopener"
+                class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+            </div>
           </div>
-        </div>
-        <div class="project-card__tags">
-          <span class="tech-tag">LangGraph</span>
-          <span class="tech-tag">FastAPI</span>
-          <span class="tech-tag">React</span>
-          <span class="tech-tag">Firecrawl</span>
-          <span class="tech-tag">Multi-LLM</span>
-        </div>
-        <ul class="project-card__highlights">
-          <li>Orchestrated multi-step AI agents via <strong>LangGraph</strong> and <strong>LangChain</strong> to
-            automate 30-day curriculum generation.</li>
-          <li>Integrated cross-LLM routing natively supporting <strong>OpenAI</strong>, <strong>Google Gemini</strong>,
-            and <strong>OpenRouter</strong> architectures.</li>
-          <li>Implemented active AI interaction with persistent SQLite conversation threading allowing user refinements.
-          </li>
-          <li>Built robust external data retrieval merging <strong>Firecrawl</strong> web-scraping with
-            <strong>Tavily</strong> AI search fallbacks.
-          </li>
-        </ul>
-      </article>
-
-      <!-- Project 6: RoutineMaker -->
-      <article class="brutalist-card project-card reveal" data-accent="pink">
-        <div class="project-card__header">
-          <h3 class="project-card__title">RoutineMaker</h3>
-          <div style="display: flex; gap: 8px;">
-            <a href="/routine-maker.html" class="brutalist-btn brutalist-btn--small"
-              style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
-            <a href="https://github.com/NFRohan/routineMaker" target="_blank" rel="noopener"
-              class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+          <div class="project-card__tags">
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">React 19</span>
+            <span class="tech-tag">Apache Kafka</span>
+            <span class="tech-tag">InfluxDB</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">Docker</span>
           </div>
-        </div>
-        <div class="project-card__tags">
-          <span class="tech-tag">FastAPI</span>
-          <span class="tech-tag">React</span>
-          <span class="tech-tag">Docker</span>
-          <span class="tech-tag">PostgreSQL</span>
-          <span class="tech-tag">Nginx</span>
-        </div>
-        <ul class="project-card__highlights">
-          <li>Microservices architecture with distinct Auth and Core Backend <strong>FastAPI</strong> instances isolated
-            via <strong>Docker</strong>.</li>
-          <li>Secured endpoints using <strong>Argon2</strong> hashing, <strong>JWT</strong> authentication, and
-            pre-configured CORS protection.</li>
-          <li>Abstracted multi-service routing cleanly behind an <strong>Nginx</strong> API Gateway container.</li>
-          <li>Automated PDF generation of custom schedules for local export.</li>
-        </ul>
-      </article>
+          <ul class="project-card__highlights">
+            <li>Distributed monitoring platform with <strong>FastAPI</strong> microservices (ingestion/auth/alerting)
+              across <strong>Docker</strong>, designed for independent scaling.</li>
+            <li>Windows agent (<strong>psutil</strong> + <strong>PDH</strong>) streaming metrics via
+              <strong>Kafka</strong> to decouple producers/consumers.
+            </li>
+            <li>Reduced alert noise with in-memory cooldowns; real-time <strong>Telegram</strong> alerts + full history
+              for auditability.</li>
+            <li>Lowered storage cost using <strong>InfluxDB</strong> downsampling + tiered retention; secured onboarding
+              with <strong>Argon2</strong> + <strong>JWT</strong>.</li>
+          </ul>
+        </article>
 
+        <!-- Project 4: Crawler RAG DocHelper -->
+        <article class="brutalist-card project-card reveal" data-accent="green">
+          <div class="project-card__header">
+            <h3 class="project-card__title">Crawler RAG DocHelper</h3>
+            <div style="display: flex; gap: 8px;">
+              <a href="/crawler-rag.html" class="brutalist-btn brutalist-btn--small"
+                style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
+              <a href="https://github.com/NFRohan/crawler-rag-dochelper" target="_blank" rel="noopener"
+                class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+            </div>
+          </div>
+          <div class="project-card__tags">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">LangChain</span>
+            <span class="tech-tag">Pinecone</span>
+            <span class="tech-tag">Gemini 2.5</span>
+            <span class="tech-tag">Cohere</span>
+          </div>
+          <ul class="project-card__highlights">
+            <li>Hybrid-search RAG for docs using <strong>Semantic</strong> (HuggingFace) + <strong>Keyword</strong>
+              (BM25)
+              retrieval in <strong>Pinecone</strong> to boost relevance.</li>
+            <li>Automated ingestion by crawling <code>llms.txt</code> via <strong>Tavily</strong> with caching to avoid
+              redundant fetches.</li>
+            <li>Added <strong>Cohere Rerank</strong> before <strong>Gemini 2.5</strong> generation to reduce noisy
+              context.</li>
+            <li>Exposed query-time alpha-weighting to tune keyword precision vs semantic recall.</li>
+          </ul>
+        </article>
+
+        <!-- Project 5: interviewPrepper -->
+        <article class="brutalist-card project-card reveal" data-accent="purple">
+          <div class="project-card__header">
+            <h3 class="project-card__title">interviewPrepper</h3>
+            <div style="display: flex; gap: 8px;">
+              <a href="/interview-prepper.html" class="brutalist-btn brutalist-btn--small"
+                style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
+              <a href="https://github.com/NFRohan/interviewPrepper" target="_blank" rel="noopener"
+                class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+            </div>
+          </div>
+          <div class="project-card__tags">
+            <span class="tech-tag">LangGraph</span>
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Firecrawl</span>
+            <span class="tech-tag">Multi-LLM</span>
+          </div>
+          <ul class="project-card__highlights">
+            <li>Orchestrated multi-step AI agents via <strong>LangGraph</strong> and <strong>LangChain</strong> to
+              automate 30-day curriculum generation.</li>
+            <li>Integrated cross-LLM routing natively supporting <strong>OpenAI</strong>, <strong>Google
+                Gemini</strong>,
+              and <strong>OpenRouter</strong> architectures.</li>
+            <li>Implemented active AI interaction with persistent SQLite conversation threading allowing user
+              refinements.
+            </li>
+            <li>Built robust external data retrieval merging <strong>Firecrawl</strong> web-scraping with
+              <strong>Tavily</strong> AI search fallbacks.
+            </li>
+          </ul>
+        </article>
+
+        <!-- Project 6: RoutineMaker -->
+        <article class="brutalist-card project-card reveal" data-accent="pink">
+          <div class="project-card__header">
+            <h3 class="project-card__title">RoutineMaker</h3>
+            <div style="display: flex; gap: 8px;">
+              <a href="/routine-maker.html" class="brutalist-btn brutalist-btn--small"
+                style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
+              <a href="https://github.com/NFRohan/routineMaker" target="_blank" rel="noopener"
+                class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+            </div>
+          </div>
+          <div class="project-card__tags">
+            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">Nginx</span>
+          </div>
+          <ul class="project-card__highlights">
+            <li>Microservices architecture with distinct Auth and Core Backend <strong>FastAPI</strong> instances
+              isolated
+              via <strong>Docker</strong>.</li>
+            <li>Secured endpoints using <strong>Argon2</strong> hashing, <strong>JWT</strong> authentication, and
+              pre-configured CORS protection.</li>
+            <li>Abstracted multi-service routing cleanly behind an <strong>Nginx</strong> API Gateway container.</li>
+            <li>Automated PDF generation of custom schedules for local export.</li>
+          </ul>
+        </article>
+
+      </div>
     </div>
   </section>
 
