@@ -1,0 +1,194 @@
+% !TEX program = lualatex
+%----------------------------------------------------------------------------------------
+%   PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+\documentclass[11pt,a4paper]{article}
+
+% Geometry to maximize space while keeping it readable
+\usepackage[left=0.4in,top=0.3in,right=0.4in,bottom=0.3in]{geometry}
+
+% Font and Language Setup (Standard Protocol)
+\usepackage{fontspec}
+\usepackage[english]{babel}
+\babelprovide[import, onchar=ids fonts]{english}
+
+% ---------------------------------------------------------------------------------------
+% FONT CONFIGURATION
+% ---------------------------------------------------------------------------------------
+% NOTE: This preview environment supports only the Noto family.
+% TO USE WORK SANS LOCALLY:
+% 1. Ensure the "Work Sans" font is installed on your system.
+% 2. Comment out the \babelfont lines below.
+% 3. Uncomment the \setmainfont block.
+
+\setmainfont[
+  UprightFont = *-Regular,
+  BoldFont = *-Bold,
+  ItalicFont = *-Italic,
+  BoldItalicFont = *-BoldItalic
+]{RetniSans.ttf}
+
+% Defaulting to Noto Sans for this preview:
+% \babelfont{rm}{Noto Sans}
+% \babelfont{sf}{Noto Sans}
+% ---------------------------------------------------------------------------------------
+
+% URL styling
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue,
+  urlcolor=blue,
+}
+
+% Formatting tools
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{titlesec}
+
+% Turn off page numbering
+\pagenumbering{gobble}
+
+%----------------------------------------------------------------------------------------
+%   CUSTOM COMMANDS FOR RESUME STRUCTURE
+%----------------------------------------------------------------------------------------
+
+% Header Name
+\newcommand{\name}[1]{
+  \centerline{\Huge\bfseries #1}
+  \vspace{0.5em}
+}
+
+% Header Contact
+\newcommand{\contact}[1]{
+  \centerline{#1}
+  \vspace{0.5em}
+}
+
+% Section Heading
+\titleformat{\section}
+{\Large\bfseries\uppercase} % format
+{}                          % label
+{0em}                       % sep
+{}                          % before-code
+[\titlerule]                % after-code
+
+\titlespacing*{\section}{0pt}{10pt}{5pt}
+
+% Project/Experience Subsection
+% Usage: \project{Title}{Link/Location}{Tech Stack}{Date/Duration}
+\newcommand{\project}[4]{
+  \noindent\textbf{#1} \hfill #2 \\
+  \ifx&#3&%
+  \else%
+  \textit{#3} \hfill #4 \\
+  \fi
+}
+
+% Tighter itemize for lists
+\setlist[itemize]{
+  noitemsep,
+  topsep=0pt,
+  parsep=0pt,
+  partopsep=0pt,
+  leftmargin=1.2em,
+  label={\textbullet}
+}
+
+% Slightly tighter vertical spacing
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+\setlength{\intextsep}{4pt}
+\setlength{\textfloatsep}{6pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+
+% Slightly tighter vertical spacing
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{0pt}
+\setlength{\intextsep}{4pt}
+\setlength{\textfloatsep}{6pt}
+\setlength{\abovedisplayskip}{4pt}
+\setlength{\belowdisplayskip}{4pt}
+
+%----------------------------------------------------------------------------------------
+%   DOCUMENT CONTENT
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+% HEADER
+\name{Nayeem Fardin}
+\contact{01616839482 \textbullet{} nayeemfardin00@gmail.com \textbullet{} \href{https://www.linkedin.com/in/nayeem-fardin-bb902a202/}{LinkedIn}}
+
+% EDUCATION
+\section{Education}
+\noindent
+\textbf{Bachelor of Science in Computer Science and Engineering} \hfill Expected Sep 2026 \\ 
+Islamic University of Technology (IUT)
+
+% SKILLS (Compressed to save vertical space)
+\section{Skills and Interests}
+
+\begin{tabular}{@{} >{\bfseries}l @{\hspace{1.5ex}} l @{\hspace{3ex}} >{\bfseries}l @{\hspace{1.5ex}} l @{}}
+  Languages & Python, JavaScript, C++, Java & Databases & PostgreSQL, Redis, InfluxDB, Pinecone, MongoDB \\
+  Web \& API & React, Node, Express, FastAPI & Cloud \& Ops & AWS, Docker, Kubernetes, Terraform, Linux, Git \\
+  AI \& ML & LangChain, PyTorch, RAG, OpenAI & Sys \& Tools & Kafka, RabbitMQ, Celery, Grafana, ArgoCD, Helm \\
+\end{tabular}
+
+% PROJECTS
+\section{Projects}
+
+% --- Project 1 ---
+\project{ShelfWatch}{\href{https://github.com/NFRohan/ShelfWatch}{Github}}{Python, YOLOv11, AWS, FastAPI, Docker, ONNX, Prometheus, ArgoCD, Helm, PLG Stack}{2026}
+\begin{itemize}
+  \item Fine-tuned and deployed \textbf{YOLOv11} on \textbf{AWS EKS} for dense retail product detection.
+  \item Scalable inference service on \textbf{AWS EKS} using \textbf{Helm} + \textbf{ArgoCD} (GitOps-driven deployments).
+  \item \textbf{4$\times$} CPU inference speedup and \textbf{70-90\%} cost savings via \textbf{INT8 quantization}, \textbf{AMX} and \textbf{Spot} diversification.
+  \item Canary releases with \textbf{Argo Rollouts} + smoke tests; \textbf{loki/Prometheus/Grafana} for logging and observability.
+  \item DevSecOps in \textbf{GitHub Actions} with \textbf{Trivy} and \textbf{pip-audit} for secure \textbf{ECR} promotion.
+\end{itemize}
+\vspace{3pt}
+
+% --- Project 2 ---
+\project{PixTools}{\href{https://github.com/NFRohan/PixTools}{Github}}{FastAPI, Celery, RabbitMQ, Terraform, AWS, K3s, Redis}{2026}
+\begin{itemize}
+  \item Architected a dual-node K3s cluster on \textbf{AWS} (On-Demand control plane + Spot data plane) with full \textbf{Terraform} IaC and automated SSM reconciliation for async image processing queued through \textbf{RabbitMQ}. 
+  \item Optimized cost with \textbf{EC2 Spot} and graceful eviction via \textbf{AWS Node Termination Handler}.
+  \item Resilience under load with \textbf{Redis} idempotency keys, \textbf{pybreaker} circuit breakers, and \textbf{k6} stress tests.
+  \item Zero-Trust \textbf{GitHub Actions (OIDC)} CI/CD; telemetry and traces to \textbf{Grafana LGTM} via \textbf{Alloy}.
+  \item Decoupled ML inference from fast conversions via dedicated queues to prevent worker starvation.
+\end{itemize}
+\vspace{3pt}
+
+% --- Project 3 ---
+\project{StatusMonitor}{\href{https://github.com/NFRohan/statusmonitor}{Github}}{FastAPI, React 19, Apache Kafka, InfluxDB, PostgreSQL, Docker}{2025}
+\begin{itemize}
+  \item Distributed monitoring platform with \textbf{FastAPI} microservices (ingestion/auth/alerting) across \textbf{Docker}, \\ designed for independent scaling.
+  \item Windows agent (\textbf{psutil} + \textbf{PDH}) streaming metrics via \textbf{Kafka} to decouple producers/consumers.
+  \item Reduced alert noise with in-memory cooldowns; real-time \textbf{Telegram} alerts + full history for auditability.
+  \item Lowered storage cost using \textbf{InfluxDB} downsampling + tiered retention; secured onboarding with \textbf{Argon2} + \textbf{JWT} (short-lived refresh).
+\end{itemize}
+\vspace{3pt}
+
+% --- Project 4 ---
+\project{Crawler RAG DocHelper}{\href{https://github.com/NFRohan/crawler-rag-dochelper}{Github}}{Python, LangChain, Pinecone, Gemini 2.5, Cohere}{2025}
+\begin{itemize}
+  \item Hybrid-search RAG for docs using \textbf{Semantic} (HuggingFace) + \textbf{Keyword} (BM25) retrieval in \textbf{Pinecone} to boost relevance.
+  \item Automated ingestion by crawling \texttt{llms.txt} via \textbf{Tavily} with caching to avoid redundant fetches.
+  \item Added \textbf{Cohere Rerank} before \textbf{Gemini 2.5} generation to reduce noisy context.
+  \item Exposed query-time alpha-weighting to tune keyword precision vs semantic recall.
+\end{itemize}
+\vspace{3pt}
+
+% EXPERIENCE / INTERNSHIP
+\section{Internship / Trainings}
+
+\project{CyberSecurity Internship}{Backdoor Private Limited}{}{October 2025}
+\begin{itemize}
+  \item Digital forensics analysis to recover sensitive deleted artifacts using \textbf{FTK Imager} and \textbf{Autopsy}.
+  \item Security assessments on Android applications via \textbf{MobSF} and web platforms using \textbf{Burp Suite} and \textbf{SQLMap}.
+
+\end{itemize}
+
+\end{document}

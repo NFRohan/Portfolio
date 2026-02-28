@@ -1,0 +1,1183 @@
+/* ============================================================
+   NEOBRUTALIST DESIGN SYSTEM — Portfolio of Nayeem Fardin
+   ============================================================ */
+
+/* ---------- CSS Reset ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- Custom Properties ---------- */
+:root {
+  /* Palette */
+  --clr-bg: #FAFAFA;
+  --clr-surface: #FFFFFF;
+  --clr-text: #1A1A1A;
+  --clr-text-muted: #555555;
+  --clr-black: #1A1A1A;
+
+  --clr-yellow: #FFE156;
+  --clr-cyan: #00CFFD;
+  --clr-coral: #FF6B6B;
+  --clr-green: #77DD77;
+  --clr-purple: #CB99FF;
+  --clr-orange: #FFAB76;
+
+  /* Borders & Shadows — uses --clr-border so dark mode can diverge */
+  --clr-border: #1A1A1A;
+  --border: 3px solid var(--clr-border);
+  --border-thick: 4px solid var(--clr-border);
+  --shadow: 6px 6px 0 var(--clr-border);
+  --shadow-sm: 4px 4px 0 var(--clr-border);
+  --shadow-hover: 2px 2px 0 var(--clr-border);
+
+  /* Typography */
+  --ff-heading: 'Space Grotesk', sans-serif;
+  --ff-body: 'DM Sans', sans-serif;
+
+  /* Spacing */
+  --section-py: 100px;
+  --container-px: 24px;
+  --container-max: 1100px;
+}
+
+/* ==========================================================
+   DARK MODE — rebuilt from scratch
+   ==========================================================
+   Principle: dark bg, light text, borders stay visible but
+   softer, accent colors punched up for dark surfaces. Every
+   element that sits on a bright accent bg gets forced dark
+   foreground text.
+   ========================================================== */
+[data-theme="dark"] {
+  /* Core surfaces */
+  --clr-bg: #0D0D0D;
+  --clr-surface: #181818;
+  --clr-text: #F0F0F0;
+  --clr-text-muted: #9E9E9E;
+  --clr-black: #F0F0F0;
+  /* kept for semantic uses (e.g. label bg) */
+
+  /* Borders & shadows — lighter so they pop on dark bg */
+  --clr-border: #F0F0F0;
+  --border: 3px solid var(--clr-border);
+  --border-thick: 4px solid var(--clr-border);
+  --shadow: 6px 6px 0 #D3D3D3;
+  --shadow-sm: 4px 4px 0 #D3D3D3;
+  --shadow-hover: 2px 2px 0 #A0A0A0;
+
+  /* Accent palette — slightly warmer / brighter for dark */
+  --clr-yellow: #FFD93D;
+  --clr-cyan: #22D1EE;
+  --clr-coral: #FF7979;
+  --clr-green: #6BCB77;
+  --clr-purple: #D4A5FF;
+  --clr-orange: #FFB380;
+}
+
+/* --- Nav --- */
+[data-theme="dark"] .nav {
+  background: #0D0D0D;
+  border-bottom-color: var(--clr-border);
+}
+
+[data-theme="dark"] .nav--scrolled {
+  box-shadow: 0 4px 0 #000;
+}
+
+[data-theme="dark"] .nav__hamburger span {
+  background: var(--clr-text);
+}
+
+/* --- Hero --- */
+[data-theme="dark"] .hero__bg-pattern {
+  background-image: radial-gradient(#555 1.2px, transparent 1.2px);
+  opacity: 0.12;
+}
+
+[data-theme="dark"] .hero__subtitle .subtitle-text {
+  color: #111;
+}
+
+[data-theme="dark"] .hero__scroll-line {
+  background: var(--clr-border);
+}
+
+/* --- Buttons --- */
+[data-theme="dark"] .brutalist-btn {
+  background: var(--clr-surface);
+  color: var(--clr-text);
+  border-color: var(--clr-border);
+}
+
+[data-theme="dark"] .brutalist-btn--primary {
+  background: var(--clr-yellow);
+  color: #111;
+}
+
+[data-theme="dark"] .brutalist-btn--primary:hover {
+  background: #ffce00;
+}
+
+[data-theme="dark"] .brutalist-btn--secondary {
+  background: var(--clr-surface);
+  color: var(--clr-text);
+}
+
+[data-theme="dark"] .brutalist-btn--secondary:hover {
+  background: #222;
+}
+
+/* --- Cards --- */
+[data-theme="dark"] .brutalist-card {
+  background: var(--clr-surface);
+  border-color: var(--clr-border);
+}
+
+[data-theme="dark"] .brutalist-card--highlight {
+  background: var(--clr-yellow);
+  color: #111;
+}
+
+[data-theme="dark"] .card__label {
+  background: var(--clr-text);
+  color: var(--clr-surface);
+}
+
+/* --- Skill badges — ensure dark text on bright accent bg --- */
+[data-theme="dark"] .skill-badge {
+  color: #111;
+  border-color: var(--clr-border);
+}
+
+/* --- Tech tags --- */
+[data-theme="dark"] .tech-tag {
+  background: #222;
+  color: var(--clr-text);
+  border-color: var(--clr-border);
+}
+
+/* --- Skill group containers --- */
+[data-theme="dark"] .skill-group {
+  background: var(--clr-surface);
+  border-color: var(--clr-border);
+}
+
+/* --- Project cards --- */
+[data-theme="dark"] .project-card {
+  border-left-width: 8px;
+}
+
+/* --- Experience --- */
+[data-theme="dark"] .experience-card__date {
+  color: #111;
+}
+
+/* --- Contact section — bright yellow bg, needs dark text --- */
+[data-theme="dark"] .contact {
+  background: var(--clr-yellow);
+  color: #111;
+}
+
+[data-theme="dark"] .contact .section__title {
+  color: #111;
+}
+
+[data-theme="dark"] .contact .section__title .accent {
+  color: var(--clr-coral);
+}
+
+[data-theme="dark"] .contact__text {
+  color: #222;
+}
+
+[data-theme="dark"] .contact .brutalist-btn {
+  color: #111;
+  border-color: #111;
+}
+
+[data-theme="dark"] .contact .brutalist-btn--primary {
+  background: #111;
+  color: var(--clr-yellow);
+}
+
+[data-theme="dark"] .contact .brutalist-btn--secondary {
+  background: #fff;
+  color: #111;
+}
+
+[data-theme="dark"] .contact .brutalist-btn {
+  box-shadow: 4px 4px 0 #111;
+}
+
+[data-theme="dark"] .contact .brutalist-btn:hover {
+  box-shadow: 2px 2px 0 #111;
+}
+
+/* --- Mobile menu --- */
+[data-theme="dark"] .mobile-menu {
+  background: var(--clr-yellow);
+  color: #111;
+}
+
+[data-theme="dark"] .mobile-menu a {
+  border-bottom-color: #111;
+}
+
+/* --- Footer --- */
+[data-theme="dark"] .footer {
+  border-top-color: var(--clr-border);
+}
+
+/* --- Code inline --- */
+[data-theme="dark"] code {
+  background: #2A2A2A;
+  color: var(--clr-yellow);
+  border-color: var(--clr-border);
+}
+
+/* --- Selection --- */
+[data-theme="dark"] ::selection {
+  background: var(--clr-yellow);
+  color: #111;
+}
+
+/* ---------- Base ---------- */
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--ff-body);
+  color: var(--clr-text);
+  background: var(--clr-bg);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+strong {
+  font-weight: 700;
+}
+
+code {
+  font-family: 'Space Mono', monospace;
+  background: var(--clr-yellow);
+  padding: 2px 6px;
+  border: 2px solid var(--clr-black);
+  font-size: 0.85em;
+}
+
+::selection {
+  background: var(--clr-yellow);
+  color: var(--clr-black);
+}
+
+/* ---------- Container ---------- */
+.container {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-px);
+}
+
+/* ---------- Section ---------- */
+.section {
+  padding: var(--section-py) 0;
+}
+
+.section__title {
+  font-family: var(--ff-heading);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 48px;
+  line-height: 1.1;
+}
+
+.accent {
+  color: var(--clr-coral);
+}
+
+/* ============================================================
+   NAV
+   ============================================================ */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px var(--container-px);
+  background: var(--clr-bg);
+  border-bottom: var(--border);
+  transition: box-shadow 0.2s;
+}
+
+.nav--scrolled {
+  box-shadow: 0 4px 0 var(--clr-black);
+}
+
+.nav__logo {
+  font-family: var(--ff-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.nav__links {
+  display: flex;
+  gap: 32px;
+  font-family: var(--ff-heading);
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.nav__links a {
+  position: relative;
+  padding: 4px 0;
+}
+
+.nav__links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--clr-coral);
+  transition: width 0.25s ease;
+}
+
+.nav__links a:hover::after,
+.nav__links a.active::after {
+  width: 100%;
+}
+
+/* Nav Actions Group */
+.nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: var(--border);
+  background: var(--clr-surface);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  position: relative;
+  overflow: hidden;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.theme-toggle:hover {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.theme-toggle:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.theme-toggle__icon {
+  position: absolute;
+  transition: transform 0.4s ease, opacity 0.3s ease;
+}
+
+.theme-toggle__icon--sun {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle__icon--moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
+[data-theme="dark"] .theme-toggle__icon--sun {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.5);
+}
+
+[data-theme="dark"] .theme-toggle__icon--moon {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.nav__hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.nav__hamburger span {
+  display: block;
+  width: 28px;
+  height: 3px;
+  background: var(--clr-black);
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.nav__hamburger.active span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.nav__hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav__hamburger.active span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background: var(--clr-yellow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  font-family: var(--ff-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.mobile-menu.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile-menu a {
+  border-bottom: var(--border);
+  padding-bottom: 8px;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px var(--container-px) 80px;
+  overflow: hidden;
+}
+
+.hero__bg-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(var(--clr-black) 1.2px, transparent 1.2px);
+  background-size: 28px 28px;
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  text-align: center;
+}
+
+.hero__greeting {
+  font-family: var(--ff-body);
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: var(--clr-text-muted);
+}
+
+.hero__name {
+  font-family: var(--ff-heading);
+  font-size: clamp(3.5rem, 12vw, 9rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -3px;
+  margin-bottom: 24px;
+}
+
+.hero__subtitle {
+  font-family: var(--ff-heading);
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  font-weight: 500;
+  color: var(--clr-text-muted);
+  margin-bottom: 40px;
+  min-height: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero__subtitle .subtitle-text {
+  display: inline-block;
+  background: var(--clr-yellow);
+  border: var(--border);
+  padding: 6px 18px;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.hero__cta {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hero__scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--ff-heading);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--clr-text-muted);
+}
+
+.hero__scroll-line {
+  width: 2px;
+  height: 48px;
+  background: var(--clr-black);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero__scroll-line::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--clr-coral);
+  animation: scrollLine 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollLine {
+  0% {
+    top: -100%;
+  }
+
+  50% {
+    top: 100%;
+  }
+
+  100% {
+    top: 100%;
+  }
+}
+
+/* ============================================================
+   BRUTALIST COMPONENTS
+   ============================================================ */
+
+/* ----- Buttons ----- */
+.brutalist-btn {
+  display: inline-block;
+  font-family: var(--ff-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 14px 28px;
+  border: var(--border-thick);
+  background: var(--clr-surface);
+  color: var(--clr-text);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+  text-align: center;
+}
+
+.brutalist-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.brutalist-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.brutalist-btn--primary {
+  background: var(--clr-yellow);
+}
+
+.brutalist-btn--primary:hover {
+  background: #ffd500;
+}
+
+.brutalist-btn--secondary {
+  background: var(--clr-surface);
+}
+
+.brutalist-btn--secondary:hover {
+  background: var(--clr-bg);
+}
+
+.brutalist-btn--small {
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.brutalist-btn--small:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translate(2px, 2px);
+}
+
+/* ----- Cards ----- */
+.brutalist-card {
+  background: var(--clr-surface);
+  border: var(--border-thick);
+  box-shadow: var(--shadow);
+  padding: 32px;
+  position: relative;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.brutalist-card:hover {
+  transform: translate(2px, 2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.brutalist-card--highlight {
+  background: var(--clr-yellow);
+}
+
+.card__label {
+  display: inline-block;
+  font-family: var(--ff-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: var(--clr-black);
+  color: var(--clr-surface);
+  padding: 4px 12px;
+  margin-bottom: 16px;
+}
+
+.card__meta {
+  font-size: 0.9rem;
+  color: var(--clr-text-muted);
+  margin-top: 4px;
+}
+
+/* ----- Skill Badges ----- */
+.skill-badge {
+  display: inline-block;
+  font-family: var(--ff-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border: var(--border);
+  background: var(--clr-surface);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.skill-badge:hover {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+/* Accent-colored badges */
+[data-accent="yellow"] .skill-badge {
+  background: var(--clr-yellow);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-accent="cyan"] .skill-badge {
+  background: var(--clr-cyan);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-accent="coral"] .skill-badge {
+  background: var(--clr-coral);
+  box-shadow: var(--shadow-sm);
+  color: #fff;
+}
+
+[data-accent="green"] .skill-badge {
+  background: var(--clr-green);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-accent="purple"] .skill-badge {
+  background: var(--clr-purple);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-accent="orange"] .skill-badge {
+  background: var(--clr-orange);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ----- Tech Tags ----- */
+.tech-tag {
+  display: inline-block;
+  font-family: var(--ff-heading);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border: 2px solid var(--clr-black);
+  background: var(--clr-bg);
+}
+
+/* ============================================================
+   ABOUT SECTION
+   ============================================================ */
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 56px;
+  align-items: start;
+}
+
+.about__bio p {
+  font-size: 1.15rem;
+  line-height: 1.7;
+}
+
+.about__education h3 {
+  font-family: var(--ff-heading);
+  font-size: 1.2rem;
+  margin-bottom: 4px;
+}
+
+/* ----- Skills ----- */
+.skills__heading {
+  font-family: var(--ff-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  padding-bottom: 8px;
+  border-bottom: var(--border);
+  display: inline-block;
+}
+
+.skills__categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.skill-group {
+  padding: 20px;
+  border: var(--border);
+  background: var(--clr-surface);
+}
+
+.skill-group__label {
+  display: block;
+  font-family: var(--ff-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+  color: var(--clr-text-muted);
+}
+
+.skill-group__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* ============================================================
+   PROJECTS SECTION
+   ============================================================ */
+.project-card {
+  margin-bottom: 32px;
+  border-left: 8px solid var(--clr-black);
+}
+
+[data-accent="yellow"].project-card {
+  border-left-color: var(--clr-yellow);
+}
+
+[data-accent="cyan"].project-card {
+  border-left-color: var(--clr-cyan);
+}
+
+[data-accent="coral"].project-card {
+  border-left-color: var(--clr-coral);
+}
+
+[data-accent="green"].project-card {
+  border-left-color: var(--clr-green);
+}
+
+.project-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.project-card__title {
+  font-family: var(--ff-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.project-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.project-card__highlights {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.project-card__highlights li {
+  position: relative;
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
+.project-card__highlights li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--clr-coral);
+  font-weight: 700;
+}
+
+/* ============================================================
+   EXPERIENCE SECTION
+   ============================================================ */
+.experience-card {
+  border-left: 8px solid var(--clr-purple);
+}
+
+.experience-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.experience-card__header h3 {
+  font-family: var(--ff-heading);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.experience-card__company {
+  font-size: 1rem;
+  color: var(--clr-text-muted);
+  margin-top: 2px;
+}
+
+.experience-card__date {
+  font-family: var(--ff-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--clr-purple);
+  border: var(--border);
+  padding: 4px 12px;
+  white-space: nowrap;
+}
+
+.experience-card__highlights {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.experience-card__highlights li {
+  position: relative;
+  padding-left: 20px;
+  line-height: 1.6;
+}
+
+.experience-card__highlights li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--clr-purple);
+  font-weight: 700;
+}
+
+/* ============================================================
+   CONTACT SECTION
+   ============================================================ */
+.contact {
+  background: var(--clr-yellow);
+  border-top: var(--border-thick);
+  border-bottom: var(--border-thick);
+  text-align: center;
+}
+
+.contact__text {
+  font-size: 1.15rem;
+  margin-bottom: 32px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.contact__links {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  padding: 24px 0;
+  border-top: var(--border);
+}
+
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--clr-text-muted);
+}
+
+/* ============================================================
+   MARQUEE
+   ============================================================ */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--clr-yellow);
+  border-top: var(--border-thick);
+  border-bottom: var(--border-thick);
+  padding: 16px 0;
+  display: flex;
+  white-space: nowrap;
+}
+
+[data-theme="dark"] .marquee-container {
+  border-color: #f0f0f0;
+}
+
+.marquee-content {
+  display: inline-flex;
+  animation: marquee 20s linear infinite;
+  font-family: var(--ff-heading);
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  color: #111;
+}
+
+.marquee-content span {
+  padding: 0 1rem;
+}
+
+.marquee-separator {
+  color: #111;
+  opacity: 0.3;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ============================================================
+   BACK TO TOP BUTTON
+   ============================================================ */
+.back-to-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 50px;
+  height: 50px;
+  background-color: var(--clr-surface);
+  color: var(--clr-text);
+  border: var(--border-thick);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.back-to-top:hover {
+  transform: translateY(-4px);
+  box-shadow: 6px 6px 0 var(--clr-text);
+  background-color: var(--clr-cyan);
+}
+
+[data-theme="dark"] .back-to-top {
+  border-color: #f0f0f0;
+}
+
+[data-theme="dark"] .back-to-top:hover {
+  box-shadow: 4px 4px 0 #d3d3d3;
+}
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  :root {
+    --section-py: 64px;
+  }
+
+  .nav__links {
+    display: none;
+  }
+
+  .nav__hamburger {
+    display: flex;
+  }
+
+  .hero__name {
+    font-size: clamp(3rem, 16vw, 5rem);
+    letter-spacing: -2px;
+  }
+
+  .about__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .skills__categories {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .experience-card__header {
+    flex-direction: column;
+  }
+
+  .footer__inner {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .section__title {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 100px 16px 60px;
+  }
+
+  .brutalist-btn {
+    padding: 12px 20px;
+    font-size: 0.85rem;
+  }
+
+  .brutalist-card {
+    padding: 20px;
+  }
+
+  .hero__scroll-hint {
+    display: none;
+  }
+}
