@@ -10,6 +10,8 @@ export default defineConfig({
                 pixtools: resolve(__dirname, 'pixtools.html'),
                 statusmonitor: resolve(__dirname, 'statusmonitor.html'),
                 crawlerrag: resolve(__dirname, 'crawler-rag.html'),
+                routinemaker: resolve(__dirname, 'routine-maker.html'),
+                interviewprepper: resolve(__dirname, 'interview-prepper.html'),
             },
         },
     },

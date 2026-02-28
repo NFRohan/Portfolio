@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>interviewPrepper | Nayeem Fardin</title>
+    <!-- Open Graph SEO -->
+    <meta property="og:title" content="interviewPrepper | Nayeem Fardin">
+    <meta property="og:description"
+        content="AI-powered interview preparation platform using LangChain, LangGraph, and multi-provider LLMs to generate 30-day learning roadmaps.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nfportfolio.vercel.app/interview-prepper.html">
+    <!-- Fonts and CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/project-styles.css">
+</head>
+
+<body>
+    <!-- Top Navigation -->
+    <nav class="nav" id="nav">
+        <div class="container nav__inner">
+            <a href="/" class="nav__logo">NF.</a>
+            <div class="nav__links">
+                <a href="/#about">ABOUT</a>
+                <a href="/#projects">PROJECTS</a>
+                <a href="/#experience">EXPERIENCE</a>
+                <a href="/#contact">CONTACT</a>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Case Study Header -->
+    <header class="project-header">
+        <div class="container">
+            <h1 class="project-header__title">interviewPrepper</h1>
+            <p class="project-header__subtitle">AI-Powered 30-Day Learning Plan Generator</p>
+
+            <div class="project-header__meta" style="margin-top:40px;">
+                <div class="meta-item">
+                    <span class="meta-label">ROLE</span>
+                    <span>AI Full-Stack Engineer</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">TECH STACK</span>
+                    <span>LangChain • FastAPI • React • Firecrawl • LLMs</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-label">LINKS</span>
+                    <a href="https://github.com/NFRohan/interviewPrepper" target="_blank" class="btn btn--outline"
+                        style="padding: 4px 12px; font-size: 0.9rem;">GITHUB ↗</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Project Content -->
+    <main class="container project-content">
+        <div class="project-grid">
+            <!-- Sidebar Navigation -->
+            <aside class="project-sidebar">
+                <nav>
+                    <ul>
+                        <li><a href="#overview">Overview & AI Agents</a></li>
+                        <li><a href="#langgraph">LangGraph Orchestration</a></li>
+                        <li><a href="#features">Platform Features</a></li>
+                        <li><a href="#tech-stack">Core Technology</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="project-body">
+                <section id="overview" class="project-section">
+                    <h2>Overview & AI Agents</h2>
+                    <p>interviewPrepper is a sophisticated AI-powered learning platform that takes a job posting URL
+                        and synthesizes a completely personalized 30-day study roadmap. By leveraging autonomous AI
+                        agents to scrape, comprehend, and structure curriculum data, it directly attacks the
+                        overwhelming "what do I study" phase of modern interview preparation.</p>
+                </section>
+
+                <section id="langgraph" class="project-section">
+                    <h2>LangGraph Orchestration</h2>
+                    <p>The core intelligence isn't a single LLM prompt—it's a multi-step directed acyclic graph
+                        (DAG) executed via LangGraph. This ensures accuracy and allows for dynamic fallback mechanisms
+                        during execution.</p>
+
+                    <div class="mermaid">
+                        graph TD
+                        User[User provides Job URL] --> Scraper
+                        Scraper[Firecrawl Agent<br />Scrapes Job Description] --> QualityCheck{Data Quality Check}
+
+                        QualityCheck -->|Failed| WebSearch[Tavily Search Agent<br />Find Role Info manually]
+                        QualityCheck -->|Passed| Analyzer
+                        WebSearch --> Analyzer
+
+                        Analyzer[Analysis Node<br />Extract core skills] --> Planner
+                        Planner[Planner Node<br />Draft 30-day curriculum] --> Reviewer
+                        Reviewer[Reviewer Node<br />Ensure actionable tasks] --> UI
+
+                        UI[React App UI] --> Revisions
+                        Revisions[Chat Agent<br />Threaded revisions] --> UI
+
+                        style User fill:#ffe156,stroke:#1a1a1a,stroke-width:2px,color:#1a1a1a
+                        style QualityCheck fill:#fafafa,stroke:#1a1a1a,stroke-width:2px,color:#1a1a1a
+                    </div>
+                </section>
+
+                <section id="features" class="project-section">
+                    <h2>Platform Features</h2>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Multi-Provider LLM Switcher</div>
+                        <p>To avoid vendor lock-in and optimize costs/reasoning capabilities, the backend abstracts the
+                            Language Model layer through LangChain. It actively supports routing prompts through OpenAI
+                            (GPT models), Google Gemini, or OpenRouter via strict `.env` environment isolation.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Threaded Chat & Refinements</div>
+                        <p>Once the initial 30-day plan is generated, users aren't stuck with a static document. The
+                            application maintains persistent conversation threads via SQLite. Users can chat directly
+                            with the AI within the context of their specific job application to expand on topics or
+                            request resource links.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Secure Authentication</div>
+                        <p>Full JWT-based state management ensures that learning roadmaps and private conversation
+                            threads are strictly isolated per-user.</p>
+                    </div>
+                </section>
+
+                <section id="tech-stack" class="project-section">
+                    <h2>Core Technology</h2>
+                    <ul>
+                        <li><strong>Backend AI:</strong> FastAPI acts as the primary API host, while LangChain and
+                            LangGraph execute the multi-step agent reasoning loops.</li>
+                        <li><strong>External Services:</strong> Firecrawl is utilized for resilient bypassing of
+                            bot-protection on popular job boards, and Tavily provides intelligent retrieval-augmented
+                            generation (RAG) when a job posting lacks sufficient technical depth.</li>
+                        <li><strong>Frontend:</strong> React 18, utilizing Vite for rapid HMR development, and styled
+                            with custom standard CSS built on Neobrutalism. React Markdown securely renders the AI's
+                            curriculum outputs natively into the DOM.</li>
+                    </ul>
+                </section>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Minimal Footer -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <p>Built with stubbornness & caffeine.</p>
+            <p>&copy; 2026 Nayeem Fardin</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" class="back-to-top" aria-label="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+    <script type="module" src="/main.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryTextColor: '#1a1a1a',
+                primaryBorderColor: '#1a1a1a',
+                lineColor: '#1a1a1a',
+                secondaryColor: '#ffe156',
+                tertiaryColor: '#fafafa',
+                fontFamily: '"Space Grotesk", sans-serif'
+            }
+        });
+    </script>
+</body>
+
+</html>
