@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ShelfWatch | Nayeem Fardin</title>
+    <meta name="description"
+        content="ShelfWatch: Retail inventory analysis system with object detection and stock monitoring at scale." />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="ShelfWatch | Nayeem Fardin" />
+    <meta property="og:description"
+        content="Retail inventory analysis system utilizing fine-tuned YOLO11L deployed on AWS EKS." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://nayeemfardin.com/shelfwatch.html" />
+    <meta property="og:image" content="https://nayeemfardin.com/og-image.jpg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script type="module" crossorigin src="/assets/shelfwatch-BCf1cc8X.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/main-DEfO-JqZ.js">
+  <link rel="stylesheet" crossorigin href="/assets/main-2_il3nLK.css">
+  <link rel="stylesheet" crossorigin href="/assets/project-styles-BHQ2gGbk.css">
+</head>
+
+<body>
+
+    <!-- ===== NAV ===== -->
+    <nav class="nav" id="nav">
+        <a href="/index.html" class="nav__logo">NF<span class="accent">.</span></a>
+        <div class="nav__links">
+            <a href="/index.html#about">About</a>
+            <a href="/index.html#projects">Projects</a>
+            <a href="/index.html#experience">Experience</a>
+            <a href="/index.html#contact">Contact</a>
+        </div>
+        <div class="nav__actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span class="theme-toggle__icon theme-toggle__icon--sun">☀️</span>
+                <span class="theme-toggle__icon theme-toggle__icon--moon">🌙</span>
+            </button>
+            <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/index.html#about">About</a>
+        <a href="/index.html#projects">Projects</a>
+        <a href="/index.html#experience">Experience</a>
+        <a href="/index.html#contact">Contact</a>
+    </div>
+
+    <main class="project-showcase">
+        <div class="container">
+
+            <a href="/index.html#projects" class="brutalist-back-btn">
+                <span>&#8592;</span> Back to Projects
+            </a>
+
+            <header class="project-showcase__header">
+                <h1 class="project-showcase__title">ShelfWatch</h1>
+                <p class="project-showcase__subtitle">Retail inventory analysis system. Distributed object detection and
+                    stock monitoring at scale on AWS EKS.</p>
+
+                <div class="project-showcase__links">
+                    <a href="https://github.com/NFRohan/ShelfWatch" target="_blank" rel="noopener"
+                        class="brutalist-btn brutalist-btn--primary">View on GitHub ↗</a>
+                </div>
+            </header>
+
+            <div class="project-showcase__image-placeholder">
+                <img src="/assets/UI-DVuItPXB.png" alt="ShelfWatch Interface Overview"
+                    onerror="this.style.display='none'" />
+            </div>
+
+            <div class="project-showcase__content">
+                <article class="project-showcase__body">
+                    <h2>Overview</h2>
+                    <p>ShelfWatch is an automated stock auditing platform that utilizes a fine-tuned
+                        <strong>YOLO11L</strong> model for product detection. The system is deployed as a robust
+                        inference service within a microserviced <strong>AWS EKS</strong> cluster, heavily optimized for
+                        low-latency CPU execution at scale.
+                    </p>
+
+                    <h2>Core Engineering Highlights</h2>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Latency-Optimized INT8 CPU Inference</div>
+                        <p><strong>The Challenge:</strong> Running heavy object detection models on GPUs is standard,
+                            but cost-prohibitive for large-scale retail deployments.</p>
+                        <p><span class="eng-highlight__fix">The Implementation:</span> Compiled the YOLO11 model into an
+                            in-process <strong>ONNX Runtime</strong> engine executing <strong>INT8 quantized
+                                weights</strong>. Combined with right-sized CPU resource bin-packing (200m per pod), the
+                            system achieves sub-500ms response times entirely on CPU, slicing infrastructure costs by
+                            massive margins.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">GitOps-Driven Progressive Delivery</div>
+                        <p><strong>The Challenge:</strong> Deploying neural network updates directly to production can
+                            cause catastrophic failures if the model degrades.</p>
+                        <p><span class="eng-highlight__fix">The Implementation:</span> A fully automated GitOps
+                            progressive delivery pipeline. An <strong>ArgoCD Image Updater</strong> securely polls ECR
+                            for new tagged builds and triggers <strong>Argo Rollouts</strong>. These deployments are
+                            treated as Canary Rollouts, progressing through weighted traffic splits managed dynamically
+                            by the <strong>NGINX Ingress Controller</strong>, accompanied by automated inference smoke
+                            tests before a full promotion.</p>
+                        <img class="eng-highlight__image" src="/assets/ArgoCD-CHyiiGbI.png"
+                            alt="ArgoCD Pipeline" loading="lazy">
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Multi-Node AWS Spot Resilience</div>
+                        <p><strong>The Challenge:</strong> Securing 70-90% savings via Spot Instances comes with the
+                            risk of spontaneous termination events.</p>
+                        <p><span class="eng-highlight__fix">The Implementation:</span> Node groups were diversified
+                            across <code>m7i-flex.large</code>, <code>c7i-flex.large</code>, and <code>t3.small</code>
+                            EC2 types to ensure extreme fulfillment predictability. Resilience is enforced via
+                            <strong>Pod Disruption Budgets (PDB)</strong> and native 2-minute interruption handling,
+                            guaranteeing zero-downtime operation despite volatile hardware lifecycles.
+                        </p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Mature DevSecOps Pipeline</div>
+                        <p><strong>The Security Posture:</strong> Container images meant for production retail
+                            environments must be tightly secured before touching the ECR boundary.</p>
+                        <p><span class="eng-highlight__fix">The Strategy:</span> Zero-trust deployment flows utilizing
+                            short-lived AWS STS credential tokens mapped to GitHub Actions (OIDC). Push triggers are
+                            blocked by hardened quality gates spanning <code>ruff</code> linting, dependency sweeps
+                            using <code>pip-audit</code>, and deep container/OS vulnerability scanning via
+                            <strong>Trivy</strong> for high/critical CVEs.
+                        </p>
+                    </div>
+
+                    <h2>Full System Architecture</h2>
+                    <pre class="mermaid">
+flowchart TB
+    Client(["Store Manager / Client API"])
+
+    subgraph CICD["CI/CD Pipeline"]
+        GH["GitHub Repository"] -->|Push to main| Actions["GitHub Actions"]
+        Actions -->|"Lint, Test, Scan"| SecurityGate{"Trivy + pip-audit"}
+        SecurityGate -->|Pass| Build["Docker Build + Push"]
+    end
+
+    subgraph AWS["AWS Cloud"]
+        direction TB
+        ECR[("Amazon ECR")]
+
+        subgraph EKS["Amazon EKS Cluster"]
+            direction TB
+            NGINX["NGINX Ingress Controller"]
+            HPA[["HPA: 70% CPU, Min 2, Max 3"]]
+
+            subgraph Rollout["Argo Rollout - Canary"]
+                Stable["Stable Pods 80-100%"]
+                Canary["Canary Pod 0-20%"]
+            end
+
+            subgraph SmokeTest["AnalysisRun"]
+                Job["Inference Smoke Test"]
+            end
+
+            subgraph Observability["Observability"]
+                Prometheus[("Prometheus")]
+                Grafana["Grafana"]
+            end
+
+            NGINX -->|"Weighted Split"| Stable
+            NGINX -.->|"Canary Traffic"| Canary
+            Job -.->|"Validates"| Canary
+            HPA -.->|"Scales"| Rollout
+            Prometheus -.->|"Scrapes"| Stable
+            Grafana -.->|"Queries"| Prometheus
+        end
+
+        subgraph GitOps["GitOps Control Plane"]
+            ArgoCD["ArgoCD"]
+            ImgUpdater["Image Updater"]
+        end
+
+        Build -->|Push Image| ECR
+        ImgUpdater -.->|"Polls ECR"| ECR
+        ImgUpdater ==>|"Updates Tag"| ArgoCD
+        ArgoCD -.->|"Watches Git"| GH
+        ArgoCD ==>|"Syncs"| EKS
+    end
+
+    Client ==>|"GET /"| NGINX
+    Client -.->|"GET /grafana"| NGINX
+                    </pre>
+
+                    <p>The routing infrastructure is underpinned by an <strong>NGINX Ingress Controller</strong>
+                        handling Layer 7 traffic routing and canary traffic splitting. Microservices communicate
+                        strictly inside the AWS VPC footprint.</p>
+                    <p>The cluster is constantly supervised by a Prometheus and Grafana LGTM observability suite,
+                        pulling application metrics via FastAPI instrumentation and node-level behaviors while logs are
+                        aggregated via Loki and Promtail. Deployments map closely to HPA definitions, aggressively
+                        scaling the pods based on dynamic metric thresholds.</p>
+
+                    <div class="project-showcase__gallery">
+                        <img class="project-showcase__gallery-item" src="/assets/analytics-BtTWmHEV.png"
+                            alt="Grafana Analytics Dashboard" loading="lazy">
+                        <img class="project-showcase__gallery-item" src="/assets/logging-BH4E97Ao.png"
+                            alt="Grafana Loki Logs" loading="lazy">
+                    </div>
+
+                </article>
+
+                <aside class="project-sidebar">
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Technologies</div>
+                        <div class="skill-group__badges">
+                            <span class="tech-tag">Python & FastAPI</span>
+                            <span class="tech-tag">YOLO11L & ONNX</span>
+                            <span class="tech-tag">AWS EKS</span>
+                            <span class="tech-tag">ArgoCD & Argo Rollouts</span>
+                            <span class="tech-tag">Helm</span>
+                            <span class="tech-tag">NGINX Ingress</span>
+                            <span class="tech-tag">Trivy</span>
+                        </div>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Capabilities</div>
+                        <ul>
+                            <li>Canary Deployments with Smoke Tests</li>
+                            <li>Spot Instance Cost Arbitrage</li>
+                            <li>INT8 Model CPU Quantization</li>
+                            <li>GitOps Continuous Delivery</li>
+                        </ul>
+                    </div>
+
+                </aside>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <p>Built with stubbornness & caffeine.</p>
+            <p>&copy; 2026 Nayeem Fardin</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" class="back-to-top" aria-label="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+</body>
+
+</html>

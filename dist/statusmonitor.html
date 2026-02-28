@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StatusMonitor | Nayeem Fardin</title>
+    <meta name="description"
+        content="StatusMonitor: Real-time system monitoring with a modern web dashboard and cross-platform agent." />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="StatusMonitor | Nayeem Fardin" />
+    <meta property="og:description"
+        content="Blazing fast infrastructure uptime monitoring with a distributed Golang architecture." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://nayeemfardin.com/statusmonitor.html" />
+    <meta property="og:image" content="https://nayeemfardin.com/og-image.jpg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script type="module" crossorigin src="/assets/main-DEfO-JqZ.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-2_il3nLK.css">
+  <link rel="stylesheet" crossorigin href="/assets/project-styles-BHQ2gGbk.css">
+</head>
+
+<body>
+
+    <!-- ===== NAV ===== -->
+    <nav class="nav" id="nav">
+        <a href="/index.html" class="nav__logo">NF<span class="accent">.</span></a>
+        <div class="nav__links">
+            <a href="/index.html#about">About</a>
+            <a href="/index.html#projects">Projects</a>
+            <a href="/index.html#experience">Experience</a>
+            <a href="/index.html#contact">Contact</a>
+        </div>
+        <div class="nav__actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span class="theme-toggle__icon theme-toggle__icon--sun">☀️</span>
+                <span class="theme-toggle__icon theme-toggle__icon--moon">🌙</span>
+            </button>
+            <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/index.html#about">About</a>
+        <a href="/index.html#projects">Projects</a>
+        <a href="/index.html#experience">Experience</a>
+        <a href="/index.html#contact">Contact</a>
+    </div>
+
+    <main class="project-showcase">
+        <div class="container">
+
+            <a href="/index.html#projects" class="brutalist-back-btn">
+                <span>&#8592;</span> Back to Projects
+            </a>
+
+            <header class="project-showcase__header">
+                <h1 class="project-showcase__title">StatusMonitor</h1>
+                <p class="project-showcase__subtitle">Real-time distributed system monitoring with a modern web
+                    dashboard and a cross-platform Python agent pushing metrics through Kafka.</p>
+
+                <div class="project-showcase__links">
+                    <a href="https://github.com/NFRohan/statusmonitor" target="_blank" rel="noopener"
+                        class="brutalist-btn brutalist-btn--primary">View on GitHub ↗</a>
+                </div>
+            </header>
+
+            <div class="project-showcase__image-placeholder">
+                <img src="/assets/dashboard-BzerdMnR.png" alt="StatusMonitor Dashboard"
+                    onerror="this.style.display='none'" />
+            </div>
+
+            <div class="project-showcase__content">
+                <article class="project-showcase__body">
+                    <h2>Overview</h2>
+                    <p>StatusMonitor is a comprehensive system monitoring solution that collects, stores, and visualizes
+                        real-time metrics from multiple machines. It features a modern <strong>React 19</strong>
+                        dashboard with interactive charts, WebSocket-based live updates, and robust historical data
+                        analysis powered by <strong>Apache Kafka</strong>.</p>
+
+                    <p>By heavily decoupling ingestion layers from persistence schemas, StatusMonitor operates
+                        effectively against significant payload loads without bogging down the auth layer or history
+                        buckets.</p>
+
+                    <h2>Core Engineering Highlights</h2>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">The Kafka Data Pipeline</div>
+                        <p><strong>The Strategy:</strong> A <strong>RabbitMQ/Kafka (KRaft)</strong> buffer streams
+                            durable events directly via default 1-second ticks.</p>
+                        <p><span class="eng-highlight__fix">The Implementation:</span> Kafka 4.1.1 sits at the center,
+                            isolating the Ingestion Service from the History Service. Token handling across thousands of
+                            events per minute isn't routed directly to the database; instead, metrics POSTs hit the
+                            Ingestion Edge, validating a JWT payload cached inside <strong>Redis</strong> (saving ~99%
+                            on auth service load), before being published into Kafka. This allows independent scaling of
+                            consumers for history storage, WebSocket distribution, and alert rule evaluation.</p>
+                        <img class="eng-highlight__image" src="/assets/agent%20Registration-Ew5pdba4.png"
+                            alt="Agent Registration Flow via UI" loading="lazy">
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Tiered Time-Series Downsampling</div>
+                        <p><strong>The Strategy:</strong> High-frequency interval data gets cripplingly expensive in
+                            Time Series storage mechanisms over longer horizons.</p>
+                        <p><span class="eng-highlight__fix">The Implementation:</span> Architected a tiered storage
+                            schema inside <strong>InfluxDB</strong>. Automated Influx tasks compress and migrate raw
+                            data sets asynchronously. The first tier holds exact intervals for 24 hours. The second tier
+                            squashes 24 hours down to 1-minute aggregates preserved for 7 days. The final tier shrinks
+                            to 1-hour resolution persisted for 12 months. The React frontend transparently maps custom
+                            boundary ranges (`-5m`, `-7d`) to the dynamically correct metric resolution bucket over the
+                            history API layer.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Hardened API Security Guardrails</div>
+                        <p><strong>The Strategy:</strong> Distributed metric clients must be completely hardened against
+                            injection, spoofing, layer-spilling, or denial-of-service attempts.</p>
+                        <p><span class="eng-highlight__fix">The Implementation:</span> Implemented multiple protective
+                            measures:</p>
+                        <ul>
+                            <li><strong>Zero-Trust Authorization:</strong> Fail-closed ownership verification blocks
+                                access on network hangs rather than passing generic errors. Data is aggressively scoped
+                                purely to the authenticated user ID crosscheck.</li>
+                            <li><strong>Flux Query Sanitization:</strong> InfluxDB queries dynamically build raw inputs,
+                                presenting severe NoSQL injection vectors. String patterns map cleanly against strictly
+                                bound regex validations.</li>
+                            <li><strong>Algorithmic Resource Limitations:</strong> Max time-range limits (clamped 365s
+                                periods) explicitly guard memory exhaustion and CPU locking, preventing massive query
+                                payload attacks.</li>
+                        </ul>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Responsive Cooldown Alerts via Telegram</div>
+                        <p><strong>The Strategy:</strong> Avoid alert fatigue and spam logic overlapping high-frequency
+                            sampling metrics.</p>
+                        <p><span class="eng-highlight__fix">The Implementation:</span> A stateless dedicated Python
+                            Alert Service listens sequentially on the Kafka consumer loop, processing metrics through
+                            Python dictionaries to validate threshold ceilings across CPU, Memory, and Disk triggers.
+                            Triggers respect strict 5-minute cooldown epochs held in volatile memory states before
+                            flushing payloads to the <strong>Telegram Bot API</strong>, retaining real-time accuracy
+                            within ~1000ms boundaries.</p>
+                        <div class="project-showcase__gallery">
+                            <img class="project-showcase__gallery-item"
+                                src="/assets/telegramAlert-DoyaVwg2.png" alt="Telegram Alert Notification"
+                                loading="lazy">
+                            <img class="project-showcase__gallery-item" src="/assets/alerts-DtlMoicM.png"
+                                alt="Alerts Dashboard Configuration" loading="lazy">
+                        </div>
+                    </div>
+
+                </article>
+
+                <div class="project-showcase__gallery" style="margin-top: 0; margin-bottom: 60px;">
+                    <img class="project-showcase__gallery-item" src="/assets/HomePage-DbOtcQSF.png"
+                        alt="StatusMonitor Homepage" loading="lazy">
+                    <img class="project-showcase__gallery-item"
+                        src="/assets/Screenshot%202025-12-01%20030409-_nMxBVMV.png"
+                        alt="StatusMonitor Detailed View" loading="lazy">
+                </div>
+
+                <aside class="project-sidebar">
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Technologies</div>
+                        <div class="skill-group__badges">
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">React 19</span>
+                            <span class="tech-tag">Apache Kafka</span>
+                            <span class="tech-tag">InfluxDB</span>
+                            <span class="tech-tag">PostgreSQL 16</span>
+                            <span class="tech-tag">Redis</span>
+                        </div>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Architecture</div>
+                        <ul>
+                            <li>Event-Driven Microservices</li>
+                            <li>WebSocket Real-time Broadcast</li>
+                            <li>Flux Query Downsampling</li>
+                            <li>GUI Python Metrics Agent (PDH bindings)</li>
+                        </ul>
+                    </div>
+
+                </aside>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <p>Built with stubbornness & caffeine.</p>
+            <p>&copy; 2026 Nayeem Fardin</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" class="back-to-top" aria-label="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+</body>
+
+</html>

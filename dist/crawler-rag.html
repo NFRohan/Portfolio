@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crawler RAG DocHelper | Nayeem Fardin</title>
+    <meta name="description"
+        content="Crawler RAG DocHelper: A Retrieval-Augmented Generation (RAG) system with Hybrid Search." />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Crawler RAG DocHelper | Nayeem Fardin" />
+    <meta property="og:description"
+        content="Retrieval-Augmented Generation (RAG) system running locally on constrained hardware with hybrid dense-sparse search." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://nayeemfardin.com/crawler-rag.html" />
+    <meta property="og:image" content="https://nayeemfardin.com/og-image.jpg" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script type="module" crossorigin src="/assets/main-DEfO-JqZ.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/main-2_il3nLK.css">
+  <link rel="stylesheet" crossorigin href="/assets/project-styles-BHQ2gGbk.css">
+</head>
+
+<body>
+
+    <!-- ===== NAV ===== -->
+    <nav class="nav" id="nav">
+        <a href="/index.html" class="nav__logo">NF<span class="accent">.</span></a>
+        <div class="nav__links">
+            <a href="/index.html#about">About</a>
+            <a href="/index.html#projects">Projects</a>
+            <a href="/index.html#experience">Experience</a>
+            <a href="/index.html#contact">Contact</a>
+        </div>
+        <div class="nav__actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span class="theme-toggle__icon theme-toggle__icon--sun">☀️</span>
+                <span class="theme-toggle__icon theme-toggle__icon--moon">🌙</span>
+            </button>
+            <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/index.html#about">About</a>
+        <a href="/index.html#projects">Projects</a>
+        <a href="/index.html#experience">Experience</a>
+        <a href="/index.html#contact">Contact</a>
+    </div>
+
+    <main class="project-showcase">
+        <div class="container">
+
+            <a href="/index.html#projects" class="brutalist-back-btn">
+                <span>&#8592;</span> Back to Projects
+            </a>
+
+            <header class="project-showcase__header">
+                <h1 class="project-showcase__title">Crawler RAG DocHelper</h1>
+                <p class="project-showcase__subtitle">A powerful Retrieval-Augmented Generation (RAG) system with
+                    Sparse-Dense Hybrid Search. Crawls documentation websites, ingests content into a vector database,
+                    and provides intelligent question-answering capabilities.</p>
+
+                <div class="project-showcase__links">
+                    <a href="https://github.com/NFRohan/crawler-rag-dochelper" target="_blank" rel="noopener"
+                        class="brutalist-btn brutalist-btn--primary">View on GitHub ↗</a>
+                </div>
+            </header>
+
+
+            <div class="project-showcase__content">
+                <article class="project-showcase__body">
+                    <h2>Overview</h2>
+                    <p>This project automates the orchestration pipeline mapping documentation crawling to dynamic LLM
+                        response contexts. It fundamentally relies on standardizing documentation indices (`llms.txt`)
+                        to isolate relevant framework concepts, scraping them via <strong>Tavily</strong>, splitting
+                        them into vectorized chunks, and interrogating the index using <strong>LangChain</strong>
+                        orchestrated against <strong>Google Gemini</strong>.</p>
+
+                    <h2>Core Engineering Highlights</h2>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Sparse-Dense Hybrid Search Implementation</div>
+                        <p><strong>The Strategy:</strong> Pure Semantic search frequently hallucinates context due to
+                            synonyms overlapping across technical frameworks.</p>
+                        <p><span class="eng-highlight__fix">The Implementation:</span> Orchestrated a hybrid model
+                            combining the semantic strength of Dense Embeddings (<strong>HuggingFace</strong>) for
+                            understanding context and synonym variance, layered against Sparse BM25 Encoders strictly
+                            executing exact-term matches across rare keyword terminology or specific class names. The
+                            alpha parameter is dynamically balanced at `0.5` through the primary
+                            <strong>Pinecone</strong> dotproduct index.
+                        </p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">LLM Multi-Level Content Caching</div>
+                        <p><strong>The Strategy:</strong> Scraping hundreds of API documentation boundaries triggers
+                            throttling, invalidates test iterations, and inherently raises token costs.</p>
+                        <p><span class="eng-highlight__fix">The Implementation:</span> Hardened the ingestion step with
+                            deterministic hashing dictating recursive chunk storage inside `crawled_data.json`. Running
+                            an ingestion sequence twice intelligently maps identical URLs back into the cache framework
+                            entirely sidestepping subsequent network drops to Tavily Extract APIs. Re-processing only
+                            costs compute time parsing local character boundaries.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Noise Dilution via Cohere Reranking</div>
+                        <p><strong>The Strategy:</strong> Expanding nearest-neighbor returns past top-k results dilutes
+                            the specific instruction sets sent to the ultimate Gemini payload context window.</p>
+                        <p><span class="eng-highlight__fix">The Implementation:</span> Injected a
+                            <code>rerank-english-v3.0</code> <strong>Cohere Model</strong> directly subsequent to the
+                            Pinecone search response. The expanded subset of retrieved nodes fundamentally recalculates
+                            exact relevancy relevance against the initial baseline query string parameters, actively
+                            suppressing the hallucination rate across technical responses.
+                        </p>
+                    </div>
+
+                </article>
+
+                <aside class="project-sidebar">
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Technologies</div>
+                        <div class="skill-group__badges">
+                            <span class="tech-tag">Python CLI</span>
+                            <span class="tech-tag">LangChain</span>
+                            <span class="tech-tag">Pinecone Vector DB</span>
+                            <span class="tech-tag">Gemini 2.5 Flash</span>
+                            <span class="tech-tag">Cohere Rerank API</span>
+                            <span class="tech-tag">Tavily Extract</span>
+                            <span class="tech-tag">BM25 Sparse Encoder</span>
+                        </div>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Core Techniques</div>
+                        <ul>
+                            <li>Sparse-Dense Dual Querying</li>
+                            <li>Recursive Text Splitting</li>
+                            <li>Standardized `llms.txt` Parsing</li>
+                            <li>LLM Model Pipelining</li>
+                        </ul>
+                    </div>
+
+                </aside>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container footer__inner">
+            <p>Built with stubbornness & caffeine.</p>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" class="back-to-top" aria-label="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+</body>
+
+</html>
