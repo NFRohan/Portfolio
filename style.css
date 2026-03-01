@@ -11,6 +11,13 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  overflow-x: hidden;
+  position: relative;
+  width: 100%;
+}
+
 /* ---------- Custom Properties ---------- */
 :root {
   /* Palette */
@@ -848,7 +855,7 @@ code {
    ============================================================ */
 .projects__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
   gap: 32px;
 }
 
@@ -1188,6 +1195,7 @@ code {
 @media (max-width: 480px) {
   .hero {
     padding: 100px 16px 60px;
+    overflow: hidden;
   }
 
   .brutalist-btn {

@@ -298,11 +298,18 @@ img.expanded {
 
 @media (max-width: 1024px) {
     .project-showcase__content {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 40px;
     }
 
     .project-sidebar {
         position: static;
+        order: -1;
+        /* Move to top */
+    }
+
+    .project-showcase__body {
+        order: 1;
     }
 }
