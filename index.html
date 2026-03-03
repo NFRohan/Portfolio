@@ -159,6 +159,7 @@
             <span class="skill-group__label">Languages</span>
             <div class="skill-group__badges">
               <span class="skill-badge">Python</span>
+              <span class="skill-badge">Go</span>
               <span class="skill-badge">JavaScript</span>
               <span class="skill-badge">C++</span>
               <span class="skill-badge">Java</span>
@@ -280,7 +281,8 @@
             </div>
           </div>
           <div class="project-card__tags">
-            <span class="tech-tag">FastAPI</span>
+            <span class="tech-tag">Go</span>
+            <span class="tech-tag">Python</span>
             <span class="tech-tag">Celery</span>
             <span class="tech-tag">RabbitMQ</span>
             <span class="tech-tag">Terraform</span>
@@ -289,6 +291,8 @@
             <span class="tech-tag">Redis</span>
           </div>
           <ul class="project-card__highlights">
+            <li>Migrated the HTTP edge from <strong>FastAPI</strong> to <strong>Go</strong>, preserving full contract
+              parity with the existing <strong>Celery</strong> worker runtime and Alembic-managed schema.</li>
             <li>Architected a dual-node K3s cluster on <strong>AWS</strong> (On-Demand control + Spot data plane) with
               full <strong>Terraform</strong> IaC and automated SSM reconciliation for async image processing queued
               through <strong>RabbitMQ</strong>.</li>

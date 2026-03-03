@@ -107,9 +107,11 @@
                         images, choose operations (format conversion, DnCNN denoising, EXIF extraction), and receive
                         outputs asynchronously when background processing completes.</p>
 
-                    <p>At its core, PixTools implements a robust event-driven pipeline utilizing <strong>RabbitMQ +
-                            Celery</strong>, idempotent request handling via Redis, webhook callbacks with pybreaker
-                        circuit-breakers, and 24-hour retention for processed files.</p>
+                    <p>The public HTTP edge is served by a <strong>Go</strong> API that validates requests, manages S3
+                        uploads, writes Postgres job rows, checks Redis idempotency, and publishes Celery-compatible
+                        AMQP messages to RabbitMQ. The <strong>Python</strong> worker layer retains full ownership of
+                        pipeline orchestration, image processing, ML inference, metadata extraction, and archive
+                        generation.</p>
 
                     <h2>The Scale-Up Struggle & Engineering Highlights</h2>
                     <p>This system wasn't just deployed; it was architected to survive network drops, EC2 terminations,
@@ -171,6 +173,40 @@
                             alt="System and DB Resource Utilization" loading="lazy">
                     </div>
 
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Go API Migration — Narrowing the Edge</div>
+                        <p><strong>The Problem:</strong> The original FastAPI HTTP layer carried the full Python runtime
+                            and memory overhead just to validate requests, upload files to S3, write a job row, and
+                            enqueue background work. That was wasteful at the edge.</p>
+                        <p><span class="eng-highlight__fix">The Migration:</span> I moved only the HTTP edge to
+                            <strong>Go</strong>, keeping the Python worker system intact. Go now serves the frontend,
+                            validates <code>POST /api/process</code>, writes the initial Postgres row, checks Redis
+                            idempotency, uploads the raw file to S3, and publishes Celery-compatible AMQP messages to
+                            RabbitMQ. Python still owns pipeline orchestration, image processing, ML inference, metadata
+                            extraction, and archive generation.
+                        </p>
+                        <p><strong>The Hard Part:</strong> Preserving contract parity with an existing Python worker
+                            runtime and Alembic-managed schema. The first migration attempt exposed several real
+                            integration failures:</p>
+                        <ul>
+                            <li>Schema drift between GORM models and the Alembic-backed <code>jobs</code> table</li>
+                            <li>Dropped validation rules that the Python API had enforced</li>
+                            <li>Incorrect RabbitMQ publishing semantics when trying to use <code>gocelery</code></li>
+                            <li>Lost request metadata propagation into Celery tasks</li>
+                            <li>An unregistered router task that caused accepted jobs to sit in <code>PENDING</code>
+                            </li>
+                            <li>Runtime config mismatch from Python's <code>postgresql+asyncpg://</code> DSN format</li>
+                        </ul>
+                        <p><span class="eng-highlight__fix">The Fix:</span> Treat the migration as a
+                            <strong>compatibility problem</strong>, not a rewrite fantasy. I kept Alembic as the schema
+                            authority, aligned the Go model with the existing database contract, restored backend
+                            validation parity, removed <code>gocelery</code>, and published Celery-compatible AMQP
+                            envelopes directly to the queue the Python workers already consumed. A dedicated router task
+                            on the Python side lets Go hand off a small, stable payload while the worker layer continues
+                            building the full Celery chord internally.
+                        </p>
+                    </div>
+
                     <h2>Architecture</h2>
                     <pre class="mermaid">
 flowchart TD
@@ -190,7 +226,7 @@ flowchart TD
       end
       
       subgraph WorkloadNode["Workload Nodes (Spot m7i-flex.large, max 3)"]
-        API(FastAPI App)
+        API(Go API Edge)
         W_STD(Celery Worker Standard)
         W_ML(Celery Worker ML)
         NTH(AWS Node Termination Handler)
@@ -206,7 +242,7 @@ flowchart TD
   ALB --> API
   API -.->|Idempotency/Locking| REDIS
   API -.->|Job Tracking| RDS
-  API -->|Publishes Tasks| RMQ
+  API -->|Publishes AMQP| RMQ
   API -->|Uploads Image| S3
   
   RMQ -->|Consumes| W_STD
@@ -228,7 +264,10 @@ flowchart TD
 
                     <h2>Runtime Topology</h2>
                     <ul>
-                        <li><strong>Ingress & API:</strong> AWS ALB Controller routing to K3s Pods running FastAPI.</li>
+                        <li><strong>Ingress & API:</strong> AWS ALB Controller routing to K3s Pods running the Go HTTP
+                            edge. Go handles validation, S3 uploads, Postgres writes, and AMQP publishing.</li>
+                        <li><strong>Worker Layer:</strong> Python Celery workers consume from RabbitMQ, owning all image
+                            processing, ML inference, and pipeline orchestration.</li>
                         <li><strong>Message Broker:</strong> RabbitMQ StatefulSet with Dead Letter Exchanges for
                             failures.</li>
                         <li><strong>State & Locking:</strong> Redis for transient locks and PostgreSQL 16 on AWS RDS for
@@ -262,7 +301,8 @@ flowchart TD
                     <div class="project-sidebar__section">
                         <div class="project-sidebar__heading">Technologies</div>
                         <div class="skill-group__badges">
-                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">Go</span>
+                            <span class="tech-tag">Python</span>
                             <span class="tech-tag">Celery</span>
                             <span class="tech-tag">RabbitMQ</span>
                             <span class="tech-tag">Terraform</span>
