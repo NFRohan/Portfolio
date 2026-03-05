@@ -207,6 +207,104 @@
                         </p>
                     </div>
 
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Elastic Autoscaling — Pod and Node</div>
+                        <p><strong>The Problem:</strong> Fixed replica counts meant the system either wasted money at
+                            idle or dropped jobs under burst. Pod-level scaling alone wasn't enough — when all pods
+                            maxed out on one node, new pods just sat <code>Pending</code>.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> Two-layer autoscaling:</p>
+                        <ul>
+                            <li><strong>Pod scaling:</strong> API scales via HPA on CPU/memory. Standard workers scale
+                                via <strong>KEDA</strong> on RabbitMQ queue depth — the queue drives the workers, not
+                                CPU noise.</li>
+                            <li><strong>Node scaling:</strong> <strong>Cluster Autoscaler</strong> watches for
+                                unschedulable pods and grows the workload ASG. Required Terraform changes for ASG
+                                autodiscovery tags, IAM permissions, and in-cluster RBAC for <code>jobs.batch</code>,
+                                <code>volumeattachments</code>, and <code>configmaps</code>.
+                            </li>
+                        </ul>
+                        <p><span class="eng-highlight__fix">Live Proof:</span> A bounded stress run showed workers
+                            scaling <code>1 → 2 → 3</code> via KEDA, API scaling <code>1 → 3</code> via HPA, and a
+                            controlled unschedulable probe validated full ASG scale-out from <code>1 → 2</code> workload
+                            nodes with automatic K3s agent registration.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Reconciliation Hardening</div>
+                        <p><strong>The Problem:</strong> Real autoscaling exposed deploy-path failures: K3s API flaps
+                            during disruptive events, and Helm releases get stuck in <code>pending-upgrade</code>,
+                            poisoning every subsequent deploy.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> API readiness gating before and after
+                            disruptive steps. Retry wrappers around <code>kubectl apply</code>. Helm busy-release retry
+                            logic with automatic rollback to the last stable revision when a release is stuck pending.
+                            One live KEDA release had to be manually recovered before codifying the recovery path.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">RabbitMQ EBS Migration</div>
+                        <p><strong>The Problem:</strong> RabbitMQ on <code>local-path</code> storage was coupled to the
+                            infra node. Any infra-node replacement would strand the broker volume and make rotations
+                            disruptive.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> Installed the AWS EBS CSI driver, added a
+                            <code>gp3</code> StorageClass, and moved the RabbitMQ StatefulSet PVC target. Hit two
+                            independent failure modes during migration: Kubernetes rejected the in-place
+                            <code>volumeClaimTemplates</code> patch (immutability), and EBS CSI couldn't create volumes
+                            due to <code>ec2:CreateVolume</code> IAM denials. Fixed by explicit maintenance migration
+                            paths and inline IAM policy expansions.
+                        </p>
+                    </div>
+
+                    <h2>Production Stress Test Results</h2>
+                    <p>A formal in-region (<code>us-east-1</code>) performance suite replaced ad-hoc stress runs.
+                        Temporary EC2 load-generator, orchestrated scenario matrix, pre/post cluster snapshots, and
+                        runtime log collection across all components.</p>
+
+                    <div style="overflow-x: auto;">
+                        <table
+                            style="width:100%; border-collapse:collapse; font-family:var(--ff-body); font-size:0.95rem; margin: 24px 0;">
+                            <thead>
+                                <tr style="border-bottom: var(--border-thick); text-align:left;">
+                                    <th style="padding: 12px 16px;">Scenario</th>
+                                    <th style="padding: 12px 16px;">Submitted</th>
+                                    <th style="padding: 12px 16px;">HTTP p95</th>
+                                    <th style="padding: 12px 16px;">Fail Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: var(--border);">
+                                    <td style="padding: 12px 16px;"><strong>Baseline</strong> (30 VUs, 10m)</td>
+                                    <td style="padding: 12px 16px;">3,779</td>
+                                    <td style="padding: 12px 16px;">651ms</td>
+                                    <td style="padding: 12px 16px; color: var(--clr-green);"><strong>0.00%</strong></td>
+                                </tr>
+                                <tr style="border-bottom: var(--border);">
+                                    <td style="padding: 12px 16px;"><strong>Spike</strong> (120 VUs, 5m)</td>
+                                    <td style="padding: 12px 16px;">6,119</td>
+                                    <td style="padding: 12px 16px;">8,539ms</td>
+                                    <td style="padding: 12px 16px; color: var(--clr-coral);"><strong>3.65%</strong></td>
+                                </tr>
+                                <tr style="border-bottom: var(--border);">
+                                    <td style="padding: 12px 16px;"><strong>Retry Storm</strong> (60 VUs, 5m)</td>
+                                    <td style="padding: 12px 16px;">6,461</td>
+                                    <td style="padding: 12px 16px;">3,618ms</td>
+                                    <td style="padding: 12px 16px;"><strong>0.22%</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 12px 16px;"><strong>Starvation Mix</strong> (8m)</td>
+                                    <td style="padding: 12px 16px;">5,645</td>
+                                    <td style="padding: 12px 16px;">6,137ms</td>
+                                    <td style="padding: 12px 16px;"><strong>1.33%</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <p><strong>Key findings:</strong> Stable and production-acceptable at moderate sustained load.
+                        Under aggressive concurrency, API probe timeouts and app-node CPU saturation (100%) are the
+                        primary degradation drivers. ML queue wait reaches ~2.5h under sustained heavy-job pressure,
+                        confirming the need for dedicated ML capacity. Scale ceilings (<code>max=3</code>) are the
+                        hard bottleneck — raising them is the highest-impact remediation.</p>
+
                     <h2>Architecture</h2>
                     <pre class="mermaid">
 flowchart TD
@@ -214,15 +312,17 @@ flowchart TD
     ALB[ALB Ingress]
     RDS[(PostgreSQL 16\nRDS)]
     S3[(S3 Buckets)]
+    EBS[(EBS gp3 PVC)]
     
     subgraph K3s["K3s Cluster"]
-      subgraph InfraNode["Infra Node (On-Demand t3.small)"]
+      subgraph InfraNode["Infra Node (On-Demand m7i-flex.large)"]
         ControlPlane[K3s Control Plane]
         RMQ(RabbitMQ)
         REDIS(Redis)
         BEAT(Celery Beat)
         ALBCtrl(ALB Controller)
         CEXP(Celery Exporter)
+        KEDA(KEDA Operator)
       end
       
       subgraph WorkloadNode["Workload Nodes (Spot m7i-flex.large, max 3)"]
@@ -233,6 +333,7 @@ flowchart TD
       end
 
       ALLOY(Alloy DaemonSet)
+      CA(Cluster Autoscaler)
     end
   end
 
@@ -247,6 +348,8 @@ flowchart TD
   
   RMQ -->|Consumes| W_STD
   RMQ -->|Consumes| W_ML
+  RMQ -.->|Queue Depth| KEDA
+  KEDA -.->|Scales| W_STD
   
   W_STD -->|Processes| S3
   W_ML -->|Infers| S3
@@ -254,12 +357,15 @@ flowchart TD
   W_STD -.->|Updates Status| RDS
   W_ML -.->|Updates Status| RDS
   
+  RMQ -.->|State| EBS
+  
   BEAT -->|Schedules| RMQ
   CEXP -.->|Reads Events| RMQ
   ALLOY -->|Scrapes| API
   ALLOY -->|Scrapes| CEXP
   ALLOY ==>|Ships Telemetry| GrafanaCloud
   NTH -.->|Cordons & Drains| ControlPlane
+  CA -.->|Scales Workload ASG| WorkloadNode
                     </pre>
 
                     <h2>Runtime Topology</h2>
@@ -294,7 +400,7 @@ flowchart TD
                     <div class="project-sidebar__section">
                         <div class="project-sidebar__heading">Engineering Focus</div>
                         <p style="margin:0; font-family:var(--font-primary); font-size:1rem; font-weight:500;">
-                            Async Processing & DevOps
+                            Distributed Systems, Autoscaling & Performance Engineering
                         </p>
                     </div>
 
@@ -305,11 +411,14 @@ flowchart TD
                             <span class="tech-tag">Python</span>
                             <span class="tech-tag">Celery</span>
                             <span class="tech-tag">RabbitMQ</span>
+                            <span class="tech-tag">KEDA</span>
                             <span class="tech-tag">Terraform</span>
                             <span class="tech-tag">AWS EKS / K3s</span>
                             <span class="tech-tag">Redis</span>
                             <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">EBS CSI</span>
                             <span class="tech-tag">Grafana LGTM</span>
+                            <span class="tech-tag">k6</span>
                         </div>
                     </div>
 
@@ -317,10 +426,14 @@ flowchart TD
                         <div class="project-sidebar__heading">Key Patterns</div>
                         <ul>
                             <li>Asynchronous Event-Driven Architecture</li>
+                            <li>Go-to-Python Celery Handoff</li>
                             <li>Dual-Node Kubernetes Cluster</li>
+                            <li>KEDA Queue-Driven Autoscaling</li>
+                            <li>Cluster Autoscaler Node Scale-Out</li>
                             <li>Spot Instance Lifecycle Management</li>
                             <li>Zero-Trust OIDC Deployments</li>
                             <li>Dynamic SSM State Resolution</li>
+                            <li>EBS-Backed Stateful Broker</li>
                         </ul>
                     </div>
 
