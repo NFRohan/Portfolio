@@ -160,6 +160,8 @@
             <div class="skill-group__badges">
               <span class="skill-badge">Python</span>
               <span class="skill-badge">Go</span>
+              <span class="skill-badge">Dart</span>
+              <span class="skill-badge">Kotlin</span>
               <span class="skill-badge">JavaScript</span>
               <span class="skill-badge">C++</span>
               <span class="skill-badge">Java</span>
@@ -173,6 +175,14 @@
               <span class="skill-badge">Node</span>
               <span class="skill-badge">Express</span>
               <span class="skill-badge">FastAPI</span>
+            </div>
+          </div>
+
+          <div class="skill-group" data-accent="purple">
+            <span class="skill-group__label">Mobile</span>
+            <div class="skill-group__badges">
+              <span class="skill-badge">Flutter</span>
+              <span class="skill-badge">Android</span>
             </div>
           </div>
 
@@ -306,7 +316,39 @@
           </ul>
         </article>
 
-        <!-- Project 3: StatusMonitor -->
+        <!-- Project 3: NeoAlarm -->
+        <article class="brutalist-card project-card reveal" data-accent="green">
+          <div class="project-card__header">
+            <h3 class="project-card__title">NeoAlarm</h3>
+            <div style="display: flex; gap: 8px;">
+              <a href="/neoalarm.html" class="brutalist-btn brutalist-btn--small"
+                style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
+              <a href="https://github.com/NFRohan/NeoAlarm" target="_blank" rel="noopener"
+                class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+            </div>
+          </div>
+          <div class="project-card__tags">
+            <span class="tech-tag">Flutter</span>
+            <span class="tech-tag">Kotlin</span>
+            <span class="tech-tag">CameraX</span>
+            <span class="tech-tag">ML Kit</span>
+            <span class="tech-tag">AlarmManager</span>
+          </div>
+          <ul class="project-card__highlights">
+            <li><strong>Flutter/Native split:</strong> Flutter UI shell backed by a Kotlin alarm engine that
+              owns scheduling, ringing, recovery, and dismissal authority.</li>
+            <li>Mission-based dismissal with <strong>native inactivity enforcement</strong> — math, steps
+              (<code>TYPE_STEP_DETECTOR</code>), and QR (<strong>CameraX + ML Kit</strong>) missions.</li>
+            <li><strong>Direct-boot persistence</strong> and reboot recovery before first unlock via
+              device-protected storage and <code>LOCKED_BOOT_COMPLETED</code>.</li>
+            <li><strong>Overlapping alarm session stack</strong> — preempt/preserve/resume semantics fix a real
+              concurrency correctness bug.</li>
+            <li>Security audit, <strong>Macrobenchmark</strong> performance tooling, and signed release pipeline
+              via <strong>GitHub Actions</strong>.</li>
+          </ul>
+        </article>
+
+        <!-- Project 4: StatusMonitor -->
         <article class="brutalist-card project-card reveal" data-accent="coral">
           <div class="project-card__header">
             <h3 class="project-card__title">StatusMonitor</h3>

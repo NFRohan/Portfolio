@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeoAlarm | Nayeem Fardin</title>
+    <meta name="description"
+        content="NeoAlarm: Reliability-first Android alarm app with native alarm engine and mission-based dismissal." />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="NeoAlarm | Nayeem Fardin" />
+    <meta property="og:description"
+        content="Android alarm app with a native Kotlin alarm engine and Flutter UI shell." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://nayeemfardin.vercel.app/neoalarm.html" />
+    <meta property="og:image" content="https://nayeemfardin.vercel.app/background.png" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NeoAlarm | Nayeem Fardin" />
+    <meta name="twitter:description"
+        content="Android alarm app with a native Kotlin alarm engine and Flutter UI shell." />
+    <meta name="twitter:image" content="https://nayeemfardin.vercel.app/background.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/project-styles.css" />
+
+    <!-- Vercel Web Analytics -->
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <!-- Vercel Speed Insights -->
+    <script>
+        window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+
+<body>
+
+    <!-- ===== NAV ===== -->
+    <nav class="nav" id="nav">
+        <a href="/index.html" class="nav__logo">NF<span class="accent">.</span></a>
+        <div class="nav__links">
+            <a href="/index.html#about">About</a>
+            <a href="/index.html#projects">Projects</a>
+            <a href="/index.html#experience">Experience</a>
+            <a href="/index.html#contact">Contact</a>
+        </div>
+        <div class="nav__actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span class="theme-toggle__icon theme-toggle__icon--sun">☀️</span>
+                <span class="theme-toggle__icon theme-toggle__icon--moon">🌙</span>
+            </button>
+            <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/index.html#about">About</a>
+        <a href="/index.html#projects">Projects</a>
+        <a href="/index.html#experience">Experience</a>
+        <a href="/index.html#contact">Contact</a>
+    </div>
+
+    <main class="project-showcase">
+        <div class="container">
+
+            <a href="/index.html#projects" class="brutalist-back-btn">
+                <span>&#8592;</span> Back to Projects
+            </a>
+
+            <header class="project-showcase__header">
+                <h1 class="project-showcase__title">NeoAlarm</h1>
+                <p class="project-showcase__subtitle">Reliability-first Android alarm app. Flutter UI shell backed by
+                    a native Kotlin alarm engine that survives Doze, process death, reboots, and lock-screen
+                    constraints. Mission-based dismissal enforced natively, not just visually.</p>
+
+                <div class="project-showcase__links">
+                    <a href="https://github.com/NFRohan/NeoAlarm" target="_blank" rel="noopener"
+                        class="brutalist-btn brutalist-btn--primary">View on GitHub ↗</a>
+                </div>
+            </header>
+
+            <div style="display:flex; gap:24px; justify-content:center; align-items:flex-start; margin-bottom:60px; flex-wrap:wrap;">
+                <img src="./Images/NeoAlarm Images/Home_Dark.jpg" alt="NeoAlarm Home Screen"
+                    style="max-height:600px; width:auto; border:var(--border-thick); box-shadow:var(--shadow); border-radius:12px;" />
+                <img src="./Images/NeoAlarm Images/AlarmScreen_Dark.jpg" alt="Active Alarm Screen"
+                    style="max-height:600px; width:auto; border:var(--border-thick); box-shadow:var(--shadow); border-radius:12px;" />
+            </div>
+
+            <div class="project-showcase__content">
+                <article class="project-showcase__body">
+
+                    <h2>Overview</h2>
+                    <p>Most alarm apps are easy to style and hard to trust. NeoAlarm is designed as a
+                        <strong>reliability product</strong>, not a clock widget with extra screens. The app is
+                        intentionally split into two execution domains: <strong>Flutter</strong> owns the product
+                        surface — dashboard, alarm editing, mission UI, diagnostics. <strong>Kotlin</strong> owns
+                        everything that must remain correct even if Flutter isn't alive — exact scheduling via
+                        <code>AlarmManager.setAlarmClock()</code>, foreground ringing, session persistence, lock-screen
+                        launch, inactivity enforcement, and dismissal authorization.
+                    </p>
+                    <p>That split is a <strong>systems boundary</strong>, not a convenience choice. When the authority
+                        line between UI and engine is blurry, alarm apps accumulate hidden failure modes: UI state acts
+                        like source of truth, mission progress becomes route-dependent, and background enforcement
+                        depends on a live isolate.</p>
+
+                    <h2>The Scale-Up Struggle & Engineering Highlights</h2>
+                    <p>This system wasn't just built; it was hardened against the reality of Android alarm execution:
+                        overnight Doze, reclaimed processes, reboots before unlock, and sensor-driven missions that
+                        demand real-time enforcement.</p>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">The Flutter Trust Boundary</div>
+                        <p><strong>The Problem:</strong> Flutter is great for UI velocity, but an alarm app has to
+                            survive overnight Doze, reclaimed app processes, boot events, and lock-screen launch
+                            constraints. If alarm-critical behavior depends on a live Flutter isolate, the alarm is
+                            unreliable.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> A strict Dart/Kotlin systems boundary.
+                            Flutter sends <strong>intents only</strong> — it can configure missions and render progress,
+                            but it <strong>cannot decide</strong> that a mission is complete and <strong>cannot
+                                dismiss</strong> an alarm on its own. The native alarm engine starts audio, vibration,
+                            and session persistence <strong>before</strong> any Flutter UI is required. Recovery after
+                            process death restores directly into the active alarm flow from persisted native state.</p>
+                        <div class="project-showcase__gallery">
+                            <img class="project-showcase__gallery-item"
+                                src="./Images/NeoAlarm Images/SettingsPanel_Dark.jpg" alt="Settings Panel"
+                                loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Mission Anti-Cheat — Earned Silence</div>
+                        <p><strong>The Problem:</strong> Naive mission alarm: screen opens → alarm goes silent → user
+                            ignores the mission. Opening a screen is not evidence of real engagement. A user can tap
+                            into the mission and then do nothing, stalling forever.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> A three-layer enforcement model. First,
+                            a <strong>confirmation step</strong> creates a deliberate transition from coercion to
+                            effort — the alarm stays loud until the user explicitly accepts the mission. Second,
+                            <strong>native inactivity enforcement</strong> revokes silence after 30 seconds of no
+                            mission-valid activity. Third, <strong>mission-specific activity validation</strong> —
+                            math uses answer submission, steps uses <code>TYPE_STEP_DETECTOR</code> events, generic
+                            screen taps don't count.
+                        </p>
+                        <div class="project-showcase__gallery">
+                            <img class="project-showcase__gallery-item"
+                                src="./Images/NeoAlarm Images/MathMission_Dark.jpg" alt="Math Mission Active"
+                                loading="lazy">
+                            <img class="project-showcase__gallery-item"
+                                src="./Images/NeoAlarm Images/StepsMission_Dark.jpg" alt="Steps Mission Active"
+                                loading="lazy">
+                            <img class="project-showcase__gallery-item"
+                                src="./Images/NeoAlarm Images/QrMission_Dark.jpg" alt="QR Mission Active"
+                                loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">The Overlapping Alarm Bug</div>
+                        <p><strong>The Problem:</strong> The original ringing engine used a single persisted session
+                            slot. If one alarm was already active and another fired, the second alarm
+                            <strong>overwrote</strong> the stored session. The interrupted alarm was lost, in-progress
+                            mission state was stomped, and stale timers could fire for sessions that no longer existed.
+                            This is a <strong>systems correctness bug</strong>, not a missing feature.
+                        </p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> A <strong>persisted session stack</strong>
+                            instead of a single slot. A newly fired alarm preempts by pushing to the top. The
+                            interrupted session is preserved beneath it with its inactivity timer canceled. Once the top
+                            alarm is dismissed or snoozed, the next preserved session resumes ringing. Flutter renders
+                            only the top active session; native Android preserves everything else.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Direct-Boot Persistence</div>
+                        <p><strong>The Problem:</strong> Android clears all scheduled alarms on reboot. If the app
+                            reads alarm definitions from credential-protected storage, it can't restore schedules until
+                            after the user's first unlock. That's too late — the 6 AM alarm fires before the user
+                            unlocks the phone.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> Alarm definitions and active ring-session
+                            state live in <strong>device-protected storage</strong>. Reschedule receivers handle
+                            <code>LOCKED_BOOT_COMPLETED</code>, <code>BOOT_COMPLETED</code>, time changes, and timezone
+                            changes. Flutter startup before first unlock stays minimal — no nonessential plugin
+                            initialization, no credential-protected assumptions. The native alarm engine can rebuild
+                            exact schedules before the user ever touches the lock screen.
+                        </p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Reusable Native Vision Pipeline</div>
+                        <p><strong>The Problem:</strong> The QR mission needs camera access and barcode scanning. A
+                            disposable plugin tied to one screen would make future object-recognition missions require
+                            rewriting the camera stack.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> A reusable native vision pipeline.
+                            <strong>CameraX</strong> handles preview and frame analysis,
+                            <strong>ML Kit</strong> barcode scanning runs as a swappable <code>VisionAnalyzer</code>,
+                            and session startup is idempotent — re-entering the same camera config reuses the existing
+                            session. Vision resources are disposed explicitly with the activity lifecycle. Future
+                            TinyML or TFLite missions become an analyzer swap, not a camera rebuild.
+                        </p>
+                        <div class="project-showcase__gallery">
+                            <img class="project-showcase__gallery-item"
+                                src="./Images/NeoAlarm Images/SetQrTarget_Dark.jpg" alt="QR Target Capture"
+                                loading="lazy">
+                        </div>
+                    </div>
+
+                    <h2>Architecture</h2>
+                    <pre class="mermaid">
+flowchart LR
+  subgraph Flutter["Flutter Shell"]
+    Dashboard["Dashboard / Settings"]
+    Editor["Alarm Editor"]
+    MissionUI["Mission UI Drivers"]
+    SessionStream["Active Session Rendering"]
+  end
+
+  subgraph Native["Native Android Alarm Engine"]
+    Scheduler["AlarmManager + Reschedule Receivers"]
+    SessionStore["AlarmStore + RingSessionStore"]
+    Coordinator["AlarmSessionCoordinator"]
+    Service["AlarmRingingService"]
+    Runtime["Mission Runtimes"]
+    Vision["CameraX + ML Kit Vision Pipeline"]
+  end
+
+  Dashboard -->|"alarm CRUD + diagnostics"| Scheduler
+  Editor -->|"AlarmSpec + MissionSpec"| Scheduler
+  Scheduler -->|"exact wake-up"| Service
+  Service --> SessionStore
+  Service --> Runtime
+  Runtime --> SessionStore
+  Coordinator --> SessionStore
+  Coordinator --> Scheduler
+  Vision --> Runtime
+  MissionUI -->|"user intents only"| Runtime
+  SessionStore -->|"top active session stream"| SessionStream
+                    </pre>
+
+                    <h2>Runtime Model</h2>
+                    <ul>
+                        <li><strong>Alarm Delivery:</strong> <code>AlarmManager.setAlarmClock()</code> exact scheduling.
+                            Native foreground service starts immediately on broadcast — audio, vibration, and wakelock
+                            begin before Flutter UI is required.</li>
+                        <li><strong>Session State Machine:</strong> Three persisted states — <code>ringing</code>,
+                            <code>mission_active</code>, <code>snoozed</code>. Each state changes what the system is
+                            allowed to do: whether audio plays, whether dismissal is legal, whether timeouts re-trigger.
+                        </li>
+                        <li><strong>Mission Platform:</strong> Modular mission contract — the alarm engine decides when
+                            a mission is required, a mission driver evaluates completion, and the UI renders progress.
+                            New missions plug in without re-auditing the scheduler.</li>
+                        <li><strong>Recovery:</strong> Process death → native session state is authoritative. Relaunch
+                            restores into the active mission flow. Reboot → direct-boot receivers rebuild exact
+                            schedules from device-protected storage.</li>
+                        <li><strong>Observability:</strong> Cold-start benchmark via Macrobenchmark
+                            (<code>517–647ms</code>), Perfetto trace collection, Gradle dependency audit for
+                            tracking unexpected background work.</li>
+                    </ul>
+
+                    <div class="project-showcase__gallery">
+                        <img class="project-showcase__gallery-item"
+                            src="./Images/NeoAlarm Images/SetAlarm_Dark.jpg" alt="Alarm Editor" loading="lazy">
+                        <img class="project-showcase__gallery-item"
+                            src="./Images/NeoAlarm Images/SetTime_Dark.jpg" alt="Time Picker Dark" loading="lazy">
+                        <img class="project-showcase__gallery-item"
+                            src="./Images/NeoAlarm Images/Home_Light.jpg" alt="Home Screen Light Mode"
+                            loading="lazy">
+                        <img class="project-showcase__gallery-item"
+                            src="./Images/NeoAlarm Images/SetTime_Light.jpg" alt="Time Picker Light Mode"
+                            loading="lazy">
+                    </div>
+
+                </article>
+
+                <aside class="project-sidebar">
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Engineering Focus</div>
+                        <p style="margin:0; font-family:var(--font-primary); font-size:1rem; font-weight:500;">
+                            Mobile Systems & Reliability Engineering
+                        </p>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Technologies</div>
+                        <div class="skill-group__badges">
+                            <span class="tech-tag">Flutter</span>
+                            <span class="tech-tag">Kotlin</span>
+                            <span class="tech-tag">Dart</span>
+                            <span class="tech-tag">CameraX</span>
+                            <span class="tech-tag">ML Kit</span>
+                            <span class="tech-tag">AlarmManager</span>
+                            <span class="tech-tag">Riverpod</span>
+                        </div>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Key Patterns</div>
+                        <ul>
+                            <li>Flutter/Native Split Architecture</li>
+                            <li>Persisted State Machine</li>
+                            <li>Mission-Driven Dismissal</li>
+                            <li>Direct-Boot Recovery</li>
+                            <li>Overlapping Session Stack</li>
+                            <li>Event-Driven Session Updates</li>
+                            <li>Native Vision Pipeline</li>
+                            <li>Macrobenchmark Performance Tooling</li>
+                        </ul>
+                    </div>
+
+                </aside>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container footer__content">
+            <p class="footer__tagline">Built with Biriyani & Caffeine ☕</p>
+            <p>&copy; 2026 Nayeem Fardin</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" class="back-to-top" aria-label="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+    <script type="module" src="/main.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryTextColor: '#1a1a1a',
+                primaryBorderColor: '#1a1a1a',
+                lineColor: '#1a1a1a',
+                secondaryColor: '#ffe156',
+                tertiaryColor: '#fafafa',
+                fontFamily: '"Space Grotesk", sans-serif'
+            }
+        });
+
+        // Add interactive click-to-expand backdrop
+        const backdrop = document.createElement('div');
+        backdrop.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:9998;display:none;cursor:zoom-out;';
+        document.body.appendChild(backdrop);
+
+        document.addEventListener('click', (e) => {
+            const mermaidEl = e.target.closest('.mermaid');
+            if (e.target === backdrop) {
+                const expanded = document.querySelector('.mermaid.expanded');
+                if (expanded) expanded.classList.remove('expanded');
+                backdrop.style.display = 'none';
+                document.body.style.overflow = '';
+            } else if (mermaidEl) {
+                mermaidEl.classList.toggle('expanded');
+                if (mermaidEl.classList.contains('expanded')) {
+                    backdrop.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    backdrop.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
