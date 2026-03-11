@@ -12,6 +12,7 @@ export default defineConfig({
                 crawlerrag: resolve(__dirname, 'crawler-rag.html'),
                 routinemaker: resolve(__dirname, 'routine-maker.html'),
                 interviewprepper: resolve(__dirname, 'interview-prepper.html'),
+                neoalarm: resolve(__dirname, 'neoalarm.html'),
             },
         },
     },
