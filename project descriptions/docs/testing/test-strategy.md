@@ -54,6 +54,7 @@ Run on every pull request.
 Cover:
 
 - recurrence rules
+- skip-next occurrence semantics
 - timezone and DST behavior
 - snooze cap logic
 - mission configuration validation
@@ -89,6 +90,7 @@ Cover:
 
 - app boot and basic navigation
 - creating an alarm and confirming the schedule path succeeds
+- skip-next on a repeating alarm and confirming that only one occurrence is skipped
 - foreground ringing service startup
 - math mission flow including multi-problem completion
 - mission confirmation flow and 30-second inactivity re-trigger
@@ -121,9 +123,15 @@ Run before beta and release candidates.
 
 Cover:
 
+- first-run onboarding appears before the dashboard until the flow is completed or skipped
+- onboarding completion persists across app restarts
+- rerunning onboarding from Settings returns the app to the setup flow
 - overnight Doze behavior
 - reboot recovery
 - reboot recovery before first unlock
+- post-reboot locked-state fallback tone behavior
+- custom tone import validation for MIME type, file-size cap, copy failure fallback, and missing-source warning behavior
+- speaker-only extra-loud route behavior and no-boost behavior on headphones/Bluetooth
 - manual time and timezone changes
 - overlapping alarms
 - overlapping alarms with explicit preemption and resume validation
@@ -150,6 +158,12 @@ Target at least:
 - one aggressive OEM device family
 
 This is the only layer that can honestly support reliability claims for an alarm product.
+
+Current validation status:
+
+- reboot recovery has been validated on-device
+- Doze resilience has been validated on-device
+- at least one roughly `1 hour 15 minute` long-idle exact-alarm test window on Samsung has been validated end to end, with Android confirming the alarm as both `Next alarm clock` and `Next wake from idle` before successful delivery at the expected minute
 
 Direct-boot note:
 
@@ -244,6 +258,7 @@ Current release note:
 - release verification is not complete until the minified APK has been installed and smoke-tested on a real device
 - benchmark-only shell profiling is enabled on the dedicated `benchmark` variant, not on the shipped app manifest
 - real distribution artifacts should come from the `android/key.properties` signing path or CI secrets materialized into the same contract
+- usability expansion validation now also needs to cover skip-next scheduling, opt-in volume ramp behavior, and direct-boot-safe fallback playback after reboot-before-unlock
 
 ## Performance Automation And Profiling
 

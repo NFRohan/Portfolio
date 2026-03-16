@@ -219,12 +219,69 @@
                         </div>
                     </div>
 
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Playback Engine Migration</div>
+                        <p><strong>The Problem:</strong> The original alarm playback used Android's
+                            <code>Ringtone</code> API — simple but incapable of per-instance volume control.
+                            Users wanted gradual volume ramp, but <code>Ringtone</code> offers no volume API
+                            worth using. Worse, after reboot before first unlock, the user's default alarm tone
+                            fails to resolve reliably on some OEMs.
+                        </p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> Full migration to
+                            <strong>MediaPlayer</strong> with a dedicated
+                            <code>AlarmPlaybackController</code> extracted from the ringing service. Volume ramp
+                            is per-alarm opt-in, ramping the <strong>player instance</strong> rather than mutating
+                            the global alarm stream. <strong>Extra Loud mode</strong> attaches a
+                            <code>LoudnessEnhancer</code> (+200 mB) only on speaker-safe output routes — wired
+                            headphones, Bluetooth, and USB audio are excluded. Before first unlock,
+                            the engine uses a <strong>bundled direct-boot-safe fallback tone</strong> from raw
+                            resources instead of trusting OEM-dependent media resolution.
+                        </p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Custom Tone Import Pipeline</div>
+                        <p><strong>The Problem:</strong> User-selected tones can disappear, lose permission,
+                            point at dead URIs, be oversized, or simply fail to play at alarm time.
+                            If a custom tone silently fails, the alarm is effectively muted — the worst possible
+                            outcome for a reliability product.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> A conservative import pipeline.
+                            Tone selection via Android's document picker with <strong>MIME-type validation</strong>
+                            (MP3/WAV only, checked via <code>ContentResolver.getType()</code>, not file
+                            extension). Imports capped at <strong>15 MB</strong>. The app
+                            <strong>copies into app-managed storage first</strong>, falling back to a persistable
+                            URI reference only on copy failure (partial files cleaned up). If a configured tone
+                            later becomes unavailable, the alarm still fires with the <strong>bundled fallback
+                            tone</strong> and Flutter surfaces a repair warning. Before first unlock after
+                            reboot, custom tones are <strong>never trusted</strong> — always the
+                            direct-boot-safe fallback.
+                        </p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Device Performance & Storage Audit</div>
+                        <p><strong>The Problem:</strong> Debug builds reported ~300 MB of storage. Was the app
+                            actually bloated? Were there hidden CPU costs or background work leaking from
+                            dependencies?</p>
+                        <p><span class="eng-highlight__fix">The Investigation:</span> A full <code>adb</code>-driven
+                            audit on a real Samsung device proved the storage scare was debug-only: the
+                            <strong>release APK is 68 MB</strong> vs 214 MB debug (Flutter kernel blob +
+                            duplicated debug assets). Cold-start timing via <code>am start -W</code> came in at
+                            <strong>212–229 ms</strong>. Idle CPU: <strong>0.0%</strong>. No lingering foreground
+                            service on the dashboard. <code>dumpsys alarm</code> showed clean exact-alarm
+                            scheduling with no background timer noise. The only recurring background work came
+                            from ML Kit's <code>datatransport.runtime</code> — tracked and documented, not
+                            ignored. A long-idle Doze test confirmed alarm delivery after <strong>75 minutes
+                            </strong> of screen-off idle.
+                        </p>
+                    </div>
+
                     <h2>Architecture</h2>
                     <pre class="mermaid">
 flowchart LR
   subgraph Flutter["Flutter Shell"]
     Dashboard["Dashboard / Settings"]
-    Editor["Alarm Editor"]
+    Editor["Alarm Editor + Tone UI"]
     MissionUI["Mission UI Drivers"]
     SessionStream["Active Session Rendering"]
   end
@@ -234,15 +291,20 @@ flowchart LR
     SessionStore["AlarmStore + RingSessionStore"]
     Coordinator["AlarmSessionCoordinator"]
     Service["AlarmRingingService"]
+    Playback["AlarmPlaybackController"]
+    ToneLib["ToneLibraryManager"]
     Runtime["Mission Runtimes"]
     Vision["CameraX + ML Kit Vision Pipeline"]
   end
 
   Dashboard -->|"alarm CRUD + diagnostics"| Scheduler
   Editor -->|"AlarmSpec + MissionSpec"| Scheduler
+  Editor -->|"tone import"| ToneLib
   Scheduler -->|"exact wake-up"| Service
+  Service --> Playback
   Service --> SessionStore
   Service --> Runtime
+  Playback --> ToneLib
   Runtime --> SessionStore
   Coordinator --> SessionStore
   Coordinator --> Scheduler
@@ -256,6 +318,9 @@ flowchart LR
                         <li><strong>Alarm Delivery:</strong> <code>AlarmManager.setAlarmClock()</code> exact scheduling.
                             Native foreground service starts immediately on broadcast — audio, vibration, and wakelock
                             begin before Flutter UI is required.</li>
+                        <li><strong>Playback:</strong> <code>MediaPlayer</code>-based with per-alarm volume ramp,
+                            speaker-only <code>LoudnessEnhancer</code>, custom tone import with MIME validation,
+                            and a bundled direct-boot-safe fallback tone.</li>
                         <li><strong>Session State Machine:</strong> Three persisted states — <code>ringing</code>,
                             <code>mission_active</code>, <code>snoozed</code>. Each state changes what the system is
                             allowed to do: whether audio plays, whether dismissal is legal, whether timeouts re-trigger.
@@ -266,9 +331,10 @@ flowchart LR
                         <li><strong>Recovery:</strong> Process death → native session state is authoritative. Relaunch
                             restores into the active mission flow. Reboot → direct-boot receivers rebuild exact
                             schedules from device-protected storage.</li>
-                        <li><strong>Observability:</strong> Cold-start benchmark via Macrobenchmark
-                            (<code>517–647ms</code>), Perfetto trace collection, Gradle dependency audit for
-                            tracking unexpected background work.</li>
+                        <li><strong>Performance:</strong> <code>229 ms</code> cold start on device,
+                            <code>0.0%</code> idle CPU, <code>68 MB</code> release APK. Macrobenchmark +
+                            Perfetto for repeatable measurement. Gradle dependency audit to track ML Kit
+                            background work.</li>
                     </ul>
 
                     <div class="project-showcase__gallery">
@@ -301,9 +367,11 @@ flowchart LR
                             <span class="tech-tag">Flutter</span>
                             <span class="tech-tag">Kotlin</span>
                             <span class="tech-tag">Dart</span>
+                            <span class="tech-tag">MediaPlayer</span>
                             <span class="tech-tag">CameraX</span>
                             <span class="tech-tag">ML Kit</span>
                             <span class="tech-tag">AlarmManager</span>
+                            <span class="tech-tag">LoudnessEnhancer</span>
                             <span class="tech-tag">Riverpod</span>
                         </div>
                     </div>
@@ -312,13 +380,15 @@ flowchart LR
                         <div class="project-sidebar__heading">Key Patterns</div>
                         <ul>
                             <li>Flutter/Native Split Architecture</li>
-                            <li>Persisted State Machine</li>
+                            <li>Persisted Session Stack</li>
                             <li>Mission-Driven Dismissal</li>
                             <li>Direct-Boot Recovery</li>
-                            <li>Overlapping Session Stack</li>
-                            <li>Event-Driven Session Updates</li>
+                            <li>MediaPlayer Playback Controller</li>
+                            <li>Custom Tone Import Pipeline</li>
+                            <li>Speaker-Only Loudness Enhancement</li>
                             <li>Native Vision Pipeline</li>
-                            <li>Macrobenchmark Performance Tooling</li>
+                            <li>Macrobenchmark + Perfetto Tooling</li>
+                            <li>Decomposition-Driven Refactoring</li>
                         </ul>
                     </div>
 

@@ -20,6 +20,20 @@ An alarm app has to survive:
 
 For those reasons, the app uses Flutter as the shell and native Android as the execution core.
 
+That architecture is no longer only theoretical. The current build has already been validated on-device for both reboot recovery and Doze resilience, which is the threshold where the native split starts paying for itself.
+
+## Why Onboarding Is A Reliability Feature, Not A Marketing Screen
+
+Android alarm reliability is gated by system controls that most users do not understand by name:
+
+- exact alarm access
+- notification access
+- battery optimization policy
+
+Leaving those buried in Settings creates a product smell where the app technically supports reliable alarms but asks the user to infer the setup order themselves. NeoAlarm now treats first-run onboarding as part of the reliability surface. The guided flow walks the user through the alarm-critical controls first, then hands off to the main dashboard.
+
+Mission permissions follow a different rule. Camera and activity recognition are not alarm-global prerequisites, so they stay contextual. The app only asks for them when the user configures or runs a mission that actually needs them. That keeps onboarding focused on what makes the alarm engine trustworthy without front-loading irrelevant prompts.
+
 ## Why This Is A Dart And Kotlin Split, Not A Plugin Grab Bag
 
 The project is not split between Dart and Kotlin because "some things were easier native."
@@ -844,3 +858,55 @@ Strong documentation should answer:
 - which decisions are already settled
 
 If the answer to those questions lives only in source code, the project will slow down as soon as the first non-trivial feature lands.
+
+## Playback And Everyday Usability
+
+Once the core alarm engine and mission model were stable, the next meaningful improvements were not more architectural stunts. They were everyday alarm behaviors that had to be implemented without weakening the guarantees the engine already had.
+
+Two decisions shaped that work:
+
+- `Skip next` is represented as a concrete skipped local occurrence date, not a boolean flag. That keeps recurrence behavior deterministic across reboot, timezone change, and reschedule events.
+- gradual volume ramp moved the alarm playback path away from `Ringtone` and toward a controllable `MediaPlayer` instance so the app can ramp the active playback instance without treating the user's global alarm volume casually by default.
+
+That playback migration also solves a practical OEM issue. On some devices, especially after reboot before first unlock, the user's default alarm tone cannot be treated as a reliable dependency. The alarm engine now prefers a bundled direct-boot-safe fallback tone in that state and returns to the user's normal tone path after unlock.
+
+## Reliability Investigation Note: Long-Idle Alarm Misses
+
+An intermittent field issue was reported where some longer-delay alarms appeared to miss after the phone had been left idle with the screen off for roughly an hour or more, while short 2 to 5 minute alarms remained reliable.
+
+On March 15, 2026, a controlled reproduction check for a longer-idle alarm established these points before the device was left idle:
+
+- Android `dumpsys alarm` showed the NeoAlarm entry as the `Next alarm clock`
+- the same alarm was also the `Next wake from idle`
+- exact-alarm policy showed `exactAllowReason=policy_permission`
+- NeoAlarm remained on the user device-idle whitelist
+
+The final successful run was restarted roughly `1 hour 15 minutes` before a `01:19` trigger, and Android later recorded delivery for NeoAlarm at `2026-03-15 01:19:01.254`. After delivery, NeoAlarm also rescheduled the next alarm correctly.
+
+The current conclusion is therefore narrower than "Doze kills the app":
+
+- exact scheduling can survive a long idle window on the test Samsung device
+- the intermittent miss is not yet reproduced as a deterministic scheduler failure
+- if the bug reappears, the most valuable comparison will be between a known-good long-idle delivery and a captured failure case collected immediately afterward
+
+This finding should keep the investigation focused. At the moment, the evidence does not support blaming plain Doze alone.
+
+## Playback Expansion Note: Custom Tones
+
+Once alarm playback moved to `MediaPlayer`, custom tones became a practical next step, but only if they were designed with the same reliability bias as the rest of the alarm engine.
+
+Three constraints shaped the implementation:
+
+- a user-selected tone can disappear, lose access, or point at a provider that is no longer readable
+- large audio files can bloat app-managed storage or create poor wake-up-time behavior if treated casually
+- custom tone sources are not trustworthy before first unlock after reboot
+
+The resulting model is intentionally conservative:
+
+- tone selection uses the Android document picker
+- NeoAlarm validates actual MIME type and caps imports at 15 MB
+- the app tries to copy tones into app-managed storage first and falls back to a live URI reference only if copying fails
+- if a custom tone becomes unavailable later, the alarm still rings with NeoAlarm's bundled fallback tone and Flutter surfaces a repair warning
+- before first unlock after reboot, the alarm engine always uses the bundled direct-boot-safe tone instead of trusting a custom source
+
+That keeps custom tones as a product upgrade, not a new reliability liability.
