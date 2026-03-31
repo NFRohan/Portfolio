@@ -39,6 +39,13 @@
         content="Microservices-based full-stack application built with FastAPI, React, and Docker for managing user routines with PDF export and JWT Auth.">
     <meta name="twitter:image" content="https://nayeemfardin.vercel.app/background.png">
     <!-- Fonts -->
+    <!-- Prevent FOUC (Flash of Unstyled Content) -->
+    <script>
+        (function () {
+            const saved = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

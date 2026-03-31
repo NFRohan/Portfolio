@@ -39,6 +39,13 @@
         content="AI-powered interview preparation platform using LangChain, LangGraph, and multi-provider LLMs to generate 30-day learning roadmaps.">
     <meta name="twitter:image" content="https://nayeemfardin.vercel.app/background.png">
     <!-- Fonts -->
+    <!-- Prevent FOUC (Flash of Unstyled Content) -->
+    <script>
+        (function () {
+            const saved = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
