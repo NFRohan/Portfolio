@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NeoAlarm | Nayeem Fardin</title>
     <meta name="description"
-        content="NeoAlarm: Reliability-first Android alarm app with native alarm engine and mission-based dismissal." />
+        content="NeoAlarm: Reliability-first Android alarm app with native Kotlin alarm engine, mission-based dismissal, location alarms with geofencing, and direct-boot recovery." />
     <meta name="author" content="Nayeem Fardin" />
     <meta name="keywords"
-        content="NeoAlarm, Android alarm app, Flutter, Kotlin, native alarm engine, mission dismissal, CameraX, ML Kit, Nayeem Fardin" />
+        content="NeoAlarm, Android alarm app, Flutter, Kotlin, native alarm engine, mission dismissal, location alarms, geofencing, CameraX, ML Kit, MapLibre, Nayeem Fardin" />
     <link rel="canonical" href="https://nayeemfardin.vercel.app/neoalarm.html" />
 
     <script type="application/ld+json">
@@ -17,7 +17,7 @@
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": "NeoAlarm — Reliability-First Android Alarm App",
-        "description": "Engineering case study of a native Android alarm engine with Flutter UI, mission-based dismissal, direct-boot recovery, and custom tone pipeline.",
+        "description": "Engineering case study of a native Android alarm engine with Flutter UI, mission-based dismissal, location alarms via geofencing, direct-boot recovery, and custom tone pipeline.",
         "author": { "@type": "Person", "name": "Nayeem Fardin" },
         "url": "https://nayeemfardin.vercel.app/neoalarm.html",
         "datePublished": "2026-03-11"
@@ -111,7 +111,8 @@
                 <h1 class="project-showcase__title">NeoAlarm</h1>
                 <p class="project-showcase__subtitle">Reliability-first Android alarm app. Flutter UI shell backed by
                     a native Kotlin alarm engine that survives Doze, process death, reboots, and lock-screen
-                    constraints. Mission-based dismissal enforced natively, not just visually.</p>
+                    constraints. Mission-based dismissal enforced natively. Location alarms via geofencing
+                    with hybrid approach-assist. 28-finding security and reliability audit driven.</p>
 
                 <div class="project-showcase__links">
                     <a href="https://github.com/NFRohan/NeoAlarm" target="_blank" rel="noopener"
@@ -299,12 +300,71 @@
                         </p>
                     </div>
 
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Location Alarms — Geofence + Approach Assist</div>
+                        <p><strong>The Problem:</strong> Users fall asleep on buses and trains. Time-based
+                            alarms can't solve "wake me when I'm near my stop." But location alarms are
+                            much riskier than time alarms: they involve background location permissions,
+                            Google Play policy scrutiny, geofence delivery latency, OEM background behavior,
+                            reboot re-registration, and unreliable GPS underground.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> A <strong>hybrid state machine</strong>.
+                            The inner geofence (user-selected radius: 500m/1000m/1500m) remains the source of truth
+                            for arrival. An <strong>outer approach zone</strong> (~3× trigger radius) arms a
+                            passive fused-location listener as a low-cost assist — no continuous GPS polling,
+                            no foreground-service tracking by default. The setup flow uses
+                            <strong>MapLibre</strong> + OpenFreeMap Liberty for rendering,
+                            <strong>Photon</strong> for place search, and optional <strong>OpenCage</strong>
+                            for dropped-pin reverse geocoding. The alarm record stores only label, lat, lng, and
+                            radius — no provider-specific IDs.
+                        </p>
+                        <p>Each location alarm derives an <strong>explicit health state</strong> (10 states including
+                            <code>HEALTHY</code>, <code>REARM_PENDING</code>, <code>NO_BACKGROUND_PERMISSION</code>,
+                            <code>GEOFENCE_NOT_REGISTERED</code>, <code>PLAY_SERVICES_UNAVAILABLE</code>,
+                            <code>BATTERY_RESTRICTED</code>) surfaced per-alarm on the dashboard with repair
+                            guidance — not buried in a diagnostics screen. Reboot recovery re-arms geofences
+                            through native retry scheduling, not a single optimistic registration attempt.</p>
+                        <div class="project-showcase__gallery">
+                            <img class="project-showcase__gallery-item"
+                                src="./Images/NeoAlarm Images/Location Alarm.png" alt="Location Alarm Setup Map"
+                                loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">28-Finding Security & Reliability Audit</div>
+                        <p><strong>The Problem:</strong> After shipping location alarms, the codebase had grown
+                            significantly with new native surfaces (geofence registration, passive approach
+                            monitoring, re-arm scheduling). How confident were we that the new code met
+                            the same reliability bar as the time-alarm engine?</p>
+                        <p><span class="eng-highlight__fix">The Response:</span> A comprehensive
+                            post-location-alarm audit covering the native alarm engine, location alarm
+                            internals, custom tone import, Flutter flows, release CI, manifest, and Gradle
+                            config. Produced <strong>28 findings</strong> across security, performance,
+                            reliability, and maintainability:
+                        </p>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem;">
+                            <li><strong>8 release-blocking</strong> — geofence cleanup after trigger, boot re-arm
+                                isolation, Play Services task timeouts, wake-lock teardown paths, async race
+                                conditions, health fail-closed parsing</li>
+                            <li><strong>8 security</strong> — CI signing secret isolation, release dispatch
+                                verification, counted-stream tone import, device-protected storage scoping,
+                                exported receiver action filtering</li>
+                            <li><strong>6 performance</strong> — duplicate resume work, passive listener
+                                leakage, network timeouts, APK size tracking</li>
+                            <li><strong>6 maintainability</strong> — coordinator decomposition, method-channel
+                                handler splitting, provider abstraction, documentation drift</li>
+                        </ul>
+                        <p>All findings converted into an ordered fix plan tracked in a dedicated
+                            reliability-security-quality hardening sprint.</p>
+                    </div>
+
                     <h2>Architecture</h2>
                     <pre class="mermaid">
 flowchart LR
   subgraph Flutter["Flutter Shell"]
     Dashboard["Dashboard / Settings"]
     Editor["Alarm Editor + Tone UI"]
+    LocSetup["Location Alarm Setup"]
     MissionUI["Mission UI Drivers"]
     SessionStream["Active Session Rendering"]
   end
@@ -318,11 +378,15 @@ flowchart LR
     ToneLib["ToneLibraryManager"]
     Runtime["Mission Runtimes"]
     Vision["CameraX + ML Kit Vision Pipeline"]
+    LocCoord["LocationAlarmCoordinator"]
+    Geofence["GeofencingClient + Receivers"]
+    Approach["Passive Approach Monitor"]
   end
 
   Dashboard -->|"alarm CRUD + diagnostics"| Scheduler
   Editor -->|"AlarmSpec + MissionSpec"| Scheduler
   Editor -->|"tone import"| ToneLib
+  LocSetup -->|"destination + radius"| LocCoord
   Scheduler -->|"exact wake-up"| Service
   Service --> Playback
   Service --> SessionStore
@@ -334,13 +398,21 @@ flowchart LR
   Vision --> Runtime
   MissionUI -->|"user intents only"| Runtime
   SessionStore -->|"top active session stream"| SessionStream
+  LocCoord --> Geofence
+  LocCoord --> Approach
+  Geofence -->|"ENTER transition"| Service
+  Approach -->|"passive arrival detect"| LocCoord
                     </pre>
 
                     <h2>Runtime Model</h2>
                     <ul>
-                        <li><strong>Alarm Delivery:</strong> <code>AlarmManager.setAlarmClock()</code> exact scheduling.
+                        <li><strong>Time Alarm Delivery:</strong> <code>AlarmManager.setAlarmClock()</code> exact scheduling.
                             Native foreground service starts immediately on broadcast — audio, vibration, and wakelock
                             begin before Flutter UI is required.</li>
+                        <li><strong>Location Alarm Delivery:</strong> <code>GeofencingClient</code> registers inner
+                            trigger + outer approach geofences. Passive <code>FusedLocationProviderClient</code> assist
+                            near destination. 10-state health model per alarm. Reboot re-arms via native retry
+                            scheduling. Duplicate-trigger suppression via stable geofence IDs and cooldown windows.</li>
                         <li><strong>Playback:</strong> <code>MediaPlayer</code>-based with per-alarm volume ramp,
                             speaker-only <code>LoudnessEnhancer</code>, custom tone import with MIME validation,
                             and a bundled direct-boot-safe fallback tone.</li>
@@ -353,11 +425,15 @@ flowchart LR
                             New missions plug in without re-auditing the scheduler.</li>
                         <li><strong>Recovery:</strong> Process death → native session state is authoritative. Relaunch
                             restores into the active mission flow. Reboot → direct-boot receivers rebuild exact
-                            schedules from device-protected storage.</li>
+                            schedules and re-arm geofences from device-protected storage.</li>
                         <li><strong>Performance:</strong> <code>229 ms</code> cold start on device,
                             <code>0.0%</code> idle CPU, <code>68 MB</code> release APK. Macrobenchmark +
                             Perfetto for repeatable measurement. Gradle dependency audit to track ML Kit
                             background work.</li>
+                        <li><strong>Quality:</strong> 28-finding security/performance/reliability audit.
+                            <code>flutter analyze</code>, <code>flutter test</code>, <code>lintRelease</code>,
+                            release APK install + real-device route testing. Strict Dart analyzer with
+                            <code>strict-casts</code> and <code>strict-inference</code>.</li>
                     </ul>
 
                     <div class="project-showcase__gallery">
@@ -394,6 +470,9 @@ flowchart LR
                             <span class="tech-tag">CameraX</span>
                             <span class="tech-tag">ML Kit</span>
                             <span class="tech-tag">AlarmManager</span>
+                            <span class="tech-tag">GeofencingClient</span>
+                            <span class="tech-tag">FusedLocation</span>
+                            <span class="tech-tag">MapLibre</span>
                             <span class="tech-tag">LoudnessEnhancer</span>
                             <span class="tech-tag">Riverpod</span>
                         </div>
@@ -405,11 +484,14 @@ flowchart LR
                             <li>Flutter/Native Split Architecture</li>
                             <li>Persisted Session Stack</li>
                             <li>Mission-Driven Dismissal</li>
+                            <li>Hybrid Geofence + Approach Assist</li>
+                            <li>10-State Location Health Model</li>
                             <li>Direct-Boot Recovery</li>
                             <li>MediaPlayer Playback Controller</li>
                             <li>Custom Tone Import Pipeline</li>
                             <li>Speaker-Only Loudness Enhancement</li>
                             <li>Native Vision Pipeline</li>
+                            <li>28-Finding Security Audit</li>
                             <li>Macrobenchmark + Perfetto Tooling</li>
                             <li>Decomposition-Driven Refactoring</li>
                         </ul>

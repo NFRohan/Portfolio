@@ -5,12 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google-site-verification" content="_pjsscIRGK__z38V9d5_vNV1UnR6isKisqLa_xOjXb8" />
-  <title>Nayeem Fardin — Systems Engineer & ML Practitioner</title>
+  <title>Nayeem Fardin — Backend &amp; Infrastructure Engineer</title>
   <meta name="description"
-    content="Portfolio of Nayeem Fardin — Systems Engineer, ML Practitioner, and Cloud Native Builder. Explore projects in MLOps, distributed systems, and AI." />
+    content="Portfolio of Nayeem Fardin — Backend & Infrastructure Engineer specializing in distributed systems, cloud-native infrastructure, and reliability engineering." />
   <meta name="author" content="Nayeem Fardin" />
   <meta name="keywords"
-    content="Nayeem Fardin, systems engineer, ML practitioner, cloud native, portfolio, distributed systems, MLOps, Kubernetes, AWS, Flutter, Go, Python" />
+    content="Nayeem Fardin, backend engineer, infrastructure engineer, reliability engineering, distributed systems, cloud native, Kubernetes, AWS, Flutter, Go, Python" />
   <link rel="canonical" href="https://nayeemfardin.vercel.app/" />
 
   <!-- JSON-LD Structured Data -->
@@ -22,36 +22,36 @@
         "@type": "WebSite",
         "name": "Nayeem Fardin — Engineering Portfolio",
         "url": "https://nayeemfardin.vercel.app",
-        "description": "Portfolio of Nayeem Fardin — Systems Engineer, ML Practitioner, and Cloud Native Builder."
+        "description": "Portfolio of Nayeem Fardin — Backend & Infrastructure Engineer specializing in distributed systems and reliability."
       },
       {
         "@type": "Person",
         "name": "Nayeem Fardin",
         "url": "https://nayeemfardin.vercel.app",
-        "jobTitle": "Systems Engineer & ML Practitioner",
+        "jobTitle": "Backend & Infrastructure Engineer",
         "sameAs": [
           "https://github.com/NFRohan",
           "https://www.linkedin.com/in/nayeem-fardin-bb902a202/"
         ],
-        "knowsAbout": ["Distributed Systems", "Machine Learning", "Cloud Native Infrastructure", "Mobile Systems Engineering", "MLOps"]
+        "knowsAbout": ["Distributed Systems", "Cloud Native Infrastructure", "Reliability Engineering", "Backend Engineering", "Mobile Systems Engineering"]
       }
     ]
   }
   </script>
 
   <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="Engineering Portfolio" />
+  <meta property="og:title" content="Nayeem Fardin — Engineering Portfolio" />
   <meta property="og:description"
-    content="Systems Engineer & ML Practitioner crafting robust backends, MLOps pipelines, and cloud-native infrastructure." />
+    content="Backend & Infrastructure Engineer specializing in distributed systems, reliability engineering, and cloud-native infrastructure." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://nayeemfardin.vercel.app" />
   <meta property="og:image" content="https://nayeemfardin.vercel.app/background.png" />
 
   <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Engineering Portfolio" />
+  <meta name="twitter:title" content="Nayeem Fardin — Engineering Portfolio" />
   <meta name="twitter:description"
-    content="Systems Engineer & ML Practitioner crafting robust backends, MLOps pipelines, and cloud-native infrastructure." />
+    content="Backend & Infrastructure Engineer specializing in distributed systems, reliability engineering, and cloud-native infrastructure." />
   <meta name="twitter:image" content="https://nayeemfardin.vercel.app/background.png" />
   <!-- Fonts -->
   <!-- Prevent FOUC (Flash of Unstyled Content) -->
@@ -119,7 +119,7 @@
     <div class="hero__content">
       <p class="hero__greeting">Hi, I'm</p>
       <h1 class="hero__name">NAYEEM<br />FARDIN</h1>
-      <p class="hero__subtitle" id="subtitle">Systems Engineer</p>
+      <p class="hero__subtitle" id="subtitle">Backend Engineer</p>
       <div class="hero__cta">
         <a href="#projects" class="brutalist-btn brutalist-btn--primary">View Projects</a>
         <a href="/resume.pdf" class="brutalist-btn brutalist-btn--secondary" target="_blank"
@@ -165,11 +165,11 @@
       <div class="about__grid">
         <div class="about__bio reveal">
           <p>
-            I'm a Computer Science undergrad at <strong>Islamic University of Technology</strong> who builds things that
-            scale and break gracefully.
-            My sweet spot is the intersection of <strong>ML systems</strong>, <strong>cloud infrastructure</strong>, and
-            <strong>backend engineering</strong> —
-            I enjoy taking models from notebooks to production with proper observability, CI/CD, and cost-awareness.
+            I'm a Computer Science undergrad at <strong>Islamic University of Technology</strong> who builds backend
+            systems designed to scale and break gracefully.
+            My focus is <strong>distributed infrastructure</strong>, <strong>reliability engineering</strong>, and
+            <strong>cloud-native operations</strong> —
+            I enjoy designing systems with proper observability, resilient failure modes, and cost-conscious architecture.
           </p>
         </div>
         <div class="about__education reveal">
@@ -371,18 +371,20 @@
             <span class="tech-tag">CameraX</span>
             <span class="tech-tag">ML Kit</span>
             <span class="tech-tag">AlarmManager</span>
+            <span class="tech-tag">GeofencingClient</span>
+            <span class="tech-tag">MapLibre</span>
           </div>
           <ul class="project-card__highlights">
             <li><strong>Flutter/Native split:</strong> Flutter UI shell backed by a Kotlin alarm engine that
               owns scheduling, ringing, recovery, and dismissal authority.</li>
+            <li><strong>Location alarms</strong> via <code>GeofencingClient</code> with hybrid geofence +
+              passive approach-assist and <strong>10-state health model</strong> per alarm.</li>
             <li>Mission-based dismissal with <strong>native inactivity enforcement</strong> — math, steps
               (<code>TYPE_STEP_DETECTOR</code>), and QR (<strong>CameraX + ML Kit</strong>) missions.</li>
             <li><strong>Direct-boot persistence</strong> and reboot recovery before first unlock via
               device-protected storage and <code>LOCKED_BOOT_COMPLETED</code>.</li>
-            <li><strong>Overlapping alarm session stack</strong> — preempt/preserve/resume semantics fix a real
-              concurrency correctness bug.</li>
-            <li>Security audit, <strong>Macrobenchmark</strong> performance tooling, and signed release pipeline
-              via <strong>GitHub Actions</strong>.</li>
+            <li><strong>28-finding</strong> security/performance/reliability audit driving a dedicated
+              hardening sprint. <strong>Macrobenchmark</strong> + Perfetto performance tooling.</li>
           </ul>
         </article>
 
@@ -550,6 +552,8 @@
       <p class="contact__text reveal">Got a project idea, internship opportunity, or just want to chat? Hit me up.</p>
       <div class="contact__links reveal">
         <a href="mailto:nayeemfardin00@gmail.com" class="brutalist-btn brutalist-btn--primary">Email Me</a>
+        <a href="https://github.com/NFRohan" target="_blank" rel="noopener"
+          class="brutalist-btn brutalist-btn--secondary">GitHub</a>
         <a href="https://www.linkedin.com/in/nayeem-fardin-bb902a202/" target="_blank" rel="noopener"
           class="brutalist-btn brutalist-btn--secondary">LinkedIn</a>
       </div>
