@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RetailOS Lite | Nayeem Fardin</title>
+    <meta name="description"
+        content="RetailOS Lite: AI-native retail execution system with async YOLO shelf analysis, fraud detection, outlet governance, RAG assistant, and full LGTM observability." />
+    <meta name="author" content="Nayeem Fardin" />
+    <meta name="keywords"
+        content="RetailOS Lite, retail execution, YOLO, shelf detection, compliance scoring, fraud detection, BullMQ, FastAPI, Next.js, RAG, Pinecone, observability, Nayeem Fardin" />
+    <link rel="canonical" href="https://nayeemfardin.vercel.app/retailos-lite.html" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "RetailOS Lite — AI-Native Retail Execution System",
+        "description": "Engineering case study of a full-stack retail execution platform with async AI shelf analysis, multi-signal fraud detection, governed outlet master data, RAG assistant, and production-shaped observability.",
+        "author": { "@type": "Person", "name": "Nayeem Fardin" },
+        "url": "https://nayeemfardin.vercel.app/retailos-lite.html",
+        "datePublished": "2026-06-01"
+    }
+    </script>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="RetailOS Lite | Nayeem Fardin" />
+    <meta property="og:description"
+        content="AI-native retail execution system with async shelf analysis, fraud detection, and RAG-based operational intelligence." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://nayeemfardin.vercel.app/retailos-lite.html" />
+    <meta property="og:image" content="https://nayeemfardin.vercel.app/background.png" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RetailOS Lite | Nayeem Fardin" />
+    <meta name="twitter:description"
+        content="AI-native retail execution system with async shelf analysis, fraud detection, and RAG-based operational intelligence." />
+    <meta name="twitter:image" content="https://nayeemfardin.vercel.app/background.png" />
+
+    <!-- Fonts -->
+    <!-- Prevent FOUC (Flash of Unstyled Content) -->
+    <script>
+        (function () {
+            const saved = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/project-styles.css" />
+
+    <!-- Vercel Web Analytics -->
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <!-- Vercel Speed Insights -->
+    <script>
+        window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+
+<body>
+
+    <!-- ===== NAV ===== -->
+    <nav class="nav" id="nav">
+        <a href="/index.html" class="nav__logo">NF<span class="accent">.</span></a>
+        <div class="nav__links">
+            <a href="/index.html#about">About</a>
+            <a href="/index.html#projects">Projects</a>
+            <a href="/index.html#experience">Experience</a>
+            <a href="/index.html#contact">Contact</a>
+        </div>
+        <div class="nav__actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span class="theme-toggle__icon theme-toggle__icon--sun">☀️</span>
+                <span class="theme-toggle__icon theme-toggle__icon--moon">🌙</span>
+            </button>
+            <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== MOBILE MENU ===== -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/index.html#about">About</a>
+        <a href="/index.html#projects">Projects</a>
+        <a href="/index.html#experience">Experience</a>
+        <a href="/index.html#contact">Contact</a>
+    </div>
+
+    <main class="project-showcase">
+        <div class="container">
+
+            <a href="/index.html#projects" class="brutalist-back-btn">
+                <span>&#8592;</span> Back to Projects
+            </a>
+
+            <header class="project-showcase__header">
+                <h1 class="project-showcase__title">RetailOS Lite</h1>
+                <p class="project-showcase__subtitle">AI-native retail execution system. Async YOLO shelf analysis,
+                    multi-signal fraud detection, governed outlet master data, RAG-grounded supervisor assistant,
+                    offline-first rep workflow, and full LGTM observability — built in a 72-hour sprint with
+                    production-shaped boundaries throughout.</p>
+
+                <div class="project-showcase__links">
+                    <a href="https://github.com/NFRohan/RetailOS-Lite" target="_blank" rel="noopener"
+                        class="brutalist-btn brutalist-btn--primary">View on GitHub ↗</a>
+                </div>
+            </header>
+
+            <div class="project-showcase__content">
+                <article class="project-showcase__body">
+
+                    <h2>Overview</h2>
+                    <p>RetailOS Lite is a complete field rep → AI analysis → supervisor decision pipeline for retail
+                        execution. A rep checks in at an outlet with GPS, uploads a shelf image, and the system
+                        handles everything else asynchronously: YOLO detects products and competitors, OpenAI reasons
+                        about POSM and shelf quality, deterministic rules produce inspectable compliance scores, and
+                        fraud checks flag suspicious submissions — all before the supervisor opens the dashboard.</p>
+                    <p>The interesting engineering is not any single feature — it's how <strong>nine subsystems</strong>
+                        (visit workflow, async queue, AI service, fraud engine, outlet governance, RAG assistant,
+                        offline sync, observability, and RBAC) compose into a coherent product with
+                        <strong>production-shaped boundaries</strong>: every heavy operation is async, every flagged
+                        visit is explainable, and every service boundary is independently deployable.</p>
+
+                    <h2>Engineering Highlights</h2>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Async AI Pipeline — Worker-Owned Analysis</div>
+                        <p><strong>The Problem:</strong> YOLO inference + OpenAI vision + compliance scoring + report
+                            generation can take 10–30 seconds. Running that in a Next.js request handler blocks the
+                            rep, risks timeouts, and makes the system brittle under concurrent visits.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> Visit submission returns immediately
+                            with status <code>ANALYZING</code>. A <strong>BullMQ worker</strong> consumes
+                            <code>analyze_visit</code> jobs, orchestrates fraud checks → AI service call → result
+                            persistence → report generation → vector indexing as a durable pipeline. Failed jobs
+                            retry with backoff and land in a <strong>DLQ</strong> with admin replay via CLI or API.
+                            The worker exposes <strong>Prometheus counters and histograms</strong> per stage —
+                            job duration, YOLO latency, LLM latency, failure count — so queue health is
+                            measurable, not guessed.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Multi-Signal Fraud Detection</div>
+                        <p><strong>The Problem:</strong> Field reps can reuse old photos, submit from the wrong
+                            location, backdate timestamps, or strip EXIF and re-upload. No single check catches
+                            all of it, and overzealous detection creates false positives that erode trust.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> Five independent fraud signals, each
+                            with <strong>calibrated severity</strong> and explicit reasons:</p>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem;">
+                            <li><strong>Exact duplicate</strong> — SHA-256 hash match against all prior images
+                                (severity: HIGH)</li>
+                            <li><strong>Perceptual duplicate</strong> — dHash with Hamming distance thresholds
+                                (HIGH ≤4, MEDIUM ≤8)</li>
+                            <li><strong>GPS mismatch</strong> — Haversine distance between check-in and outlet
+                                coordinates (configurable threshold, default 200m)</li>
+                            <li><strong>Timestamp anomaly</strong> — future-dated or delayed client timestamps
+                                (configurable threshold, default 6h)</li>
+                            <li><strong>EXIF analysis</strong> — embedded GPS and capture-time cross-checked
+                                against visit metadata; missing EXIF is not penalized</li>
+                        </ul>
+                        <p>Fraud runs <strong>before</strong> AI analysis in the worker pipeline — if the image
+                            is a known duplicate, there's no reason to burn GPU or LLM credits analyzing it again.
+                            Dashboard risk status is derived from signal severity and compliance score, not from
+                            a black-box model.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Outlet Governance — Not Simple CRUD</div>
+                        <p><strong>The Problem:</strong> Reps type shop names quickly and inconsistently. Naïve
+                            create-on-submit produces duplicates fast: "Rahim Store", "Rahim's Store",
+                            "Rahim Stroe" become three separate outlets with fragmented visit history.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> A <strong>matching pipeline</strong>
+                            with DB-assisted prefiltering (<code>pg_trgm</code> similarity + bounding-box geo),
+                            weighted name/geo scoring (0.6/0.4), and three-tier resolution:</p>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem;">
+                            <li><strong>Auto-match</strong> — confidence ≥0.9 within 75m with sufficient margin →
+                                link to existing outlet + create alias</li>
+                            <li><strong>Review queue</strong> — mid-confidence → supervisor approves, rejects, or
+                                merges</li>
+                            <li><strong>New outlet</strong> — low confidence → create as UNVERIFIED, await supervisor
+                                verification</li>
+                        </ul>
+                        <p>Duplicate merge is <strong>not deletion</strong>: visits are retargeted, report text is
+                            updated, aliases are copied, and affected Pinecone vectors are reindexed — preserving
+                            full reporting history across the canonical outlet.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">RAG Assistant — Exact Context Before Vector Search</div>
+                        <p><strong>The Problem:</strong> "Which outlets have fraud signals?" is a list question.
+                            Vector similarity search can return visually similar reports, but it can't reliably
+                            produce an exact compliance/fraud list. Standard RAG would hallucinate or omit entries.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> The assistant uses a
+                            <strong>two-tier retrieval strategy</strong>. Operational questions (fraud lists,
+                            compliance failures, POSM gaps) are answered from <strong>exact Prisma queries</strong>
+                            against <code>VisitReport</code> + joined visit/outlet/AI/fraud data. Narrative
+                            questions ("summarize recurring shelf issues") use <strong>Pinecone semantic search</strong>
+                            over embedded visit reports. The LLM receives both contexts with explicit rules:
+                            prefer exact data for lists, use vector matches for patterns. Every answer includes
+                            <strong>citations</strong> with visit IDs and outlet names.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">YOLO + LLM — Right Model for Each Job</div>
+                        <p><strong>The Problem:</strong> YOLO can't detect POSM (it wasn't trained on it). LLMs
+                            can't reliably count products in dense shelves. Using one model for everything produces
+                            bad results and is hard to debug.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> A strict model-per-task boundary.
+                            <strong>YOLO</strong> (custom-trained, 1280px inference) handles product counts,
+                            competitor detection, share-of-shelf metrics, and overlay generation. <strong>OpenAI
+                            vision</strong> handles POSM reasoning, shelf quality assessment, and supervisor
+                            summaries. <strong>Compliance scoring is deterministic</strong> — starts at 100, applies
+                            rule-based penalties — so scores are inspectable and stable across runs.
+                            If OpenAI fails, analysis still succeeds on YOLO-only with a warning, not a crash.</p>
+                        <p>Inference is routable: <code>RETAILOS_YOLO_BACKEND</code> switches between local CPU
+                            and <strong>Modal GPU</strong> with automatic local fallback on Modal failure.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Offline-First Rep Workflow</div>
+                        <p><strong>The Problem:</strong> Field reps visit shops with unreliable mobile connectivity.
+                            If the app requires a live connection to submit, visits are lost or reps have to
+                            re-enter data later.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> Visit drafts and shelf image blobs
+                            are persisted to <strong>IndexedDB</strong> with client-generated IDs.
+                            <strong>TanStack Query</strong> persistence keeps the mutation queue durable across
+                            tab switches and browser restarts. When connectivity returns, the queue drains
+                            automatically: image upload first, visit submission second, analysis enqueue third.
+                            <strong>Idempotency keys</strong> prevent duplicate visits from retried uploads.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Observability — Four Layers Deep</div>
+                        <p><strong>The Problem:</strong> An async system with queues, workers, and external AI
+                            services has many failure modes. "The visit is stuck at ANALYZING" is useless without
+                            stage-level visibility.</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> Four complementary observability
+                            layers:</p>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem;">
+                            <li><strong>EventLog</strong> — product-native audit timeline
+                                (<code>VISIT_SUBMITTED</code> → <code>ANALYZE_VISIT_QUEUED</code> →
+                                <code>FRAUD_CHECKS_COMPLETED</code> → <code>ANALYZE_VISIT_COMPLETED</code>)
+                                with correlation IDs, stage, and latency per event</li>
+                            <li><strong>Prometheus metrics</strong> — three scrape targets (web, worker, AI
+                                service) tracking queue depth, job duration histograms, YOLO/LLM/Pinecone
+                                latency, fraud signal counts, and rate-limit events</li>
+                            <li><strong>LGTM stack</strong> — Grafana + Loki + Tempo + Prometheus with
+                                provisioned dashboards, Promtail log shipping, and trace propagation</li>
+                            <li><strong>Sentry</strong> — error capture across all three services with
+                                environment/release tagging and conservative trace sampling</li>
+                        </ul>
+                        <p>The <code>/supervisor/ops</code> page surfaces queue health, failed jobs, per-stage
+                            latency chips, and collapsible processing timelines — all from EventLog and BullMQ
+                            directly, no Grafana dependency required.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Production Hardening Sprint</div>
+                        <p><strong>The Problem:</strong> A 72-hour sprint produces working features but leaves
+                            security and operational gaps. How do you harden without changing the product flow?</p>
+                        <p><span class="eng-highlight__fix">The Fix:</span> A focused hardening slice
+                            implemented on top of the sprint codebase:</p>
+                        <ul style="margin-top:0.5rem; padding-left:1.5rem;">
+                            <li><strong>Auth</strong> — optional Google OAuth (allowlist-only, no arbitrary
+                                user creation) alongside credentials auth</li>
+                            <li><strong>Rate limiting</strong> — Redis-backed fixed-window throttling on
+                                assistant, upload, visit creation, outlet search, and AI service endpoints;
+                                429 responses include <code>Retry-After</code></li>
+                            <li><strong>Upload hardening</strong> — S3/MinIO pre-signed PUTs with completion
+                                verification; credentials never reach the frontend</li>
+                            <li><strong>Database pooling</strong> — split Prisma <code>DATABASE_URL</code> /
+                                <code>DATABASE_DIRECT_URL</code> for PgBouncer/Accelerate</li>
+                            <li><strong>Queue recovery</strong> — DLQ replay CLI and admin API with dry-run
+                                default and <code>--execute</code> confirmation</li>
+                        </ul>
+                    </div>
+
+                    <h2>Architecture</h2>
+                    <pre class="mermaid">
+flowchart TB
+  subgraph Client["Client Layer"]
+    Rep["Rep Visit App"]
+    Supervisor["Supervisor Console"]
+  end
+
+  subgraph Web["Next.js App Router"]
+    Auth["Auth.js RBAC"]
+    API["API Routes"]
+    Assistant["RAG Assistant API"]
+    OpsPage["/supervisor/ops"]
+  end
+
+  subgraph Data["Data Layer"]
+    DB[("PostgreSQL + Prisma")]
+    Redis[("Redis")]
+    Storage["Image Storage"]
+    EventLog[("EventLog")]
+  end
+
+  subgraph Worker["BullMQ Worker"]
+    Analyze["analyze_visit"]
+    Embed["embed_visit_report"]
+    Alert["send_alert"]
+  end
+
+  subgraph AI["FastAPI AI Service"]
+    YOLO["YOLO Shelf Detection"]
+    LLM["OpenAI POSM + Summary"]
+    Compliance["Compliance Scoring"]
+    RAG["RAG Query Engine"]
+  end
+
+  subgraph External["External Services"]
+    Pinecone[("Pinecone")]
+    Modal["Modal GPU"]
+    Sentry["Sentry"]
+    Grafana["Grafana LGTM"]
+  end
+
+  Rep --> Web
+  Supervisor --> Web
+  Web --> Auth
+  Web --> DB
+  Web --> Redis
+  Web --> Storage
+  Web --> EventLog
+  Redis --> Worker
+  Worker --> AI
+  Worker --> DB
+  Worker --> EventLog
+  AI --> YOLO
+  AI --> LLM
+  AI --> Compliance
+  YOLO -.-> Modal
+  Assistant --> RAG
+  RAG --> Pinecone
+  Embed --> RAG
+  Alert -->|"Twilio WhatsApp"| Supervisor
+  EventLog --> OpsPage
+  Worker --> Sentry
+  AI --> Sentry
+  Web --> Sentry
+  Worker -->|"Prometheus"| Grafana
+  AI -->|"Prometheus"| Grafana
+                    </pre>
+
+                    <h2>Runtime Model</h2>
+                    <ul>
+                        <li><strong>Visit Submission:</strong> GPS check-in, outlet resolution, shelf image upload,
+                            immediate <code>ANALYZING</code> status. Rep never waits for AI.</li>
+                        <li><strong>Worker Pipeline:</strong> BullMQ durable jobs with retries, DLQ, per-stage
+                            metrics. Pipeline: fraud checks → YOLO → OpenAI POSM → compliance scoring → report
+                            generation → vector indexing.</li>
+                        <li><strong>AI Service:</strong> FastAPI with routable YOLO backend (local/Modal GPU),
+                            OpenAI vision for POSM, deterministic compliance rules, overlay generation.
+                            API-key protected outside dev.</li>
+                        <li><strong>Fraud Engine:</strong> Five independent signals with calibrated severity.
+                            Runs before AI to short-circuit expensive analysis on known duplicates.</li>
+                        <li><strong>Outlet Governance:</strong> <code>pg_trgm</code>-assisted matching, weighted
+                            name/geo scoring, three-tier resolution (auto-match / review / new), non-destructive
+                            duplicate merge with Pinecone reindex.</li>
+                        <li><strong>RAG Assistant:</strong> Exact Prisma context for operational queries, Pinecone
+                            semantic search for pattern queries, structured JSON answers with citations.</li>
+                        <li><strong>Offline Sync:</strong> IndexedDB + TanStack Query persistence with
+                            idempotency keys. Auto-drain on reconnect.</li>
+                        <li><strong>Observability:</strong> EventLog timeline, three Prometheus targets,
+                            Grafana LGTM stack, Sentry across all services, ops dashboard with no Grafana
+                            dependency.</li>
+                    </ul>
+
+                </article>
+
+                <aside class="project-sidebar">
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Engineering Focus</div>
+                        <p style="margin:0; font-family:var(--font-primary); font-size:1rem; font-weight:500;">
+                            Full-Stack Systems & AI Operations
+                        </p>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Technologies</div>
+                        <div class="skill-group__badges">
+                            <span class="tech-tag">Next.js 15</span>
+                            <span class="tech-tag">React 19</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">FastAPI</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">Prisma</span>
+                            <span class="tech-tag">BullMQ</span>
+                            <span class="tech-tag">Redis</span>
+                            <span class="tech-tag">YOLO</span>
+                            <span class="tech-tag">OpenAI</span>
+                            <span class="tech-tag">Pinecone</span>
+                            <span class="tech-tag">Modal GPU</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Prometheus</span>
+                            <span class="tech-tag">Grafana</span>
+                            <span class="tech-tag">Sentry</span>
+                            <span class="tech-tag">Auth.js</span>
+                            <span class="tech-tag">Tailwind</span>
+                        </div>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Key Patterns</div>
+                        <ul>
+                            <li>Async Worker Pipeline + DLQ</li>
+                            <li>Multi-Signal Fraud Engine</li>
+                            <li>Governed Outlet Master Data</li>
+                            <li>YOLO + LLM Model Boundary</li>
+                            <li>Exact-First RAG Retrieval</li>
+                            <li>Deterministic Compliance Scoring</li>
+                            <li>Offline-First with IndexedDB</li>
+                            <li>Four-Layer Observability</li>
+                            <li>Redis Rate Limiting</li>
+                            <li>Pre-Signed Upload Pipeline</li>
+                            <li>Non-Destructive Outlet Merge</li>
+                            <li>Routable GPU Inference</li>
+                        </ul>
+                    </div>
+
+                </aside>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="container footer__content">
+            <p class="footer__tagline">Built with Biriyani & Caffeine ☕</p>
+            <p>&copy; 2026 Nayeem Fardin</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="backToTopBtn" class="back-to-top" aria-label="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+    <script type="module" src="/main.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryTextColor: '#1a1a1a',
+                primaryBorderColor: '#1a1a1a',
+                lineColor: '#1a1a1a',
+                secondaryColor: '#ffe156',
+                tertiaryColor: '#fafafa',
+                fontFamily: '"Space Grotesk", sans-serif'
+            }
+        });
+
+        // Add interactive click-to-expand backdrop
+        const backdrop = document.createElement('div');
+        backdrop.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:9998;display:none;cursor:zoom-out;';
+        document.body.appendChild(backdrop);
+
+        document.addEventListener('click', (e) => {
+            const mermaidEl = e.target.closest('.mermaid');
+            if (e.target === backdrop) {
+                const expanded = document.querySelector('.mermaid.expanded');
+                if (expanded) expanded.classList.remove('expanded');
+                backdrop.style.display = 'none';
+                document.body.style.overflow = '';
+            } else if (mermaidEl) {
+                mermaidEl.classList.toggle('expanded');
+                if (mermaidEl.classList.contains('expanded')) {
+                    backdrop.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    backdrop.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>

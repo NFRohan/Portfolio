@@ -1,0 +1,77 @@
+{
+  "uid": "retailos-ops",
+  "title": "RetailOS Lite - AI Operations",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "tags": ["retailos", "ai", "operations"],
+  "time": { "from": "now-1h", "to": "now" },
+  "panels": [
+    {
+      "id": 1,
+      "type": "stat",
+      "title": "Analyze Queue Waiting",
+      "gridPos": { "x": 0, "y": 0, "w": 6, "h": 4 },
+      "targets": [
+        { "expr": "retailos_worker_queue_depth{queue=\"analyze_visit\",state=\"waiting\"}", "refId": "A" }
+      ]
+    },
+    {
+      "id": 2,
+      "type": "stat",
+      "title": "Failed Worker Jobs",
+      "gridPos": { "x": 6, "y": 0, "w": 6, "h": 4 },
+      "targets": [
+        { "expr": "sum(increase(retailos_worker_jobs_failed_total[15m]))", "refId": "A" }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "timeseries",
+      "title": "AI Stage Latency p95",
+      "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(retailos_worker_stage_latency_ms_bucket[5m])) by (le, stage))",
+          "legendFormat": "{{stage}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "timeseries",
+      "title": "Assistant/OpenAI Latency p95",
+      "gridPos": { "x": 0, "y": 4, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(retailos_ai_openai_latency_ms_bucket[5m])) by (le, operation))",
+          "legendFormat": "{{operation}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Fraud Signals",
+      "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+      "targets": [
+        {
+          "expr": "sum(increase(retailos_worker_fraud_signals_total[15m])) by (type, severity)",
+          "legendFormat": "{{type}} / {{severity}}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "type": "logs",
+      "title": "Recent Operational Events",
+      "gridPos": { "x": 0, "y": 12, "w": 24, "h": 10 },
+      "targets": [
+        { "expr": "{job=\"retailos\"}", "refId": "A" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,285 @@
+name: retailos-lite-demo
+
+x-node-env: &node-env
+  APP_ENV: development
+  NODE_ENV: production
+  LOG_LEVEL: info
+  LOG_TO_FILE: "true"
+  LOG_DIR: logs
+  DATABASE_URL: postgresql://retailos:retailos@postgres:5432/retailos
+  DATABASE_DIRECT_URL: postgresql://retailos:retailos@postgres:5432/retailos
+  REDIS_URL: redis://redis:6379
+  RATE_LIMIT_REDIS_URL: redis://redis:6379
+  AI_SERVICE_URL: http://ai-service:8001
+  AUTH_URL: http://localhost:${WEB_PORT:-3000}
+  NEXTAUTH_URL: http://localhost:${WEB_PORT:-3000}
+  AUTH_TRUST_HOST: "true"
+  AUTH_SECRET: ${AUTH_SECRET:-retailos-lite-local-auth-secret-please-change-before-production}
+  NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-retailos-lite-local-auth-secret-please-change-before-production}
+  IMAGE_STORAGE_DRIVER: s3
+  IMAGE_STORAGE_LOCAL_DIR: public/uploads
+  IMAGE_STORAGE_LOCAL_PUBLIC_BASE: /uploads
+  IMAGE_STORAGE_PUBLIC_BASE_URL: http://127.0.0.1:${MINIO_API_PORT:-19000}/retailos-images
+  IMAGE_STORAGE_INTERNAL_BASE_URL: http://minio:9000/retailos-images
+  S3_ENDPOINT: http://minio:9000
+  S3_PRESIGN_ENDPOINT: http://127.0.0.1:${MINIO_API_PORT:-19000}
+  S3_REGION: us-east-1
+  S3_BUCKET: retailos-images
+  S3_ACCESS_KEY_ID: retailos
+  S3_SECRET_ACCESS_KEY: retailos-secret
+  S3_FORCE_PATH_STYLE: "true"
+  S3_PREFIX: uploads
+  ANALYZE_VISIT_QUEUE: analyze_visit
+  ANALYZE_VISIT_DLQ: analyze_visit_dlq
+  EMBED_VISIT_REPORT_QUEUE: embed_visit_report
+  EMBED_VISIT_REPORT_DLQ: embed_visit_report_dlq
+  WORKER_CONCURRENCY: 2
+  WORKER_METRICS_PORT: 9101
+  WORKER_USE_LLM: "true"
+  WORKER_USE_PRISMA: "true"
+  APP_PUBLIC_URL: http://localhost:${WEB_PORT:-3000}
+  TWILIO_WHATSAPP_ENABLED: ${TWILIO_WHATSAPP_ENABLED:-false}
+  TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:-}
+  TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN:-}
+  TWILIO_WHATSAPP_FROM: ${TWILIO_WHATSAPP_FROM:-whatsapp:+14155238886}
+  SUPERVISOR_WHATSAPP_TO: ${SUPERVISOR_WHATSAPP_TO:-}
+
+x-ai-env: &ai-env
+  APP_ENV: development
+  LOG_LEVEL: info
+  LOG_TO_FILE: "true"
+  LOG_DIR: logs
+  RETAILOS_YOLO_MODEL_PATH: /models/best.pt
+  RETAILOS_YOLO_MODEL_NAME: retail-shelf-yolo
+  RETAILOS_YOLO_MODEL_VERSION: v1
+  RETAILOS_YOLO_CONFIDENCE: 0.25
+  RETAILOS_YOLO_IMAGE_SIZE: 1280
+  RETAILOS_YOLO_BACKEND: local
+  RETAILOS_YOLO_FALLBACK_LOCAL: "true"
+  RETAILOS_PUBLIC_BASE_URL: ""
+  RETAILOS_LLM_ENABLED: ${RETAILOS_LLM_ENABLED:-true}
+  AI_SERVICE_RATE_LIMIT_ENABLED: ${AI_SERVICE_RATE_LIMIT_ENABLED:-true}
+  AI_SERVICE_RATE_LIMIT_PER_MINUTE: ${AI_SERVICE_RATE_LIMIT_PER_MINUTE:-60}
+  AI_SERVICE_RATE_LIMIT_FAIL_OPEN: ${AI_SERVICE_RATE_LIMIT_FAIL_OPEN:-false}
+  AI_SERVICE_RATE_LIMIT_REDIS_URL: redis://redis:6379
+  RETAILOS_LLM_PROVIDER: openai
+  RETAILOS_LLM_MODEL: ${RETAILOS_LLM_MODEL:-gpt-5.4-mini}
+  RETAILOS_CHAT_MODEL: ${RETAILOS_CHAT_MODEL:-gpt-5.4-mini}
+  RETAILOS_EMBEDDING_MODEL: ${RETAILOS_EMBEDDING_MODEL:-text-embedding-3-small}
+  RETAILOS_EMBEDDING_DIMENSIONS: ${RETAILOS_EMBEDDING_DIMENSIONS:-512}
+  PINECONE_NAMESPACE: ${PINECONE_NAMESPACE:-retailos-visit-reports}
+  SENTRY_DSN: ${SENTRY_DSN:-}
+  SENTRY_RELEASE: ${SENTRY_RELEASE:-retailos-lite-demo}
+  SENTRY_TRACES_SAMPLE_RATE: ${SENTRY_TRACES_SAMPLE_RATE:-0.1}
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: retailos
+      POSTGRES_PASSWORD: retailos
+      POSTGRES_DB: retailos
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U retailos -d retailos"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "${MINIO_API_PORT:-19000}:9000"
+      - "${MINIO_CONSOLE_PORT:-19001}:9001"
+    environment:
+      MINIO_ROOT_USER: retailos
+      MINIO_ROOT_PASSWORD: retailos-secret
+    command: ["server", "/data", "--console-address", ":9001"]
+    volumes:
+      - minio-data:/data
+
+  minio-init:
+    image: minio/mc:latest
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      until /usr/bin/mc alias set local http://minio:9000 retailos retailos-secret; do sleep 2; done;
+      /usr/bin/mc mb -p local/retailos-images || true;
+      /usr/bin/mc anonymous set download local/retailos-images || true;
+      cat > /tmp/retailos-cors.json <<'EOF'
+      [{\"AllowedOrigins\":[\"*\"],\"AllowedMethods\":[\"GET\",\"PUT\",\"HEAD\"],\"AllowedHeaders\":[\"*\"],\"ExposeHeaders\":[\"ETag\"],\"MaxAgeSeconds\":3000}]
+      EOF
+      /usr/bin/mc cors set local/retailos-images /tmp/retailos-cors.json || true;
+      "
+
+  ai-service:
+    image: retailos-lite-demo-ai-service:latest
+    build:
+      context: .
+      dockerfile: ai_service/Dockerfile
+      provenance: false
+    env_file:
+      - path: ai_service/.env
+        required: false
+    environment:
+      <<: *ai-env
+    ports:
+      - "${AI_SERVICE_PORT:-8001}:8001"
+    volumes:
+      - ./Detection Model/best.pt:/models/best.pt:ro
+      - uploads-data:/app/public/uploads
+      - ai-storage:/app/ai_service/storage
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  app-init:
+    image: retailos-lite-demo-tools:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: tools
+      provenance: false
+    environment:
+      <<: *node-env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: ["sh", "-c", "npm run db:push && npm run db:extensions && npm run db:seed"]
+
+  web:
+    image: retailos-lite-demo-web:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web-runner
+      provenance: false
+    environment:
+      <<: *node-env
+      PORT: 3000
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    volumes:
+      - uploads-data:/app/public/uploads
+      - ./logs:/app/logs
+    depends_on:
+      app-init:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      ai-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/login"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+
+  worker:
+    image: retailos-lite-demo-worker:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: worker-runner
+      provenance: false
+    environment:
+      <<: *node-env
+    ports:
+      - "${WORKER_METRICS_HOST_PORT:-9101}:9101"
+    volumes:
+      - uploads-data:/app/public/uploads
+      - ./logs:/app/logs
+    depends_on:
+      app-init:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+      ai-service:
+        condition: service_healthy
+
+  grafana:
+    image: grafana/grafana:11.4.0
+    ports:
+      - "${GRAFANA_PORT:-3005}:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: retailos
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+    depends_on:
+      - prometheus
+      - loki
+      - tempo
+
+  loki:
+    image: grafana/loki:3.3.2
+    ports:
+      - "${LOKI_PORT:-3100}:3100"
+    command: ["-config.file=/etc/loki/local-config.yaml"]
+    volumes:
+      - ./observability/loki/config.yaml:/etc/loki/local-config.yaml:ro
+      - loki-data:/loki
+
+  promtail:
+    image: grafana/promtail:3.3.2
+    command: ["-config.file=/etc/promtail/config.yml"]
+    volumes:
+      - ./observability/promtail/config.yml:/etc/promtail/config.yml:ro
+      - ./logs:/var/log/retailos:ro
+    depends_on:
+      - loki
+
+  tempo:
+    image: grafana/tempo:2.6.1
+    ports:
+      - "${TEMPO_PORT:-3200}:3200"
+      - "${OTLP_GRPC_PORT:-4317}:4317"
+      - "${OTLP_HTTP_PORT:-4318}:4318"
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./observability/tempo/config.yaml:/etc/tempo.yaml:ro
+      - tempo-data:/var/tempo
+
+  prometheus:
+    image: prom/prometheus:v3.0.1
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.retention.time=2d"
+    volumes:
+      - ./observability/prometheus/prometheus.demo.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+
+volumes:
+  postgres-data:
+  redis-data:
+  minio-data:
+  uploads-data:
+  ai-storage:
+  grafana-data:
+  loki-data:
+  tempo-data:
+  prometheus-data:

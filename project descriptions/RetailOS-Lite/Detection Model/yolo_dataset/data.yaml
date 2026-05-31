@@ -1,0 +1,13 @@
+# Olympic Shelf Product Detection Dataset
+# Classes: Olympic branded noodles vs competitor noodles
+# For YOLOv11 training
+
+path: .
+train: images/train
+val: images/val
+
+names:
+  0: foodie_noodles_olympics
+  1: mr_noodles_competitor
+
+nc: 2

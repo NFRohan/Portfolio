@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect fill="#1e293b" width="800" height="600"/>
+  <rect fill="#334155" x="40" y="80" width="720" height="440" rx="8"/>
+  <text x="400" y="310" text-anchor="middle" fill="#64748b" font-family="sans-serif" font-size="24">Shelf photo placeholder</text>
+  <rect fill="#E8A317" x="120" y="200" width="80" height="120" rx="4" opacity="0.6"/>
+  <rect fill="#E07A5F" x="220" y="180" width="90" height="140" rx="4" opacity="0.6"/>
+  <rect fill="#E07A5F" x="340" y="190" width="85" height="130" rx="4" opacity="0.6"/>
+</svg>

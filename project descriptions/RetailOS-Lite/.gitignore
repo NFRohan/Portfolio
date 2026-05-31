@@ -1,0 +1,119 @@
+# =============================================================================
+# RetailOS Lite — monorepo (.gitignore)
+# Next.js + Prisma + BullMQ worker + FastAPI ai_service + YOLO
+# =============================================================================
+
+# --- Dependencies (Node) -----------------------------------------------------
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+.pnpm-store/
+
+# --- Next.js -----------------------------------------------------------------
+.next/
+out/
+*.tsbuildinfo
+
+# --- Build / production ------------------------------------------------------
+build/
+dist/
+.vercel
+
+# --- Environment & secrets (never commit) ------------------------------------
+.env
+.env.*
+!.env.example
+!.env*.example
+*.pem
+*.key
+
+# --- Logs & debug ------------------------------------------------------------
+logs/
+archives/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# --- Testing & coverage ------------------------------------------------------
+coverage/
+.nyc_output/
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+
+# --- Prisma / SQLite (Postgres is external via Docker) -----------------------
+prisma/*.db
+prisma/*.db-journal
+prisma/migrations/**/migration_lock.toml.bak
+
+# --- User uploads & generated artifacts --------------------------------------
+public/uploads/*
+!public/uploads/.gitkeep
+
+ai_service/storage/uploads/*
+!ai_service/storage/uploads/.gitkeep
+ai_service/storage/overlays/*
+!ai_service/storage/overlays/.gitkeep
+
+# --- Python (ai_service, modal_gpu, Detection Model) -------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.eggs/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# --- ML / YOLO (large binaries & training outputs) -----------------------------
+*.pt
+*.pth
+*.onnx
+*.engine
+*.weights
+
+Detection Model/best.pt
+Detection Model/**/weights/
+Detection Model/**/runs/
+Detection Model/**/wandb/
+
+# Shelf images are large — keep labels/yaml/scripts; fetch images separately
+Detection Model/yolo_dataset/images/
+!Detection Model/yolo_dataset/images/.gitkeep
+
+# --- Worker local runtime (Prisma is source of truth for prod/demo) ----------
+worker/data/db.json
+
+# --- Docker (local volume data not in repo) ------------------------------------
+# Named volumes live outside the repo; nothing to ignore here.
+
+# --- OS & editors ------------------------------------------------------------
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# --- Turbo / tooling ---------------------------------------------------------
+.turbo
+
+# --- Optional local overrides ------------------------------------------------
+*.local

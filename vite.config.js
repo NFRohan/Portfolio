@@ -13,6 +13,7 @@ export default defineConfig({
                 routinemaker: resolve(__dirname, 'routine-maker.html'),
                 interviewprepper: resolve(__dirname, 'interview-prepper.html'),
                 neoalarm: resolve(__dirname, 'neoalarm.html'),
+                retailos: resolve(__dirname, 'retailos-lite.html'),
             },
         },
     },

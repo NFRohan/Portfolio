@@ -1,0 +1,222 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_DIRECT_URL")
+}
+
+enum Role {
+  REP
+  SUPERVISOR
+  ADMIN
+}
+
+enum VisitStatus {
+  PENDING
+  ANALYZING
+  COMPLETE
+  FLAGGED
+  FAILED
+}
+
+enum OutletVerificationStatus {
+  VERIFIED
+  UNVERIFIED
+  REJECTED
+}
+
+enum OutletSubmissionStatus {
+  AUTO_MATCHED
+  PENDING_REVIEW
+  NEW_OUTLET
+  APPROVED
+  REJECTED
+  MERGED
+}
+
+model User {
+  id                        String             @id @default(cuid())
+  name                      String
+  email                     String             @unique
+  passwordHash              String
+  role                      Role
+  visits                    Visit[]
+  outletSubmissions         OutletSubmission[] @relation("RepOutletSubmissions")
+  reviewedOutletSubmissions OutletSubmission[] @relation("ReviewedOutletSubmissions")
+  createdAt                 DateTime           @default(now())
+}
+
+model Outlet {
+  id                 String                   @id @default(cuid())
+  name               String
+  normalizedName     String?
+  code               String                   @unique
+  address            String?
+  latitude           Float?
+  longitude          Float?
+  verificationStatus OutletVerificationStatus @default(VERIFIED)
+  verifiedAt         DateTime?
+  createdByVisitId   String?
+  createdById        String?
+  approvedById       String?
+  visits             Visit[]
+  aliases            OutletAlias[]
+  matchedSubmissions OutletSubmission[]       @relation("MatchedOutletSubmissions")
+  createdSubmissions OutletSubmission[]       @relation("CreatedOutletSubmissions")
+  createdAt          DateTime                 @default(now())
+
+  @@index([normalizedName])
+  @@index([verificationStatus, createdAt])
+}
+
+model OutletAlias {
+  id                 String   @id @default(cuid())
+  outletId           String
+  aliasName          String
+  normalizedAlias    String
+  sourceSubmissionId String?
+  outlet             Outlet   @relation(fields: [outletId], references: [id], onDelete: Cascade)
+  createdAt          DateTime @default(now())
+
+  @@unique([outletId, normalizedAlias])
+  @@index([normalizedAlias])
+}
+
+model OutletSubmission {
+  id              String                 @id @default(cuid())
+  repId           String
+  submittedName   String
+  normalizedName  String
+  submittedLat    Float?
+  submittedLng    Float?
+  matchedOutletId String?
+  createdOutletId String?
+  visitId         String?
+  matchConfidence Float?
+  status          OutletSubmissionStatus
+  possibleMatches Json?
+  reviewedById    String?
+  reviewedAt      DateTime?
+  createdAt       DateTime               @default(now())
+  rep             User                   @relation("RepOutletSubmissions", fields: [repId], references: [id])
+  reviewedBy      User?                  @relation("ReviewedOutletSubmissions", fields: [reviewedById], references: [id])
+  matchedOutlet   Outlet?                @relation("MatchedOutletSubmissions", fields: [matchedOutletId], references: [id])
+  createdOutlet   Outlet?                @relation("CreatedOutletSubmissions", fields: [createdOutletId], references: [id])
+
+  @@index([status, createdAt])
+  @@index([normalizedName])
+  @@index([matchedOutletId])
+  @@index([createdOutletId])
+  @@index([visitId])
+}
+
+model Visit {
+  id              String        @id @default(cuid())
+  clientVisitId   String?       @unique
+  outletId        String
+  repId           String
+  status          VisitStatus   @default(PENDING)
+  checkInLat      Float?
+  checkInLng      Float?
+  clientTimestamp DateTime?
+  notes           String?
+  outlet          Outlet        @relation(fields: [outletId], references: [id])
+  rep             User          @relation(fields: [repId], references: [id])
+  images          VisitImage[]
+  aiResult        AIResult?
+  report          VisitReport?
+  fraudSignals    FraudSignal[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([createdAt])
+  @@index([repId, createdAt])
+  @@index([outletId, createdAt])
+  @@index([status, createdAt])
+}
+
+model VisitImage {
+  id        String   @id @default(cuid())
+  visitId   String
+  url       String
+  localPath String?
+  imageHash String?
+  metadata  Json?
+  visit     Visit    @relation(fields: [visitId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([visitId])
+  @@index([imageHash])
+}
+
+model AIResult {
+  id                String   @id @default(cuid())
+  visitId           String   @unique
+  analysisSource    String
+  detectorModel     String?
+  detectorVersion   String?
+  complianceScore   Int
+  status            String
+  supervisorSummary String
+  yoloDetections    Json?
+  detectedProducts  Json
+  competitors       Json
+  posm              Json?
+  overlayImageUrl   String?
+  outcomeSummary    Json?
+  rawModelOutput    Json
+  visit             Visit    @relation(fields: [visitId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+}
+
+model VisitReport {
+  id            String   @id @default(cuid())
+  visitId       String   @unique
+  outletId      String
+  title         String
+  summary       String
+  retrievalText String
+  facts         Json
+  visit         Visit    @relation(fields: [visitId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([outletId])
+  @@index([updatedAt])
+}
+
+model FraudSignal {
+  id        String   @id @default(cuid())
+  visitId   String
+  type      String
+  severity  String
+  message   String
+  metadata  Json?
+  visit     Visit    @relation(fields: [visitId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([visitId])
+  @@index([type, createdAt])
+}
+
+model EventLog {
+  id        String   @id @default(cuid())
+  visitId   String?
+  jobId     String?
+  event     String
+  level     String
+  traceId   String?
+  actorId   String?
+  actorRole String?
+  actorType String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([actorId, createdAt])
+  @@index([visitId, createdAt])
+  @@index([event, createdAt])
+}

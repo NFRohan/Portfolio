@@ -1,0 +1,39 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: retailos-json-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: retailos
+          __path__: /var/log/retailos/*.log
+    pipeline_stages:
+      - json:
+          expressions:
+            service: service
+            environment: environment
+            stage: stage
+            status: status
+            correlationId: correlationId
+            visitId: visitId
+            outletId: outletId
+            latencyMs: latencyMs
+            message: message
+      - labels:
+          service:
+          environment:
+          stage:
+          status:
+      - timestamp:
+          source: time
+          format: RFC3339Nano
+          action_on_failure: skip
