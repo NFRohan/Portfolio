@@ -353,6 +353,57 @@
     background: var(--clr-surface);
 }
 
+.case-hero-media {
+    margin: 40px 0 0;
+    border: var(--border-thick);
+    box-shadow: var(--shadow);
+    background: var(--clr-surface);
+}
+
+.case-hero-media img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.case-hero-media figcaption,
+.case-shot figcaption {
+    border-top: var(--border);
+    padding: 12px 16px;
+    font-family: var(--font-primary);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--clr-muted);
+    background: color-mix(in srgb, var(--clr-surface) 88%, var(--clr-yellow));
+}
+
+.case-screenshot-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+    margin: 32px 0 44px;
+}
+
+.case-shot {
+    margin: 0;
+    border: var(--border-thick);
+    box-shadow: var(--shadow);
+    background: var(--clr-surface);
+}
+
+.case-shot--wide {
+    grid-column: 1 / -1;
+}
+
+.case-shot .project-showcase__gallery-item {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border: 0;
+    box-shadow: none;
+}
+
 /* ============================================================
    INTERACTIVE MEDIA (MERMAID & IMAGES)
    ============================================================ */
@@ -456,6 +507,10 @@ img.expanded {
 
     .case-metric-grid,
     .decision-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .case-screenshot-grid {
         grid-template-columns: 1fr;
     }
 }

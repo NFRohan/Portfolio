@@ -29,13 +29,15 @@
         content="A 72-hour AI-native retail execution sprint turned into a production-shaped system with queues, fraud, RAG, offline sync, and observability." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://nayeemfardin.vercel.app/retailos-lite.html" />
-    <meta property="og:image" content="https://nayeemfardin.vercel.app/background.png" />
+    <meta property="og:image"
+        content="https://nayeemfardin.vercel.app/Images/RetailOS%20Lite%20Images/supervisor-overview.png" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="RetailOS Lite | Nayeem Fardin" />
     <meta name="twitter:description"
         content="AI-native retail execution case study: async shelf analysis, fraud detection, governed outlet data, RAG, offline sync, and ops tooling." />
-    <meta name="twitter:image" content="https://nayeemfardin.vercel.app/background.png" />
+    <meta name="twitter:image"
+        content="https://nayeemfardin.vercel.app/Images/RetailOS%20Lite%20Images/supervisor-overview.png" />
 
     <script>
         (function () {
@@ -127,6 +129,14 @@
                         <span class="case-metric__label">fraud signals with explicit reasons</span>
                     </div>
                 </div>
+
+                <figure class="case-hero-media">
+                    <img src="/Images/RetailOS%20Lite%20Images/supervisor-overview.png"
+                        alt="RetailOS Lite supervisor overview dashboard with visits, compliance, POSM, fraud, and recent visit metrics"
+                        class="project-showcase__gallery-item" loading="eager" />
+                    <figcaption>Supervisor overview: field execution metrics, compliance health, missing POSM, fraud
+                        detections, visit quality, and recent visits in one operational surface.</figcaption>
+                </figure>
             </header>
 
             <div class="project-showcase__content">
@@ -239,6 +249,74 @@ flowchart TB
                         <li><strong>Supervisor reviews:</strong> dashboard, visit logs, outlet verification, ops
                             timelines, and assistant answers all read from persisted state.</li>
                     </ol>
+
+                    <h2>Product Walkthrough</h2>
+                    <p>The screenshots below show the parts that matter most in a live evaluation: a fast rep workflow,
+                        inspectable AI reports, governed outlet creation, assistant-backed insights, and operational
+                        telemetry for the async pipeline.</p>
+
+                    <div class="case-screenshot-grid">
+                        <figure class="case-shot">
+                            <img src="/Images/RetailOS%20Lite%20Images/reporter-view.png"
+                                alt="Reporter visit analysis page showing shelf overlay, AI supervisor summary, share of shelf, POSM details, and fraud status"
+                                class="project-showcase__gallery-item" loading="lazy" />
+                            <figcaption><strong>Rep analysis view.</strong> The rep sees the generated shelf overlay,
+                                supervisor summary, share-of-shelf score, POSM notes, and fraud result after the worker
+                                completes analysis.</figcaption>
+                        </figure>
+
+                        <figure class="case-shot">
+                            <img src="/Images/RetailOS%20Lite%20Images/supervisor-view-report.png"
+                                alt="Supervisor visit report detail with YOLO overlay, compliance reasons, POSM details, and fraud signals"
+                                class="project-showcase__gallery-item" loading="lazy" />
+                            <figcaption><strong>Visit report inspection.</strong> Supervisors can inspect the raw shelf
+                                evidence, YOLO overlay, compliance reasons, POSM audit, fraud signals, and generated
+                                recommendation.</figcaption>
+                        </figure>
+
+                        <figure class="case-shot">
+                            <img src="/Images/RetailOS%20Lite%20Images/supervisor-outlet-verification.png"
+                                alt="Supervisor outlet verification queue showing pending submissions, duplicate hints, and master outlet list"
+                                class="project-showcase__gallery-item" loading="lazy" />
+                            <figcaption><strong>Outlet governance.</strong> Typed shop names are routed through a
+                                review queue with duplicate hints, approve/reject actions, merge semantics, and a master
+                                outlet list.</figcaption>
+                        </figure>
+
+                        <figure class="case-shot">
+                            <img src="/Images/RetailOS%20Lite%20Images/supervisor-ai-insights.png"
+                                alt="Supervisor AI insights page with chatbot interface and operational query answers"
+                                class="project-showcase__gallery-item" loading="lazy" />
+                            <figcaption><strong>AI insights.</strong> The assistant answers operational questions from
+                                exact database context first, then enriches answers with Pinecone semantic report
+                                recall.</figcaption>
+                        </figure>
+
+                        <figure class="case-shot case-shot--wide">
+                            <img src="/Images/RetailOS%20Lite%20Images/supervisor-ops-control.png"
+                                alt="Supervisor ops control room showing queue indicators, latency chips, failed jobs, and processing timelines"
+                                class="project-showcase__gallery-item" loading="lazy" />
+                            <figcaption><strong>Ops control room.</strong> The internal observability page exposes queue
+                                health, failed jobs, latency chips, assistant events, and per-visit processing
+                                timelines.</figcaption>
+                        </figure>
+
+                        <figure class="case-shot">
+                            <img src="/Images/RetailOS%20Lite%20Images/lgtm-dashboard.png"
+                                alt="Grafana dashboard with RetailOS queue, worker, AI, and service telemetry"
+                                class="project-showcase__gallery-item" loading="lazy" />
+                            <figcaption><strong>Grafana metrics.</strong> The local LGTM stack gives external telemetry
+                                for queue depth, job outcomes, worker behavior, and AI-service latency.</figcaption>
+                        </figure>
+
+                        <figure class="case-shot">
+                            <img src="/Images/RetailOS%20Lite%20Images/lgtm-logs.png"
+                                alt="Loki logs view showing structured RetailOS operational logs"
+                                class="project-showcase__gallery-item" loading="lazy" />
+                            <figcaption><strong>Structured logs.</strong> Loki can inspect JSON logs across web, worker,
+                                and AI service using correlation IDs and workflow stages.</figcaption>
+                        </figure>
+                    </div>
 
                     <h2>Engineering Deep Dives</h2>
 

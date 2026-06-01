@@ -904,6 +904,22 @@ code {
   font-weight: 700;
 }
 
+.project-card__preview {
+  display: block;
+  margin: 18px 0;
+  border: var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  background: var(--clr-surface);
+}
+
+.project-card__preview img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
 .project-card__tags {
   display: flex;
   flex-wrap: wrap;
