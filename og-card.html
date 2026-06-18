@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!--
+  Source template for the social share card (Open Graph / Twitter).
+  Rendered to public/og-image.png at 1200x630 via headless Chrome:
+
+  chrome --headless=new --hide-scrollbars --force-device-scale-factor=1 \
+         --window-size=1200,630 --virtual-time-budget=5000 \
+         --screenshot=public/og-image.png file:///<abs-path>/og-card.html
+-->
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+    }
+
+    body {
+      background: #0D0D0D;
+      background-image: radial-gradient(#1d1d1d 1.6px, transparent 1.6px);
+      background-size: 30px 30px;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #F0F0F0;
+    }
+
+    .frame {
+      position: absolute;
+      inset: 34px;
+      border: 4px solid #F0F0F0;
+      box-shadow: 14px 14px 0 #22D1EE;
+      background: #0D0D0D;
+      padding: 42px 54px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* ---- Top row ---- */
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 40px;
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    .logo .dot {
+      color: #FFB380;
+    }
+
+    .eyebrow {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #9E9E9E;
+      border: 3px solid #2a2a2a;
+      padding: 8px 16px;
+    }
+
+    /* ---- Main ---- */
+    .name {
+      font-size: 86px;
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -3px;
+    }
+
+    .title-bar {
+      display: inline-block;
+      align-self: flex-start;
+      background: #22D1EE;
+      color: #0D0D0D;
+      font-size: 38px;
+      font-weight: 600;
+      letter-spacing: -1px;
+      padding: 9px 18px;
+      margin-top: 22px;
+      border: 3px solid #F0F0F0;
+      box-shadow: 6px 6px 0 #0D0D0D;
+    }
+
+    .tagline {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 22px;
+      color: #C8C8C8;
+      margin-top: 20px;
+      max-width: 880px;
+      line-height: 1.4;
+    }
+
+    /* ---- Chips ---- */
+    .chips {
+      display: flex;
+      gap: 12px;
+      flex-wrap: nowrap;
+    }
+
+    .chip {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 500;
+      white-space: nowrap;
+      background: #181818;
+      padding: 11px 16px;
+      border: 3px solid #F0F0F0;
+      border-left-width: 8px;
+    }
+
+    .chip.cyan { border-left-color: #22D1EE; }
+    .chip.orange { border-left-color: #FFB380; }
+    .chip.green { border-left-color: #6BCB77; }
+    .chip.purple { border-left-color: #D4A5FF; }
+
+    /* ---- Footer ---- */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 22px;
+      color: #9E9E9E;
+    }
+
+    .footer .url {
+      color: #F0F0F0;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="frame">
+    <div class="top">
+      <div class="logo">NF<span class="dot">.</span></div>
+      <div class="eyebrow">Engineering Portfolio</div>
+    </div>
+
+    <div class="main">
+      <div class="name">NAYEEM<br />FARDIN</div>
+      <div class="title-bar">AI-Native Systems Engineer</div>
+      <div class="tagline">AI systems — computer vision, RAG, LLM pipelines — built on
+        production-grade backend foundations: queues, observability, and reliability.</div>
+    </div>
+
+    <div class="chips">
+      <span class="chip cyan">Computer Vision</span>
+      <span class="chip orange">RAG / LLM Pipelines</span>
+      <span class="chip green">Distributed Systems</span>
+      <span class="chip purple">Kubernetes · AWS</span>
+    </div>
+
+    <div class="footer">
+      <span>Backend rigor · AI-native engineering</span>
+      <span class="url">nayeemfardin.vercel.app</span>
+    </div>
+  </div>
+</body>
+
+</html>
