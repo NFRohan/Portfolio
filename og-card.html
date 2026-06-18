@@ -47,14 +47,20 @@
       padding: 48px 56px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: center;
     }
 
-    /* ---- Top row ---- */
+    /* ---- Brand stack (top-right) ---- */
     .top {
+      position: absolute;
+      top: 48px;
+      right: 56px;
+    }
+
+    .brand {
       display: flex;
-      align-items: center;
-      justify-content: flex-end;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .eyebrow {
@@ -63,7 +69,19 @@
       font-weight: 500;
       letter-spacing: 4px;
       text-transform: uppercase;
+      text-align: center;
       color: #9E9E9E;
+      border: 3px solid #2a2a2a;
+      padding: 8px 16px;
+    }
+
+    .url {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 19px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-align: center;
+      color: #F0F0F0;
       border: 3px solid #2a2a2a;
       padding: 8px 16px;
     }
@@ -104,6 +122,7 @@
       display: flex;
       gap: 12px;
       flex-wrap: nowrap;
+      margin-top: 36px;
     }
 
     .chip {
@@ -122,27 +141,16 @@
     .chip.green { border-left-color: #6BCB77; }
     .chip.purple { border-left-color: #D4A5FF; }
 
-    /* ---- Footer ---- */
-    .footer {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 22px;
-      color: #9E9E9E;
-    }
-
-    .footer .url {
-      color: #F0F0F0;
-      font-weight: 500;
-    }
   </style>
 </head>
 
 <body>
   <div class="frame">
     <div class="top">
-      <div class="eyebrow">Engineering Portfolio</div>
+      <div class="brand">
+        <span class="eyebrow">Engineering Portfolio</span>
+        <span class="url">nayeemfardin.vercel.app</span>
+      </div>
     </div>
 
     <div class="main">
@@ -157,10 +165,6 @@
       <span class="chip orange">RAG / LLM Pipelines</span>
       <span class="chip green">Distributed Systems</span>
       <span class="chip purple">Kubernetes · AWS</span>
-    </div>
-
-    <div class="footer">
-      <span class="url">nayeemfardin.vercel.app</span>
     </div>
   </div>
 </body>
