@@ -340,17 +340,22 @@
             <span class="tech-tag">Helm</span>
           </div>
           <ul class="project-card__highlights">
-            <li>Fine-tuned and deployed <strong>YOLOv11</strong> on <strong>AWS EKS</strong> for dense retail product
-              detection.</li>
-            <li>Scalable inference service using <strong>Helm</strong> + <strong>ArgoCD</strong> (GitOps-driven
-              deployments).</li>
-            <li><strong>4×</strong> CPU inference speedup and <strong>70–90%</strong> cost savings via <strong>INT8
-                quantization</strong>, <strong>AMX</strong> and <strong>Spot</strong> diversification.</li>
-            <li>Canary releases with <strong>Argo Rollouts</strong> + smoke tests;
-              <strong>Loki/Prometheus/Grafana</strong> for logging and observability.
-            </li>
-            <li>DevSecOps in <strong>GitHub Actions</strong> with <strong>Trivy</strong> and <strong>pip-audit</strong>
-              for secure <strong>ECR</strong> promotion.</li>
+            <li>Fine-tuned and deployed <strong>YOLOv11L</strong> on <strong>AWS EKS</strong> as a microserviced
+              inference service for dense, multi-class retail product detection.</li>
+            <li>Compiled the model into an in-process <strong>ONNX Runtime</strong> engine with <strong>INT8
+                quantization</strong> + right-sized CPU bin-packing (200m/pod) for <strong>sub-500ms</strong> detection
+              entirely on CPU — no GPU required.</li>
+            <li><strong>4×</strong> CPU inference speedup and <strong>70–90%</strong> cost savings via INT8,
+              <strong>AMX</strong>, and <strong>Spot</strong> node diversification across <code>m7i-flex</code>,
+              <code>c7i-flex</code>, and <code>t3.small</code>.</li>
+            <li>GitOps progressive delivery: <strong>ArgoCD Image Updater</strong> polls <strong>ECR</strong>,
+              <strong>Argo Rollouts</strong> runs weighted canaries through <strong>NGINX Ingress</strong> with automated
+              smoke tests before promotion.</li>
+            <li>Spot resilience enforced with <strong>Pod Disruption Budgets</strong> and native 2-minute interruption
+              handling for zero-downtime operation on volatile hardware.</li>
+            <li>DevSecOps gates in <strong>GitHub Actions (OIDC/STS)</strong> — <code>ruff</code>,
+              <strong>pip-audit</strong>, and <strong>Trivy</strong> CVE scans guard the <strong>ECR</strong> boundary;
+              <strong>Loki/Prometheus/Grafana</strong> for observability.</li>
           </ul>
         </article>
 
