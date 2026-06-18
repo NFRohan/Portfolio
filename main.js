@@ -28,11 +28,11 @@ themeToggle.addEventListener('click', () => {
 
 // ---------- Subtitle Rotation ----------
 const subtitles = [
-  'Backend Engineer',
-  'Infrastructure Engineer',
+  'AI-Native Systems Engineer',
+  'AI Systems Engineer',
+  'Backend & Infrastructure',
   'Distributed Systems',
   'Reliability Engineering',
-  'Cloud Native Builder',
 ];
 
 let currentSubtitleIndex = 0;

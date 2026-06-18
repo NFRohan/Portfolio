@@ -859,6 +859,29 @@ code {
   gap: 32px;
 }
 
+.projects__more-heading {
+  font-family: var(--ff-heading);
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin: 60px 0 28px;
+}
+
+.projects__grid--compact {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 24px;
+}
+
+.project-card--compact .project-card__title {
+  font-size: 1.3rem;
+}
+
+.project-card__summary {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--clr-text-muted);
+  margin: 0;
+}
+
 .project-card {
   margin-bottom: 0;
   border-left: 8px solid var(--clr-black);
