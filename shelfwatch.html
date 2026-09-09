@@ -11,16 +11,83 @@
     <meta name="keywords"
         content="ShelfWatch, retail inventory, object detection, YOLO, computer vision, AWS EKS, Kubernetes, Nayeem Fardin" />
     <link rel="canonical" href="https://nayeemfardin.vercel.app/shelfwatch.html" />
-
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="theme-color" content="#FFE156" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)" />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "ShelfWatch — Retail Inventory Analysis with Object Detection",
-        "description": "Engineering case study of a retail inventory analysis system using fine-tuned YOLO11L deployed on AWS EKS with Kubernetes.",
-        "author": { "@type": "Person", "name": "Nayeem Fardin" },
-        "url": "https://nayeemfardin.vercel.app/shelfwatch.html",
-        "datePublished": "2026-01-20"
+        "@graph": [
+            {
+                "@type": "Article",
+                "@id": "https://nayeemfardin.vercel.app/shelfwatch.html#article",
+                "headline": "ShelfWatch — Retail Inventory Analysis with Object Detection",
+                "name": "ShelfWatch — Retail Inventory Analysis with Object Detection",
+                "description": "Engineering case study of a retail inventory analysis system using fine-tuned YOLO11L deployed on AWS EKS with Kubernetes.",
+                "url": "https://nayeemfardin.vercel.app/shelfwatch.html",
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "https://nayeemfardin.vercel.app/shelfwatch.html"
+                },
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://nayeemfardin.vercel.app/Images/Shelfwatch%20images/UI.png"
+                },
+                "author": {
+                    "@type": "Person",
+                    "@id": "https://nayeemfardin.vercel.app/#person",
+                    "name": "Nayeem Fardin",
+                    "url": "https://nayeemfardin.vercel.app/"
+                },
+                "publisher": {
+                    "@type": "Person",
+                    "@id": "https://nayeemfardin.vercel.app/#person",
+                    "name": "Nayeem Fardin"
+                },
+                "datePublished": "2026-01-20",
+                "dateModified": "2026-01-20",
+                "inLanguage": "en",
+                "isPartOf": {
+                    "@id": "https://nayeemfardin.vercel.app/#website"
+                },
+                "about": {
+                    "@id": "https://nayeemfardin.vercel.app/shelfwatch.html#project"
+                }
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://nayeemfardin.vercel.app/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Projects",
+                        "item": "https://nayeemfardin.vercel.app/#projects"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "ShelfWatch"
+                    }
+                ]
+            },
+            {
+                "@type": "SoftwareSourceCode",
+                "@id": "https://nayeemfardin.vercel.app/shelfwatch.html#project",
+                "name": "ShelfWatch",
+                "description": "Engineering case study of a retail inventory analysis system using fine-tuned YOLO11L deployed on AWS EKS with Kubernetes.",
+                "url": "https://nayeemfardin.vercel.app/shelfwatch.html",
+                "author": {
+                    "@id": "https://nayeemfardin.vercel.app/#person"
+                },
+                "codeRepository": "https://github.com/NFRohan/ShelfWatch"
+            }
+        ]
     }
     </script>
 
@@ -30,8 +97,12 @@
         content="Retail inventory analysis system utilizing fine-tuned YOLO11L deployed on AWS EKS." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://nayeemfardin.vercel.app/shelfwatch.html" />
-    <meta property="og:site_name" content="Nayeem Fardin" />
     <meta property="og:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+    <meta property="og:site_name" content="Nayeem Fardin" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ShelfWatch — engineering case study by Nayeem Fardin" />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -39,6 +110,7 @@
     <meta name="twitter:description"
         content="Retail inventory analysis system utilizing fine-tuned YOLO11L deployed on AWS EKS." />
     <meta name="twitter:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+    <meta name="twitter:image:alt" content="ShelfWatch — engineering case study by Nayeem Fardin" />
 
     <!-- Fonts -->
     <!-- Prevent FOUC (Flash of Unstyled Content) -->
@@ -120,7 +192,7 @@
             </header>
 
             <div class="project-showcase__image-placeholder">
-                <img src="./Images/Shelfwatch images/UI.png" alt="ShelfWatch Interface Overview"
+                <img src="./Images/Shelfwatch images/UI.png" width="1898" height="924" alt="ShelfWatch Interface Overview"
                     onerror="this.style.display='none'" />
             </div>
 
@@ -156,7 +228,7 @@
                             treated as Canary Rollouts, progressing through weighted traffic splits managed dynamically
                             by the <strong>NGINX Ingress Controller</strong>, accompanied by automated inference smoke
                             tests before a full promotion.</p>
-                        <img class="eng-highlight__image" src="./Images/Shelfwatch images/ArgoCD.png"
+                        <img class="eng-highlight__image" src="./Images/Shelfwatch images/ArgoCD.png" width="1917" height="923"
                             alt="ArgoCD Pipeline" loading="lazy">
                     </div>
 
@@ -251,9 +323,9 @@ flowchart TB
                         scaling the pods based on dynamic metric thresholds.</p>
 
                     <div class="project-showcase__gallery">
-                        <img class="project-showcase__gallery-item" src="./Images/Shelfwatch images/analytics.png"
+                        <img class="project-showcase__gallery-item" src="./Images/Shelfwatch images/analytics.png" width="1919" height="921"
                             alt="Grafana Analytics Dashboard" loading="lazy">
-                        <img class="project-showcase__gallery-item" src="./Images/Shelfwatch images/logging.png"
+                        <img class="project-showcase__gallery-item" src="./Images/Shelfwatch images/logging.png" width="1895" height="929"
                             alt="Grafana Loki Logs" loading="lazy">
                     </div>
 

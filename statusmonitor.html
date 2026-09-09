@@ -11,16 +11,83 @@
     <meta name="keywords"
         content="StatusMonitor, system monitoring, uptime, Go, Golang, distributed architecture, real-time dashboard, Nayeem Fardin" />
     <link rel="canonical" href="https://nayeemfardin.vercel.app/statusmonitor.html" />
-
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="theme-color" content="#FFE156" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)" />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "StatusMonitor — Real-Time Infrastructure Monitoring",
-        "description": "Engineering case study of a distributed uptime monitoring system built with Go, featuring real-time dashboards and cross-platform agents.",
-        "author": { "@type": "Person", "name": "Nayeem Fardin" },
-        "url": "https://nayeemfardin.vercel.app/statusmonitor.html",
-        "datePublished": "2026-02-01"
+        "@graph": [
+            {
+                "@type": "Article",
+                "@id": "https://nayeemfardin.vercel.app/statusmonitor.html#article",
+                "headline": "StatusMonitor — Real-Time Infrastructure Monitoring",
+                "name": "StatusMonitor — Real-Time Infrastructure Monitoring",
+                "description": "Engineering case study of a distributed uptime monitoring system built with Go, featuring real-time dashboards and cross-platform agents.",
+                "url": "https://nayeemfardin.vercel.app/statusmonitor.html",
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "https://nayeemfardin.vercel.app/statusmonitor.html"
+                },
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://nayeemfardin.vercel.app/Images/StatusMonitor%20Images/dashboard.png"
+                },
+                "author": {
+                    "@type": "Person",
+                    "@id": "https://nayeemfardin.vercel.app/#person",
+                    "name": "Nayeem Fardin",
+                    "url": "https://nayeemfardin.vercel.app/"
+                },
+                "publisher": {
+                    "@type": "Person",
+                    "@id": "https://nayeemfardin.vercel.app/#person",
+                    "name": "Nayeem Fardin"
+                },
+                "datePublished": "2026-02-01",
+                "dateModified": "2026-02-01",
+                "inLanguage": "en",
+                "isPartOf": {
+                    "@id": "https://nayeemfardin.vercel.app/#website"
+                },
+                "about": {
+                    "@id": "https://nayeemfardin.vercel.app/statusmonitor.html#project"
+                }
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://nayeemfardin.vercel.app/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Projects",
+                        "item": "https://nayeemfardin.vercel.app/#projects"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "StatusMonitor"
+                    }
+                ]
+            },
+            {
+                "@type": "SoftwareSourceCode",
+                "@id": "https://nayeemfardin.vercel.app/statusmonitor.html#project",
+                "name": "StatusMonitor",
+                "description": "Engineering case study of a distributed uptime monitoring system built with Go, featuring real-time dashboards and cross-platform agents.",
+                "url": "https://nayeemfardin.vercel.app/statusmonitor.html",
+                "author": {
+                    "@id": "https://nayeemfardin.vercel.app/#person"
+                },
+                "codeRepository": "https://github.com/NFRohan/StatusMonitor"
+            }
+        ]
     }
     </script>
 
@@ -30,8 +97,12 @@
         content="Blazing fast infrastructure uptime monitoring with a distributed Golang architecture." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://nayeemfardin.vercel.app/statusmonitor.html" />
-    <meta property="og:site_name" content="Nayeem Fardin" />
     <meta property="og:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+    <meta property="og:site_name" content="Nayeem Fardin" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="StatusMonitor — engineering case study by Nayeem Fardin" />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -39,6 +110,7 @@
     <meta name="twitter:description"
         content="Blazing fast infrastructure uptime monitoring with a distributed Golang architecture." />
     <meta name="twitter:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+    <meta name="twitter:image:alt" content="StatusMonitor — engineering case study by Nayeem Fardin" />
 
     <!-- Fonts -->
     <!-- Prevent FOUC (Flash of Unstyled Content) -->
@@ -120,7 +192,7 @@
             </header>
 
             <div class="project-showcase__image-placeholder">
-                <img src="./Images/StatusMonitor Images/dashboard.png" alt="StatusMonitor Dashboard"
+                <img src="./Images/StatusMonitor Images/dashboard.png" width="1912" height="1526" alt="StatusMonitor Dashboard"
                     onerror="this.style.display='none'" />
             </div>
 
@@ -148,7 +220,7 @@
                             Ingestion Edge, validating a JWT payload cached inside <strong>Redis</strong> (saving ~99%
                             on auth service load), before being published into Kafka. This allows independent scaling of
                             consumers for history storage, WebSocket distribution, and alert rule evaluation.</p>
-                        <img class="eng-highlight__image" src="./Images/StatusMonitor Images/agent Registration.png"
+                        <img class="eng-highlight__image" src="./Images/StatusMonitor Images/agent Registration.png" width="1912" height="932"
                             alt="Agent Registration Flow via UI" loading="lazy">
                     </div>
 
@@ -196,18 +268,18 @@
                             within ~1000ms boundaries.</p>
                         <div class="project-showcase__gallery">
                             <img class="project-showcase__gallery-item"
-                                src="./Images/StatusMonitor Images/telegramAlert.png" alt="Telegram Alert Notification"
+                                src="./Images/StatusMonitor Images/telegramAlert.png" width="955" height="936" alt="Telegram Alert Notification"
                                 loading="lazy">
-                            <img class="project-showcase__gallery-item" src="./Images/StatusMonitor Images/alerts.png"
+                            <img class="project-showcase__gallery-item" src="./Images/StatusMonitor Images/alerts.png" width="1912" height="968"
                                 alt="Alerts Dashboard Configuration" loading="lazy">
                         </div>
                     </div>
 
                     <div class="project-showcase__gallery" style="margin-top: 0; margin-bottom: 60px;">
-                        <img class="project-showcase__gallery-item" src="./Images/StatusMonitor Images/HomePage.png"
+                        <img class="project-showcase__gallery-item" src="./Images/StatusMonitor Images/HomePage.png" width="1912" height="932"
                             alt="StatusMonitor Homepage" loading="lazy">
                         <img class="project-showcase__gallery-item"
-                            src="./Images/StatusMonitor Images/Screenshot 2025-12-01 030409.png"
+                            src="./Images/StatusMonitor Images/Screenshot 2025-12-01 030409.png" width="896" height="836"
                             alt="StatusMonitor Detailed View" loading="lazy">
                     </div>
 

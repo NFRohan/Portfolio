@@ -12,6 +12,9 @@
   <meta name="keywords"
     content="Nayeem Fardin, AI-native systems engineer, AI systems engineer, AI engineering, computer vision, RAG, LLM pipelines, backend engineer, distributed systems, reliability engineering, Kubernetes, AWS, Python" />
   <link rel="canonical" href="https://nayeemfardin.vercel.app/" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <meta name="theme-color" content="#FFE156" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)" />
 
   <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
@@ -20,20 +23,245 @@
     "@graph": [
       {
         "@type": "WebSite",
+        "@id": "https://nayeemfardin.vercel.app/#website",
         "name": "Nayeem Fardin — Engineering Portfolio",
-        "url": "https://nayeemfardin.vercel.app",
-        "description": "Portfolio of Nayeem Fardin — AI-Native Systems Engineer building AI systems on production-grade backend foundations."
+        "alternateName": "Nayeem Fardin Portfolio",
+        "url": "https://nayeemfardin.vercel.app/",
+        "inLanguage": "en",
+        "description": "Portfolio of Nayeem Fardin — AI-Native Systems Engineer building AI systems on production-grade backend foundations.",
+        "publisher": { "@id": "https://nayeemfardin.vercel.app/#person" }
+      },
+      {
+        "@type": "ProfilePage",
+        "@id": "https://nayeemfardin.vercel.app/#profilepage",
+        "url": "https://nayeemfardin.vercel.app/",
+        "name": "Nayeem Fardin — AI-Native Systems Engineer",
+        "isPartOf": { "@id": "https://nayeemfardin.vercel.app/#website" },
+        "about": { "@id": "https://nayeemfardin.vercel.app/#person" },
+        "mainEntity": { "@id": "https://nayeemfardin.vercel.app/#person" },
+        "primaryImageOfPage": "https://nayeemfardin.vercel.app/og-image.png",
+        "inLanguage": "en"
       },
       {
         "@type": "Person",
+        "@id": "https://nayeemfardin.vercel.app/#person",
         "name": "Nayeem Fardin",
-        "url": "https://nayeemfardin.vercel.app",
+        "givenName": "Nayeem",
+        "familyName": "Fardin",
+        "url": "https://nayeemfardin.vercel.app/",
+        "image": "https://nayeemfardin.vercel.app/og-image.png",
+        "email": "mailto:nayeemfardin00@gmail.com",
         "jobTitle": "AI-Native Systems Engineer",
+        "description": "Computer Science undergraduate at Islamic University of Technology who builds AI-native systems — computer vision, RAG, and LLM pipelines — on production-grade backend foundations, with a focus on async queues, observability, reliability engineering, and cost-conscious cloud-native architecture.",
+        "nationality": { "@type": "Country", "name": "Bangladesh" },
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "BD"
+        },
+        "alumniOf": {
+          "@type": "CollegeOrUniversity",
+          "name": "Islamic University of Technology",
+          "alternateName": "IUT",
+          "sameAs": "https://www.iutoic-dhaka.edu/"
+        },
+        "worksFor": {
+          "@type": "Organization",
+          "name": "Intelligent Machines",
+          "description": "AI systems company shipping production systems for enterprise clients including Unilever, bKash, and Banglalink."
+        },
+        "hasOccupation": {
+          "@type": "Occupation",
+          "name": "AI-Native Systems Engineer",
+          "occupationalCategory": "15-1252.00",
+          "skills": "Computer vision, retrieval-augmented generation, LLM pipelines, distributed systems, Kubernetes, AWS, Go, Python, Terraform, observability, reliability engineering, CI/CD, message queues"
+        },
+        "knowsLanguage": ["en", "bn"],
         "sameAs": [
           "https://github.com/NFRohan",
           "https://www.linkedin.com/in/nayeem-fardin-bb902a202/"
         ],
-        "knowsAbout": ["AI Systems Engineering", "Computer Vision", "Retrieval-Augmented Generation", "Distributed Systems", "Reliability Engineering", "Backend Engineering"]
+        "knowsAbout": [
+          "AI Systems Engineering",
+          "Computer Vision",
+          "Retrieval-Augmented Generation",
+          "LLM Pipelines",
+          "Distributed Systems",
+          "Cloud Native Infrastructure",
+          "Reliability Engineering",
+          "Backend Engineering",
+          "Mobile Systems Engineering",
+          "Kubernetes",
+          "Amazon Web Services",
+          "Terraform",
+          "Observability",
+          "Message Queues"
+        ]
+      },
+      {
+        "@type": "ItemList",
+        "@id": "https://nayeemfardin.vercel.app/#projects",
+        "name": "Engineering projects by Nayeem Fardin",
+        "numberOfItems": 8,
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@type": "SoftwareSourceCode",
+              "name": "RetailOS Lite",
+              "description": "AI-native retail execution platform with async YOLO shelf analysis, a five-signal calibrated fraud engine, governed outlet master data, a two-tier RAG assistant, offline sync, and production-shaped observability.",
+              "url": "https://nayeemfardin.vercel.app/retailos-lite.html",
+              "codeRepository": "https://github.com/NFRohan/RetailOS-Lite",
+              "programmingLanguage": ["TypeScript", "Python"],
+              "author": { "@id": "https://nayeemfardin.vercel.app/#person" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@type": "SoftwareSourceCode",
+              "name": "ShelfWatch",
+              "description": "Retail inventory analysis system running fine-tuned YOLOv11L on AWS EKS as a microserviced deployment, compiled to an in-process ONNX Runtime engine with INT8 quantization for 4x CPU inference speedup and 70-90% cost savings.",
+              "url": "https://nayeemfardin.vercel.app/shelfwatch.html",
+              "codeRepository": "https://github.com/NFRohan/ShelfWatch",
+              "programmingLanguage": "Python",
+              "author": { "@id": "https://nayeemfardin.vercel.app/#person" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
+              "@type": "SoftwareSourceCode",
+              "name": "PixTools",
+              "description": "Distributed async image processing platform with a Go HTTP edge, Celery workers, RabbitMQ, and a dual-node K3s cluster on AWS provisioned entirely through Terraform.",
+              "url": "https://nayeemfardin.vercel.app/pixtools.html",
+              "codeRepository": "https://github.com/NFRohan/PixTools",
+              "programmingLanguage": ["Go", "Python"],
+              "author": { "@id": "https://nayeemfardin.vercel.app/#person" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 4,
+            "item": {
+              "@type": "SoftwareSourceCode",
+              "name": "NeoAlarm",
+              "description": "Reliability-first Android alarm app pairing a Flutter UI shell with a native Kotlin alarm engine, mission-based dismissal, geofenced location alarms, and direct-boot recovery.",
+              "url": "https://nayeemfardin.vercel.app/neoalarm.html",
+              "codeRepository": "https://github.com/NFRohan/NeoAlarm",
+              "programmingLanguage": ["Dart", "Kotlin"],
+              "author": { "@id": "https://nayeemfardin.vercel.app/#person" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
+              "@type": "SoftwareSourceCode",
+              "name": "StatusMonitor",
+              "description": "Distributed infrastructure uptime monitoring system built in Go, with real-time dashboards and cross-platform agents.",
+              "url": "https://nayeemfardin.vercel.app/statusmonitor.html",
+              "codeRepository": "https://github.com/NFRohan/StatusMonitor",
+              "programmingLanguage": "Go",
+              "author": { "@id": "https://nayeemfardin.vercel.app/#person" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 6,
+            "item": {
+              "@type": "SoftwareSourceCode",
+              "name": "Crawler RAG DocHelper",
+              "description": "Retrieval-Augmented Generation system running on constrained hardware with hybrid dense-sparse search, Cohere reranking, and query-time alpha weighting.",
+              "url": "https://nayeemfardin.vercel.app/crawler-rag.html",
+              "programmingLanguage": "Python",
+              "author": { "@id": "https://nayeemfardin.vercel.app/#person" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 7,
+            "item": {
+              "@type": "SoftwareSourceCode",
+              "name": "interviewPrepper",
+              "description": "AI interview preparation platform orchestrating multi-step LangGraph agents across OpenAI, Google Gemini, and OpenRouter to generate personalized 30-day learning roadmaps.",
+              "url": "https://nayeemfardin.vercel.app/interview-prepper.html",
+              "codeRepository": "https://github.com/NFRohan/interviewPrepper",
+              "programmingLanguage": "Python",
+              "author": { "@id": "https://nayeemfardin.vercel.app/#person" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 8,
+            "item": {
+              "@type": "SoftwareSourceCode",
+              "name": "RoutineMaker",
+              "description": "Microservices routine management application with isolated FastAPI auth and core services behind an Nginx API gateway, using Argon2 hashing and JWT authentication.",
+              "url": "https://nayeemfardin.vercel.app/routine-maker.html",
+              "codeRepository": "https://github.com/NFRohan/routineMaker",
+              "programmingLanguage": ["Python", "JavaScript"],
+              "author": { "@id": "https://nayeemfardin.vercel.app/#person" }
+            }
+          }
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://nayeemfardin.vercel.app/#faq",
+        "isPartOf": { "@id": "https://nayeemfardin.vercel.app/#website" },
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Who is Nayeem Fardin?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nayeem Fardin is an AI-Native Systems Engineer and a Computer Science &amp; Engineering undergraduate at Islamic University of Technology (IUT) in Bangladesh, graduating in September 2026. He builds computer-vision, RAG, and LLM systems on production-grade backend foundations designed to scale and break gracefully."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What does Nayeem Fardin specialize in?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "He specializes in shipping AI features with real engineering rigor — computer vision, retrieval-augmented generation, and LLM pipelines built on async queues, observability, reliability engineering, and cost-conscious cloud-native architecture. In practice that means Kubernetes workloads on AWS, infrastructure as code with Terraform, and instrumentation with Prometheus, Grafana, and OpenTelemetry."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What technologies does Nayeem Fardin work with?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Languages: Python, Go, Dart, Kotlin, JavaScript, C++, and Java. AI and ML: LangChain, PyTorch, RAG, YOLO, and ONNX Runtime. Backend and web: FastAPI, Node, Express, and React. Cloud and ops: AWS, Docker, Kubernetes, Terraform, and Linux. Systems and tooling: Kafka, RabbitMQ, Celery, Grafana, ArgoCD, and Helm. Databases: PostgreSQL, Redis, InfluxDB, Pinecone, and MongoDB."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "What are Nayeem Fardin's most notable projects?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "RetailOS Lite, an AI-native retail execution platform with async YOLO shelf analysis and a five-signal fraud engine; ShelfWatch, a retail inventory detection system on AWS EKS delivering 4x CPU inference speedup and 70-90% cost savings; PixTools, a distributed image processing platform with a Go HTTP edge and a Terraform-provisioned K3s cluster; and NeoAlarm, a reliability-first Android alarm app built on a native Kotlin alarm engine."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Where has Nayeem Fardin worked?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "He is an AI Native Engineering Intern at Intelligent Machines (June 2026 to September 2026), working across computer vision, document intelligence, and enterprise integration pipelines. He previously completed a cybersecurity internship at Backdoor Private Limited in October 2025, covering digital forensics with FTK Imager and Autopsy and security assessments with MobSF, Burp Suite, and SQLMap."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How can I contact Nayeem Fardin?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "By email at nayeemfardin00@gmail.com, on GitHub at github.com/NFRohan, or on LinkedIn at linkedin.com/in/nayeem-fardin-bb902a202. He is open to project collaborations and internship or new-graduate engineering opportunities."
+            }
+          }
+        ]
       }
     ]
   }
@@ -44,8 +272,9 @@
   <meta property="og:description"
     content="AI-Native Systems Engineer building computer-vision, RAG, and LLM systems on production-grade backend foundations." />
   <meta property="og:site_name" content="Nayeem Fardin" />
+  <meta property="og:locale" content="en_US" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://nayeemfardin.vercel.app" />
+  <meta property="og:url" content="https://nayeemfardin.vercel.app/" />
   <meta property="og:image" content="https://nayeemfardin.vercel.app/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -57,6 +286,7 @@
   <meta name="twitter:description"
     content="AI-Native Systems Engineer building computer-vision, RAG, and LLM systems on production-grade backend foundations." />
   <meta name="twitter:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+  <meta name="twitter:image:alt" content="Nayeem Fardin — AI-Native Systems Engineer" />
   <!-- Fonts -->
   <!-- Prevent FOUC (Flash of Unstyled Content) -->
   <script>
@@ -96,6 +326,7 @@
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
       <a href="#experience">Experience</a>
+      <a href="#faq">FAQ</a>
       <a href="#contact">Contact</a>
     </div>
     <div class="nav__actions">
@@ -114,6 +345,7 @@
     <a href="#about">About</a>
     <a href="#projects">Projects</a>
     <a href="#experience">Experience</a>
+    <a href="#faq">FAQ</a>
     <a href="#contact">Contact</a>
   </div>
 
@@ -186,7 +418,7 @@
                 <p>Islamic University of Technology (IUT)</p>
                 <p class="card__meta">Expected Sep 2026</p>
               </div>
-              <img src="./Images/IUT_logo_v_1.png" alt="IUT Logo"
+              <img src="./Images/IUT_logo_v_1.png" width="145" height="212" alt="IUT Logo"
                 style="width: 150px; height: 150px; border-radius: 4px; object-fit: contain;">
             </div>
           </div>
@@ -297,7 +529,7 @@
             </div>
           </div>
           <a href="/retailos-lite.html" class="project-card__preview" aria-label="Open RetailOS Lite case study">
-            <img src="./Images/RetailOS Lite Images/supervisor-overview.png"
+            <img src="./Images/RetailOS Lite Images/supervisor-overview.png" width="1912" height="925"
               alt="RetailOS Lite supervisor overview dashboard preview" loading="lazy">
           </a>
           <div class="project-card__tags">
@@ -536,7 +768,7 @@
       <article class="brutalist-card experience-card reveal" data-accent="cyan">
         <div class="experience-card__header">
           <div style="display: flex; align-items: center; gap: 16px;">
-            <img src="./Images/intelmachines_logo.png" alt="Intelligent Machines Logo"
+            <img src="./Images/intelmachines_logo.png" width="225" height="225" alt="Intelligent Machines Logo"
               style="width: 56px; height: 56px; border-radius: 4px; object-fit: contain;">
             <div>
               <h3>AI Native Engineering Intern</h3>
@@ -559,7 +791,7 @@
       <article class="brutalist-card experience-card reveal" data-accent="purple">
         <div class="experience-card__header">
           <div style="display: flex; align-items: center; gap: 16px;">
-            <img src="./Images/backdoor_logo.png" alt="Backdoor Private Limited Logo"
+            <img src="./Images/backdoor_logo.png" width="120" height="120" alt="Backdoor Private Limited Logo"
               style="width: 56px; height: 56px; border-radius: 4px; object-fit: contain;">
             <div>
               <h3>CyberSecurity Internship</h3>
@@ -577,6 +809,82 @@
           </li>
         </ul>
       </article>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section faq" id="faq">
+    <div class="container">
+      <h2 class="section__title reveal">FAQ<span class="accent">.</span></h2>
+
+      <div class="faq__list reveal">
+        <details class="faq__item" data-accent="yellow">
+          <summary class="faq__question">Who is Nayeem Fardin?</summary>
+          <div class="faq__answer">
+            <p>Nayeem Fardin is an <strong>AI-Native Systems Engineer</strong> and a Computer Science &amp; Engineering
+              undergraduate at <strong>Islamic University of Technology (IUT)</strong> in Bangladesh, graduating in
+              September 2026. He builds computer-vision, RAG, and LLM systems on production-grade backend foundations
+              designed to scale and break gracefully.</p>
+          </div>
+        </details>
+
+        <details class="faq__item" data-accent="cyan">
+          <summary class="faq__question">What does Nayeem Fardin specialize in?</summary>
+          <div class="faq__answer">
+            <p>He specializes in shipping AI features with real engineering rigor — <strong>computer vision</strong>,
+              <strong>retrieval-augmented generation</strong>, and <strong>LLM pipelines</strong> built on async queues,
+              observability, reliability engineering, and cost-conscious cloud-native architecture. In practice that
+              means Kubernetes workloads on AWS, infrastructure as code with Terraform, and instrumentation with
+              Prometheus, Grafana, and OpenTelemetry.</p>
+          </div>
+        </details>
+
+        <details class="faq__item" data-accent="green">
+          <summary class="faq__question">What technologies does Nayeem Fardin work with?</summary>
+          <div class="faq__answer">
+            <p><strong>Languages:</strong> Python, Go, Dart, Kotlin, JavaScript, C++, and Java.
+              <strong>AI and ML:</strong> LangChain, PyTorch, RAG, YOLO, and ONNX Runtime.
+              <strong>Backend and web:</strong> FastAPI, Node, Express, and React.
+              <strong>Cloud and ops:</strong> AWS, Docker, Kubernetes, Terraform, and Linux.
+              <strong>Systems and tooling:</strong> Kafka, RabbitMQ, Celery, Grafana, ArgoCD, and Helm.
+              <strong>Databases:</strong> PostgreSQL, Redis, InfluxDB, Pinecone, and MongoDB.</p>
+          </div>
+        </details>
+
+        <details class="faq__item" data-accent="orange">
+          <summary class="faq__question">What are Nayeem Fardin's most notable projects?</summary>
+          <div class="faq__answer">
+            <p><a href="/retailos-lite.html">RetailOS Lite</a>, an AI-native retail execution platform with async YOLO
+              shelf analysis and a five-signal fraud engine; <a href="/shelfwatch.html">ShelfWatch</a>, a retail
+              inventory detection system on AWS EKS delivering 4× CPU inference speedup and 70–90% cost savings;
+              <a href="/pixtools.html">PixTools</a>, a distributed image processing platform with a Go HTTP edge and a
+              Terraform-provisioned K3s cluster; and <a href="/neoalarm.html">NeoAlarm</a>, a reliability-first Android
+              alarm app built on a native Kotlin alarm engine.</p>
+          </div>
+        </details>
+
+        <details class="faq__item" data-accent="purple">
+          <summary class="faq__question">Where has Nayeem Fardin worked?</summary>
+          <div class="faq__answer">
+            <p>He is an <strong>AI Native Engineering Intern at Intelligent Machines</strong> (June 2026 to September
+              2026), working across computer vision, document intelligence, and enterprise integration pipelines. He
+              previously completed a <strong>cybersecurity internship at Backdoor Private Limited</strong> in October
+              2025, covering digital forensics with FTK Imager and Autopsy and security assessments with MobSF, Burp
+              Suite, and SQLMap.</p>
+          </div>
+        </details>
+
+        <details class="faq__item" data-accent="coral">
+          <summary class="faq__question">How can I contact Nayeem Fardin?</summary>
+          <div class="faq__answer">
+            <p>By email at <a href="mailto:nayeemfardin00@gmail.com">nayeemfardin00@gmail.com</a>, on GitHub at
+              <a href="https://github.com/NFRohan" target="_blank" rel="noopener">github.com/NFRohan</a>, or on
+              LinkedIn at <a href="https://www.linkedin.com/in/nayeem-fardin-bb902a202/" target="_blank"
+                rel="noopener">linkedin.com/in/nayeem-fardin-bb902a202</a>. He is open to project collaborations and
+              internship or new-graduate engineering opportunities.</p>
+          </div>
+        </details>
+      </div>
     </div>
   </section>
 

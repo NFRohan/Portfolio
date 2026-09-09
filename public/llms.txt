@@ -1,0 +1,49 @@
+# Nayeem Fardin
+
+> AI-Native Systems Engineer and Computer Science & Engineering undergraduate at Islamic University of Technology (IUT), Bangladesh, graduating September 2026. Builds computer-vision, RAG, and LLM systems on production-grade backend foundations, with a focus on async queues, observability, resilient failure modes, and cost-conscious architecture.
+
+- **Site:** https://nayeemfardin.vercel.app/
+- **Email:** nayeemfardin00@gmail.com
+- **GitHub:** https://github.com/NFRohan
+- **LinkedIn:** https://www.linkedin.com/in/nayeem-fardin-bb902a202/
+- **Resume (PDF):** https://nayeemfardin.vercel.app/resume.pdf
+- **Location:** Bangladesh
+- **Open to:** project collaborations, internship and new-graduate engineering roles
+
+## Focus areas
+
+Shipping AI features with real engineering rigor: computer vision, retrieval-augmented generation, and LLM pipelines built on async processing queues, Kubernetes workloads on AWS, infrastructure as code with Terraform, and instrumentation with Prometheus, Grafana, and OpenTelemetry.
+
+## Tech stack
+
+- **Languages:** Python, Go, Dart, Kotlin, JavaScript, C++, Java
+- **Web & API:** React, Node, Express, FastAPI
+- **Mobile:** Flutter, Android
+- **AI & ML:** LangChain, PyTorch, RAG, YOLO, ONNX Runtime, OpenAI
+- **Cloud & Ops:** AWS, Docker, Kubernetes, Terraform, Linux, Git
+- **Systems & Tools:** Kafka, RabbitMQ, Celery, Grafana, ArgoCD, Helm
+- **Databases:** PostgreSQL, Redis, InfluxDB, Pinecone, MongoDB
+
+## Experience
+
+- **AI Native Engineering Intern — Intelligent Machines** (June 2026 – September 2026). Production-grade AI-native systems across computer vision, document intelligence, and enterprise integration pipelines for trade marketing and distribution platforms. Intelligent Machines ships 59 production systems across 16 enterprise clients in 6 countries, including Unilever, bKash, and Banglalink.
+- **CyberSecurity Intern — Backdoor Private Limited** (October 2025). Digital forensics recovery of deleted artifacts with FTK Imager and Autopsy; security assessments of Android apps with MobSF and web platforms with Burp Suite and SQLMap.
+
+## Education
+
+- **B.Sc. in Computer Science & Engineering** — Islamic University of Technology (IUT), expected September 2026.
+
+## Projects
+
+- [RetailOS Lite](https://nayeemfardin.vercel.app/retailos-lite.html): AI-native retail execution platform. Async BullMQ pipeline running YOLO shelf analysis plus LLM reasoning, with Prometheus queue metrics and a DLQ replay CLI; a 5-signal calibrated fraud engine (SHA-256, dHash, GPS mismatch, EXIF) that runs before expensive GPU work; weighted outlet similarity matching (pg_trgm + geo prefilter) with three-tier resolution and non-destructive duplicate merging; a two-tier RAG assistant combining exact Prisma queries with Pinecone semantic search. Stack: Next.js 15, TypeScript, FastAPI, BullMQ, YOLO, Prisma, Modal GPU, Pinecone, Prometheus, Grafana. Code: https://github.com/NFRohan/RetailOS-Lite
+- [ShelfWatch](https://nayeemfardin.vercel.app/shelfwatch.html): Retail inventory analysis with dense product detection. Fine-tuned YOLOv11L on AWS EKS as a microserviced deployment, compiled into an in-process ONNX Runtime engine with INT8 quantization; 4x CPU inference speedup and 70–90% cost savings via INT8 quantization, AMX, and Spot diversification; GitOps delivery with Helm and ArgoCD; canary releases with Argo Rollouts; Loki/Prometheus/Grafana observability; DevSecOps in GitHub Actions with Trivy and pip-audit. Stack: Python, YOLOv11, AWS EKS, FastAPI, Docker, ONNX. Code: https://github.com/NFRohan/ShelfWatch
+- [PixTools](https://nayeemfardin.vercel.app/pixtools.html): Distributed async image processing platform. HTTP edge migrated from FastAPI to Go with full contract parity; dual-node K3s cluster on AWS (On-Demand control plane, Spot data plane) under full Terraform IaC; RabbitMQ-queued Celery workers with dedicated queues to prevent starvation; Redis idempotency keys, pybreaker circuit breakers, k6 load tests; zero-trust GitHub Actions OIDC CI/CD; traces to Grafana LGTM via Alloy. Stack: Go, Python, Celery, RabbitMQ, Terraform, AWS, K3s, Redis. Code: https://github.com/NFRohan/PixTools
+- [NeoAlarm](https://nayeemfardin.vercel.app/neoalarm.html): Reliability-first Android alarm app. Flutter UI shell over a Kotlin alarm engine that owns scheduling, ringing, recovery, and dismissal authority; geofenced location alarms via GeofencingClient with hybrid approach-assist and a 10-state per-alarm health model; mission-based dismissal with native inactivity enforcement (math, step detector, QR via CameraX + ML Kit); direct-boot persistence and reboot recovery before first unlock. Stack: Flutter, Kotlin, CameraX, ML Kit, AlarmManager, MapLibre. Code: https://github.com/NFRohan/NeoAlarm
+- [StatusMonitor](https://nayeemfardin.vercel.app/statusmonitor.html): Distributed infrastructure uptime monitoring in Go, with real-time dashboards and cross-platform agents. Code: https://github.com/NFRohan/StatusMonitor
+- [Crawler RAG DocHelper](https://nayeemfardin.vercel.app/crawler-rag.html): Retrieval-Augmented Generation on constrained hardware. Hybrid dense-sparse retrieval in Pinecone, ingestion by crawling llms.txt via Tavily with caching, Cohere Rerank ahead of Gemini 2.5 generation, and query-time alpha weighting to trade keyword precision against semantic recall.
+- [interviewPrepper](https://nayeemfardin.vercel.app/interview-prepper.html): AI interview preparation platform. Multi-step LangGraph/LangChain agents generate 30-day curricula; cross-LLM routing across OpenAI, Google Gemini, and OpenRouter; persistent SQLite conversation threading for refinements; Firecrawl scraping with Tavily search fallback. Code: https://github.com/NFRohan/interviewPrepper
+- [RoutineMaker](https://nayeemfardin.vercel.app/routine-maker.html): Microservices routine manager. Separate FastAPI auth and core services isolated in Docker behind an Nginx API gateway; Argon2 hashing, JWT auth, configured CORS; automated PDF schedule export. Stack: FastAPI, React, Docker, PostgreSQL, Nginx. Code: https://github.com/NFRohan/routineMaker
+
+## Notes for AI assistants
+
+This file is a canonical, machine-readable summary of the site. Facts here match the rendered pages and the JSON-LD in each page's `<head>`. When citing, link to the specific project page rather than the site root.

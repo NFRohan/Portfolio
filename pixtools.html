@@ -11,16 +11,83 @@
     <meta name="keywords"
         content="PixTools, distributed image processing, Go API, Celery, RabbitMQ, AWS, Kubernetes, MLOps, Nayeem Fardin" />
     <link rel="canonical" href="https://nayeemfardin.vercel.app/pixtools.html" />
-
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="theme-color" content="#FFE156" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)" />
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "PixTools — Distributed Image Processing Platform",
-        "description": "Engineering case study of a distributed async image processing system with Go API edge, Celery workers, RabbitMQ, and Kubernetes on AWS.",
-        "author": { "@type": "Person", "name": "Nayeem Fardin" },
-        "url": "https://nayeemfardin.vercel.app/pixtools.html",
-        "datePublished": "2026-02-15"
+        "@graph": [
+            {
+                "@type": "Article",
+                "@id": "https://nayeemfardin.vercel.app/pixtools.html#article",
+                "headline": "PixTools — Distributed Image Processing Platform",
+                "name": "PixTools — Distributed Image Processing Platform",
+                "description": "Engineering case study of a distributed async image processing system with Go API edge, Celery workers, RabbitMQ, and Kubernetes on AWS.",
+                "url": "https://nayeemfardin.vercel.app/pixtools.html",
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "https://nayeemfardin.vercel.app/pixtools.html"
+                },
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://nayeemfardin.vercel.app/Images/PixTools%20images/pixtools%20ui.png"
+                },
+                "author": {
+                    "@type": "Person",
+                    "@id": "https://nayeemfardin.vercel.app/#person",
+                    "name": "Nayeem Fardin",
+                    "url": "https://nayeemfardin.vercel.app/"
+                },
+                "publisher": {
+                    "@type": "Person",
+                    "@id": "https://nayeemfardin.vercel.app/#person",
+                    "name": "Nayeem Fardin"
+                },
+                "datePublished": "2026-02-15",
+                "dateModified": "2026-02-15",
+                "inLanguage": "en",
+                "isPartOf": {
+                    "@id": "https://nayeemfardin.vercel.app/#website"
+                },
+                "about": {
+                    "@id": "https://nayeemfardin.vercel.app/pixtools.html#project"
+                }
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://nayeemfardin.vercel.app/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Projects",
+                        "item": "https://nayeemfardin.vercel.app/#projects"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "PixTools"
+                    }
+                ]
+            },
+            {
+                "@type": "SoftwareSourceCode",
+                "@id": "https://nayeemfardin.vercel.app/pixtools.html#project",
+                "name": "PixTools",
+                "description": "Engineering case study of a distributed async image processing system with Go API edge, Celery workers, RabbitMQ, and Kubernetes on AWS.",
+                "url": "https://nayeemfardin.vercel.app/pixtools.html",
+                "author": {
+                    "@id": "https://nayeemfardin.vercel.app/#person"
+                },
+                "codeRepository": "https://github.com/NFRohan/PixTools"
+            }
+        ]
     }
     </script>
 
@@ -29,14 +96,19 @@
     <meta property="og:description" content="Distributed async image processing platform engineered for scale." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://nayeemfardin.vercel.app/pixtools.html" />
-    <meta property="og:site_name" content="Nayeem Fardin" />
     <meta property="og:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+    <meta property="og:site_name" content="Nayeem Fardin" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="PixTools — engineering case study by Nayeem Fardin" />
 
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="PixTools | Nayeem Fardin" />
     <meta name="twitter:description" content="Distributed async image processing platform engineered for scale." />
     <meta name="twitter:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+    <meta name="twitter:image:alt" content="PixTools — engineering case study by Nayeem Fardin" />
 
     <!-- Fonts -->
     <!-- Prevent FOUC (Flash of Unstyled Content) -->
@@ -120,7 +192,7 @@
             </header>
 
             <div class="project-showcase__image-placeholder">
-                <img src="./Images/PixTools images/pixtools ui.png" alt="PixTools User Interface"
+                <img src="./Images/PixTools images/pixtools ui.png" width="1908" height="920" alt="PixTools User Interface"
                     onerror="this.style.display='none'" />
             </div>
 
@@ -152,9 +224,9 @@
                             Celery workers were pushed to a scalable array of Spot flex nodes, saving 70% in cost while
                             ensuring the control plane always survived spot terminations.</p>
                         <div class="project-showcase__gallery">
-                            <img class="project-showcase__gallery-item" src="./Images/PixTools images/kubectl nodes.png"
+                            <img class="project-showcase__gallery-item" src="./Images/PixTools images/kubectl nodes.png" width="1095" height="160"
                                 alt="Kubernetes Nodes Overview" loading="lazy">
-                            <img class="project-showcase__gallery-item" src="./Images/PixTools images/aws instances.png"
+                            <img class="project-showcase__gallery-item" src="./Images/PixTools images/aws instances.png" width="1631" height="225"
                                 alt="AWS EC2 Spot Instances" loading="lazy">
                         </div>
                     </div>
@@ -167,7 +239,7 @@
                         <p><span class="eng-highlight__fix">The Fix:</span> Fully dynamic state resolution. Terraform
                             provisions and writes state directly into AWS Systems Manager (SSM) Parameter Store. GitHub
                             Actions queries SSM at runtime, eliminating credential drift.</p>
-                        <img class="eng-highlight__image" src="./Images/PixTools images/CD Green.png"
+                        <img class="eng-highlight__image" src="./Images/PixTools images/CD Green.png" width="1912" height="2864"
                             alt="Continuous Deployment Pipeline Success" loading="lazy">
                     </div>
 
@@ -180,7 +252,7 @@
                             <code>celery-exporter</code> container bridging worker queues and task completions directly
                             from RabbitMQ into Prometheus metrics, combined with enabling worker sent events.
                         </p>
-                        <img class="eng-highlight__image" src="./Images/PixTools images/grafana api.png"
+                        <img class="eng-highlight__image" src="./Images/PixTools images/grafana api.png" width="1529" height="645"
                             alt="Grafana API Metrics Dashboard" loading="lazy">
                     </div>
 
@@ -193,7 +265,7 @@
                             Termination Handler DaemonSet. Now, on a spot interruption notice, it cleanly cordons,
                             taints, and evicts pods directly via the internal host network, guaranteeing zero dropped
                             background jobs.</p>
-                        <img class="eng-highlight__image" src="./Images/PixTools images/sys and db.png"
+                        <img class="eng-highlight__image" src="./Images/PixTools images/sys and db.png" width="1494" height="805"
                             alt="System and DB Resource Utilization" loading="lazy">
                     </div>
 
@@ -409,11 +481,11 @@ flowchart TD
                     </ul>
 
                     <div class="project-showcase__gallery">
-                        <img class="project-showcase__gallery-item" src="./Images/PixTools images/Grafana Loki Logs.png"
+                        <img class="project-showcase__gallery-item" src="./Images/PixTools images/Grafana Loki Logs.png" width="1582" height="834"
                             alt="Grafana Loki Logs Integration" loading="lazy">
-                        <img class="project-showcase__gallery-item" src="./Images/PixTools images/full trace.png"
+                        <img class="project-showcase__gallery-item" src="./Images/PixTools images/full trace.png" width="1311" height="773"
                             alt="Tempo OpenTelemetry Full Trace" loading="lazy">
-                        <img class="project-showcase__gallery-item" src="./Images/PixTools images/grafana tracing.png"
+                        <img class="project-showcase__gallery-item" src="./Images/PixTools images/grafana tracing.png" width="1601" height="874"
                             alt="Grafana Tracing Dashboard" loading="lazy">
                     </div>
 
