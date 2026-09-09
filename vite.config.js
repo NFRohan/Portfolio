@@ -15,6 +15,7 @@ export default defineConfig({
                 neoalarm: resolve(__dirname, 'neoalarm.html'),
                 retailos: resolve(__dirname, 'retailos-lite.html'),
                 deskemy: resolve(__dirname, 'deskemy.html'),
+                deliverylens: resolve(__dirname, 'deliverylens.html'),
             },
         },
     },

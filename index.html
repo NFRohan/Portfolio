@@ -101,7 +101,7 @@
         "@type": "ItemList",
         "@id": "https://nayeemfardin.vercel.app/#projects",
         "name": "Engineering projects by Nayeem Fardin",
-        "numberOfItems": 9,
+        "numberOfItems": 10,
         "itemListElement": [
           {
             "@type": "ListItem",
@@ -120,6 +120,20 @@
             "@type": "ListItem",
             "position": 2,
             "item": {
+              "@type": "SoftwareSourceCode",
+              "name": "DeliveryLens",
+              "description": "AI delivery-intelligence assistant built during an AI engineering internship. 16 typed Zod tools run SQL so every measured number comes from a query and never from the model, while a view builder renders charts from the same result JSON. Hybrid pgvector and Postgres full-text retrieval is fused by reciprocal rank and reranked by a Cohere cross-encoder, with a diversity fallback when the reranker is unavailable.",
+              "url": "https://nayeemfardin.vercel.app/deliverylens.html",
+              "codeRepository": "https://github.com/NFRohan/DeliveryLens",
+              "programmingLanguage": ["TypeScript", "SQL"],
+              "runtimePlatform": "Next.js 16",
+              "author": { "@id": "https://nayeemfardin.vercel.app/#person" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
               "@type": "SoftwareApplication",
               "name": "Deskemy",
               "description": "Offline course player for Windows built with Tauri v2, Svelte 5, and a Rust core that drives libmpv over FFI, compositing native video beneath a transparent WebView2 via DirectComposition, with SQLite FTS5 subtitle search and rename-safe progress. 52 GitHub stars and 261 downloads across 6 releases.",
@@ -136,7 +150,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 3,
+            "position": 4,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "ShelfWatch",
@@ -149,7 +163,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 4,
+            "position": 5,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "PixTools",
@@ -162,7 +176,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 5,
+            "position": 6,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "NeoAlarm",
@@ -175,7 +189,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 6,
+            "position": 7,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "StatusMonitor",
@@ -188,7 +202,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 7,
+            "position": 8,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "Crawler RAG DocHelper",
@@ -200,7 +214,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 8,
+            "position": 9,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "interviewPrepper",
@@ -213,7 +227,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 9,
+            "position": 10,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "RoutineMaker",
@@ -252,7 +266,7 @@
             "name": "What technologies does Nayeem Fardin work with?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Languages: Python, Go, Rust, Dart, Kotlin, JavaScript, C++, and Java. AI and ML: LangChain, PyTorch, RAG, YOLO, and ONNX Runtime. Backend and web: FastAPI, Node, Express, React, and Svelte. Desktop: Tauri v2 with a Rust core. Cloud and ops: AWS, Docker, Kubernetes, Terraform, and Linux. Systems and tooling: Kafka, RabbitMQ, Celery, Grafana, ArgoCD, and Helm. Databases: PostgreSQL, Redis, InfluxDB, Pinecone, and MongoDB."
+              "text": "Languages: Python, Go, Dart, Kotlin, JavaScript, C++, and Java. AI and ML: LangChain, PyTorch, RAG, YOLO, and ONNX Runtime. Backend and web: FastAPI, Node, Express, and React. Cloud and ops: AWS, Docker, Kubernetes, Terraform, and Linux. Systems and tooling: Kafka, RabbitMQ, Celery, Grafana, ArgoCD, and Helm. Databases: PostgreSQL, Redis, InfluxDB, Pinecone, and MongoDB."
             }
           },
           {
@@ -260,7 +274,7 @@
             "name": "What are Nayeem Fardin's most notable projects?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "RetailOS Lite, an AI-native retail execution platform with async YOLO shelf analysis and a five-signal fraud engine; Deskemy, a Rust and Tauri offline course player with 52 GitHub stars and 261 downloads that drives libmpv over FFI; ShelfWatch, a retail inventory detection system on AWS EKS delivering 4x CPU inference speedup and 70-90% cost savings; PixTools, a distributed image processing platform with a Go HTTP edge and a Terraform-provisioned K3s cluster; and NeoAlarm, a reliability-first Android alarm app built on a native Kotlin alarm engine."
+              "text": "RetailOS Lite, an AI-native retail execution platform with async YOLO shelf analysis and a five-signal fraud engine; DeliveryLens, an AI delivery-intelligence assistant where 16 typed tools run SQL so the model never carries a number; Deskemy, a Rust and Tauri offline course player with 52 GitHub stars and 261 downloads that drives libmpv over FFI; ShelfWatch, a retail inventory detection system on AWS EKS delivering 4x CPU inference speedup and 70-90% cost savings; PixTools, a distributed image processing platform with a Go HTTP edge and a Terraform-provisioned K3s cluster; and NeoAlarm, a reliability-first Android alarm app built on a native Kotlin alarm engine."
             }
           },
           {
@@ -453,7 +467,6 @@
             <div class="skill-group__badges">
               <span class="skill-badge">Python</span>
               <span class="skill-badge">Go</span>
-              <span class="skill-badge">Rust</span>
               <span class="skill-badge">Dart</span>
               <span class="skill-badge">Kotlin</span>
               <span class="skill-badge">JavaScript</span>
@@ -466,7 +479,6 @@
             <span class="skill-group__label">Web & API</span>
             <div class="skill-group__badges">
               <span class="skill-badge">React</span>
-              <span class="skill-badge">Svelte</span>
               <span class="skill-badge">Node</span>
               <span class="skill-badge">Express</span>
               <span class="skill-badge">FastAPI</span>
@@ -512,7 +524,6 @@
               <span class="skill-badge">Grafana</span>
               <span class="skill-badge">ArgoCD</span>
               <span class="skill-badge">Helm</span>
-              <span class="skill-badge">Tauri</span>
             </div>
           </div>
 
@@ -574,7 +585,44 @@
           </ul>
         </article>
 
-        <!-- Project 2: Deskemy -->
+        <!-- Project 2: DeliveryLens -->
+        <article class="brutalist-card project-card reveal" data-accent="cyan">
+          <div class="project-card__header">
+            <h3 class="project-card__title">DeliveryLens</h3>
+            <div style="display: flex; gap: 8px;">
+              <a href="/deliverylens.html" class="brutalist-btn brutalist-btn--small"
+                style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
+              <a href="https://github.com/NFRohan/DeliveryLens" target="_blank" rel="noopener"
+                class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+            </div>
+          </div>
+          <div class="project-card__tags">
+            <span class="tech-tag">Next.js 16</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Neon Postgres</span>
+            <span class="tech-tag">pgvector</span>
+            <span class="tech-tag">TypeORM</span>
+            <span class="tech-tag">Zod</span>
+            <span class="tech-tag">Cohere Rerank</span>
+            <span class="tech-tag">Recharts</span>
+          </div>
+          <ul class="project-card__highlights">
+            <li>AI delivery-intelligence assistant built during an AI engineering internship — answers project
+              status, blockers and team tracking from a local mirror of GitHub and a task tracker.</li>
+            <li><strong>The model writes the text but never carries a number</strong>: <strong>16 typed tools</strong>
+              (Zod) run SQL, and a view builder renders charts from the same result JSON with no model in the path.</li>
+            <li><strong>Hybrid retrieval</strong> fusing pgvector/HNSW and Postgres full-text by reciprocal rank, then
+              a <strong>Cohere cross-encoder</strong> rerank, with the per-document cap applied after scoring.</li>
+            <li>Reranker failure <strong>degrades loudly</strong> to a diversity fallback that needs no extra API call,
+              and records which path ran so a weaker answer is flagged rather than shipped silently.</li>
+            <li>Aggregates carry their own <strong>denominators and caveats</strong>; incomparable roles are ranked in
+              separate groups, and zero-activity accounts are listed apart from ranked ones.</li>
+            <li>Branch-aware <strong>incremental GitHub sync</strong> with per-repo watermarks, built after a
+              65-branch repo exhausted the hourly rate limit.</li>
+          </ul>
+        </article>
+
+        <!-- Project 3: Deskemy -->
         <article class="brutalist-card project-card reveal" data-accent="purple">
           <div class="project-card__header">
             <h3 class="project-card__title">Deskemy</h3>
@@ -615,7 +663,7 @@
           </ul>
         </article>
 
-        <!-- Project 3: ShelfWatch -->
+        <!-- Project 4: ShelfWatch -->
         <article class="brutalist-card project-card reveal" data-accent="yellow">
           <div class="project-card__header">
             <h3 class="project-card__title">ShelfWatch</h3>
@@ -657,7 +705,7 @@
           </ul>
         </article>
 
-        <!-- Project 4: PixTools -->
+        <!-- Project 5: PixTools -->
         <article class="brutalist-card project-card reveal" data-accent="cyan">
           <div class="project-card__header">
             <h3 class="project-card__title">PixTools</h3>
@@ -694,7 +742,7 @@
           </ul>
         </article>
 
-        <!-- Project 5: NeoAlarm -->
+        <!-- Project 6: NeoAlarm -->
         <article class="brutalist-card project-card reveal" data-accent="green">
           <div class="project-card__header">
             <h3 class="project-card__title">NeoAlarm</h3>
@@ -904,10 +952,9 @@
         <details class="faq__item" data-accent="green">
           <summary class="faq__question">What technologies does Nayeem Fardin work with?</summary>
           <div class="faq__answer">
-            <p><strong>Languages:</strong> Python, Go, Rust, Dart, Kotlin, JavaScript, C++, and Java.
+            <p><strong>Languages:</strong> Python, Go, Dart, Kotlin, JavaScript, C++, and Java.
               <strong>AI and ML:</strong> LangChain, PyTorch, RAG, YOLO, and ONNX Runtime.
-              <strong>Backend and web:</strong> FastAPI, Node, Express, React, and Svelte.
-              <strong>Desktop:</strong> Tauri v2 with a Rust core.
+              <strong>Backend and web:</strong> FastAPI, Node, Express, and React.
               <strong>Cloud and ops:</strong> AWS, Docker, Kubernetes, Terraform, and Linux.
               <strong>Systems and tooling:</strong> Kafka, RabbitMQ, Celery, Grafana, ArgoCD, and Helm.
               <strong>Databases:</strong> PostgreSQL, Redis, InfluxDB, Pinecone, and MongoDB.</p>
@@ -918,7 +965,9 @@
           <summary class="faq__question">What are Nayeem Fardin's most notable projects?</summary>
           <div class="faq__answer">
             <p><a href="/retailos-lite.html">RetailOS Lite</a>, an AI-native retail execution platform with async YOLO
-              shelf analysis and a five-signal fraud engine; <a href="/deskemy.html">Deskemy</a>, a Rust and Tauri
+              shelf analysis and a five-signal fraud engine; <a href="/deliverylens.html">DeliveryLens</a>, an AI
+              delivery-intelligence assistant where 16 typed tools run SQL so the model never carries a number;
+              <a href="/deskemy.html">Deskemy</a>, a Rust and Tauri
               offline course player with 52 GitHub stars and 261 downloads that drives libmpv over FFI;
               <a href="/shelfwatch.html">ShelfWatch</a>, a retail
               inventory detection system on AWS EKS delivering 4× CPU inference speedup and 70–90% cost savings;

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DeliveryLens | Nayeem Fardin</title>
+    <meta name="description"
+        content="DeliveryLens case study: an AI delivery-intelligence assistant where 16 typed tools run SQL for every measured number and the model never carries a figure, with hybrid retrieval, cross-encoder reranking, and a fallback path." />
+    <meta name="author" content="Nayeem Fardin" />
+    <meta name="keywords"
+        content="DeliveryLens, AI agent, tool calling, RAG, hybrid retrieval, pgvector, Cohere rerank, Next.js 16, TypeORM, Neon Postgres, delivery analytics, Nayeem Fardin" />
+    <link rel="canonical" href="https://nayeemfardin.vercel.app/deliverylens.html" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="theme-color" content="#FFE156" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Article",
+                "@id": "https://nayeemfardin.vercel.app/deliverylens.html#article",
+                "headline": "DeliveryLens — An AI Assistant That Never Carries a Number",
+                "name": "DeliveryLens — An AI Assistant That Never Carries a Number",
+                "description": "Engineering case study of an AI delivery-intelligence assistant built on Next.js 16 and Neon Postgres, where 16 typed tools produce every measured number from SQL, a view builder renders charts from the same JSON with no model involved, and hybrid retrieval with cross-encoder reranking degrades to a diversity fallback.",
+                "url": "https://nayeemfardin.vercel.app/deliverylens.html",
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "https://nayeemfardin.vercel.app/deliverylens.html"
+                },
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://nayeemfardin.vercel.app/og-image.png"
+                },
+                "author": {
+                    "@type": "Person",
+                    "@id": "https://nayeemfardin.vercel.app/#person",
+                    "name": "Nayeem Fardin",
+                    "url": "https://nayeemfardin.vercel.app/"
+                },
+                "publisher": {
+                    "@type": "Person",
+                    "@id": "https://nayeemfardin.vercel.app/#person",
+                    "name": "Nayeem Fardin"
+                },
+                "datePublished": "2026-08-31",
+                "dateModified": "2026-09-10",
+                "inLanguage": "en",
+                "isPartOf": {
+                    "@id": "https://nayeemfardin.vercel.app/#website"
+                },
+                "about": {
+                    "@id": "https://nayeemfardin.vercel.app/deliverylens.html#project"
+                }
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://nayeemfardin.vercel.app/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Projects",
+                        "item": "https://nayeemfardin.vercel.app/#projects"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "DeliveryLens"
+                    }
+                ]
+            },
+            {
+                "@type": "SoftwareSourceCode",
+                "@id": "https://nayeemfardin.vercel.app/deliverylens.html#project",
+                "name": "DeliveryLens",
+                "description": "An AI assistant for engineering delivery questions. It answers from a local mirror of GitHub and a task tracker plus an indexed document corpus, using 16 typed tools that run SQL for measurements and hybrid retrieval with cross-encoder reranking for prose.",
+                "url": "https://nayeemfardin.vercel.app/deliverylens.html",
+                "codeRepository": "https://github.com/NFRohan/DeliveryLens",
+                "programmingLanguage": ["TypeScript", "SQL"],
+                "runtimePlatform": "Next.js 16",
+                "author": { "@id": "https://nayeemfardin.vercel.app/#person" }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="DeliveryLens | Nayeem Fardin" />
+    <meta property="og:description"
+        content="An AI delivery-intelligence assistant where the model writes the prose but never carries a number: 16 typed tools, SQL for every measurement, hybrid retrieval with a reranker that fails safe." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://nayeemfardin.vercel.app/deliverylens.html" />
+    <meta property="og:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+    <meta property="og:site_name" content="Nayeem Fardin" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="DeliveryLens — engineering case study by Nayeem Fardin" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DeliveryLens | Nayeem Fardin" />
+    <meta name="twitter:description"
+        content="An AI delivery-intelligence assistant where the model writes the prose but never carries a number: 16 typed tools, SQL for every measurement, hybrid retrieval with a reranker that fails safe." />
+    <meta name="twitter:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+    <meta name="twitter:image:alt" content="DeliveryLens — engineering case study by Nayeem Fardin" />
+
+    <!-- Fonts -->
+    <!-- Prevent FOUC (Flash of Unstyled Content) -->
+    <script>
+        (function () {
+            const saved = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/project-styles.css" />
+
+    <!-- Vercel Web Analytics -->
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <!-- Vercel Speed Insights -->
+    <script>
+        window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+
+<body>
+    <nav class="nav" id="nav">
+        <a href="/index.html" class="nav__logo">NF<span class="accent">.</span></a>
+        <div class="nav__links">
+            <a href="/index.html#about">About</a>
+            <a href="/index.html#projects">Projects</a>
+            <a href="/index.html#experience">Experience</a>
+            <a href="/index.html#contact">Contact</a>
+        </div>
+        <div class="nav__actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span class="theme-toggle__icon theme-toggle__icon--sun">&#9728;</span>
+                <span class="theme-toggle__icon theme-toggle__icon--moon">&#9790;</span>
+            </button>
+            <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/index.html#about">About</a>
+        <a href="/index.html#projects">Projects</a>
+        <a href="/index.html#experience">Experience</a>
+        <a href="/index.html#contact">Contact</a>
+    </div>
+
+    <main class="project-showcase">
+        <div class="container">
+            <a href="/index.html#projects" class="brutalist-back-btn">
+                <span>&#8592;</span> Back to Projects
+            </a>
+
+            <header class="project-showcase__header">
+                <p class="case-eyebrow">AI systems case study / built during an AI engineering internship</p>
+                <h1 class="project-showcase__title">DeliveryLens</h1>
+                <p class="project-showcase__subtitle">An AI assistant for engineering delivery questions — project
+                    status, who is blocked, how the team is tracking. The model writes the answer, but it never
+                    carries a number: every measurement comes out of SQL, and the charts are rendered from the same
+                    JSON with no model involved.</p>
+
+                <div class="project-showcase__links">
+                    <a href="https://github.com/NFRohan/DeliveryLens" target="_blank" rel="noopener"
+                        class="brutalist-btn brutalist-btn--primary">View on GitHub &#8599;</a>
+                </div>
+
+                <div class="case-metric-grid">
+                    <div class="case-metric">
+                        <span class="case-metric__value">16</span>
+                        <span class="case-metric__label">typed tools, every measurement from SQL</span>
+                    </div>
+                    <div class="case-metric">
+                        <span class="case-metric__value">0</span>
+                        <span class="case-metric__label">numbers written by the language model</span>
+                    </div>
+                    <div class="case-metric">
+                        <span class="case-metric__value">~6s</span>
+                        <span class="case-metric__label">3 rounds, 2 tool calls for a status question</span>
+                    </div>
+                    <div class="case-metric">
+                        <span class="case-metric__value">2</span>
+                        <span class="case-metric__label">retrieval paths fused, then reranked</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="project-showcase__content">
+                <article class="project-showcase__body">
+                    <h2>Why This Project Exists</h2>
+                    <p>Delivery questions are annoying to answer because the truth is spread across systems. Commit
+                        and pull-request activity lives in GitHub. Tasks and due dates live in a task tracker. The
+                        reasoning — why a decision was made, what the stated risks are — lives in documents nobody
+                        rereads. Answering "how is this project going?" means joining three sources by hand.</p>
+
+                    <p>DeliveryLens does that joining ahead of time. A scheduled job copies GitHub and task-tracker
+                        data into a local Postgres database, a separate ingest indexes PDFs and pull-request bodies
+                        into a searchable corpus, and questions are answered entirely from those local copies. The
+                        model never calls GitHub or the tracker directly. It only calls tools, and every tool reads
+                        the mirror.</p>
+
+                    <div class="case-callout">
+                        <strong>The constraint that shaped everything:</strong> the model behind this is a small,
+                        cheap one, chosen mainly for its rate limits. Early on it mis-transcribed a year while
+                        summarising a tool result — the underlying data was right, the model's retelling of it was
+                        not. That single failure produced the main rule in the codebase.
+                    </div>
+
+                    <h2>The Rule: The Model Writes The Text, Never The Number</h2>
+                    <p>Every tool result goes to two places. One copy goes to the model, which writes the prose. The
+                        other goes to a view builder that renders charts and tables straight from that same JSON,
+                        with no model in the path.</p>
+
+                    <pre class="mermaid">
+flowchart LR
+    T["Tool result JSON"] --> M["AI model"] --> P["Prose on the screen"]
+    T --> V["View builder (fixed code)"] --> C["Charts and tables on the screen"]
+                    </pre>
+
+                    <p>So when <code>COUNT(*) FILTER (WHERE is_overdue)</code> returns 7, the 7 on screen came from
+                        the query. The model never retypes it. The system prompt also forbids markdown tables,
+                        because the real figures are already rendered above the text.</p>
+
+                    <p>This is what makes a small model good enough. It has to pick the right tool and explain what
+                        the result means. It never has to be trusted with arithmetic.</p>
+
+                    <h2>Architecture</h2>
+                    <p>Data flows one way: external services into the database, database into the answer. Two
+                        reasons that matters. One question can need several database lookups, and doing that against
+                        live APIs would be slow and would burn through GitHub's hourly rate limit. And a tool result
+                        is a fact read out of a table, not something the model can misremember.</p>
+
+                    <pre class="mermaid">
+flowchart TD
+    GH["GitHub API"]
+    CU["Task tracker API"]
+    PDF["PDFs and PR bodies"]
+    SYNC["Sync services: watermarked, branch-aware"]
+    ING["Corpus ingest: chunk then embed"]
+    DB[("Postgres: Neon + pgvector")]
+
+    GH --> SYNC --> DB
+    CU --> SYNC
+    PDF --> ING --> DB
+
+    Q["Question"] --> AGENT["Agent loop"]
+    AGENT -->|"picks a tool"| TOOLS["16 typed tools"]
+    TOOLS --> INS["Insight layer: SQL aggregates"]
+    TOOLS --> RET["Hybrid retrieval: vector + full-text, fused, reranked"]
+    INS --> DB
+    RET --> DB
+
+    TOOLS -->|"result JSON"| LLM["Model"]
+    TOOLS -->|"same result JSON"| VIEW["View builder (no model)"]
+    LLM -->|"text"| UI["Answer on screen"]
+    VIEW -->|"charts, tables"| UI
+                    </pre>
+
+                    <h2>How A Question Turns Into An Answer</h2>
+                    <p>A status question runs about three rounds and two tool calls, roughly six seconds end to end.
+                        The model is told to always resolve a name before measuring anything, because people ask
+                        about "the retail thing" and that has to map to a real project row first.</p>
+
+                    <pre class="mermaid">
+sequenceDiagram
+    participant D as User
+    participant API as /api/v1/chat
+    participant A as Agent loop
+    participant T as Tools
+    participant DB as Neon
+    participant M as AI model
+
+    D->>API: "How is this project going?"
+    API->>API: Check session and allowlist
+    API->>A: Start the agent loop
+    A->>M: Question, plus 16 tool definitions
+    M-->>A: Call resolve_entity
+    A->>T: Run the tool
+    T->>DB: SELECT
+    DB-->>T: Rows
+    T-->>A: Result
+    A-->>D: Event: working out what you mean
+    A->>M: Tool result
+    M-->>A: Call get_project_status
+    A->>T: Run the tool
+    T-->>A: Result plus chart views
+    A-->>D: Charts and tables
+    A->>M: Tool result
+    M-->>A: Text
+    A-->>D: Text, one part at a time
+                    </pre>
+
+                    <p>The status query joins tracker tasks with GitHub commits and pull requests and returns one
+                        structured result plus a <code>provenance</code> block: when each source last synced, and how
+                        many accounts are still unmatched. The client never sends conversation history back — just
+                        the new message and a conversation id. The server reads earlier turns from the database, so
+                        refreshing resumes the thread and a client cannot rewrite what was already said.</p>
+
+                    <h2>Engineering Highlights</h2>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">1. Measurements and documents are kept apart on purpose
+                        </div>
+                        <p><span class="eng-highlight__fix">Problem:</span> the two sources describe the world at
+                            different scales. The financial documents describe a company with thousands of customers;
+                            the operational data describes a handful of projects and a small team. "How many people do
+                            we have?" therefore has two different correct answers depending on which source you ask.
+                        </p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> counts and rates come from SQL;
+                            prose comes from the corpus. The assistant always states which source it used, and it
+                            never adds a document figure to a measured one. Mixing them would produce a number that
+                            is arithmetically fine and semantically meaningless.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">2. Every result carries its own caveats</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> an aggregate without its denominator
+                            invites a wrong reading. A zero is the worst case: "no GitHub account linked" and "did not
+                            write any code" look identical, but only one of them is a performance signal.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> <code>get_overdue_tasks</code> also
+                            reports how many tasks have no due date and so cannot be judged either way.
+                            <code>rank_developers</code> returns its formula, its time window, who was excluded, and a
+                            note on any row where one data source contributed nothing. The caveat travels with the
+                            number instead of living in documentation nobody reads.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">3. Rankings stay inside their own groups</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> a project manager will never have commits.
+                            Scoring everyone on one combined number puts every non-engineering role at the bottom by
+                            construction — that is a fact about the job, not about the person.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> code-shipping roles and non-code
+                            roles are ranked separately, and the charts are drawn per group rather than combined,
+                            since combining them would imply a comparison the data cannot support. Anyone with zero
+                            activity in the window is listed separately instead of ranked, because no data is not the
+                            same as bad performance.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">4. Retrieval and reranking are two separate steps</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> plain vector search misses exact terms —
+                            a similarity search can skip straight past the passage that names a specific metric.
+                            Keyword search misses paraphrasing. Either one alone loses real answers.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> a pgvector/HNSW vector search and
+                            Postgres full-text search run together, their rankings are fused by reciprocal rank, and
+                            the combined list goes to a Cohere cross-encoder that reads the query and each passage
+                            together and scores them. The per-document cap is applied <em>after</em> reranking, so it
+                            never reorders results — it only stops one long document from taking every slot.</p>
+                    </div>
+
+                    <pre class="mermaid">
+flowchart LR
+    Q["Question"]
+    V["Vector search: top 30"]
+    K["Keyword search: top 30"]
+    F["Fuse by reciprocal rank"]
+    R["Cohere cross-encoder rerank"]
+    C["Cap 2 per document"]
+    OUT["Passages shown"]
+    Q --> V --> F
+    Q --> K --> F
+    F -->|"pool of 4x limit"| R --> C --> OUT
+                    </pre>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">5. The reranker can go down without breaking the answer
+                        </div>
+                        <p><span class="eng-highlight__fix">Problem:</span> the reranker is a third-party API call on
+                            the critical path of every document question. If it is the single point of failure, a
+                            quota problem takes out retrieval entirely.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> if the Cohere call times out or
+                            errors, retrieval falls back to selecting a diverse set from the vectors it already has —
+                            no extra API call, just arithmetic, which is what matters when quota is the limiting
+                            factor. The result records which path ran (<code>cross-encoder</code> or
+                            <code>diversity-fallback</code>) and the note passed to the model changes accordingly, so
+                            a weaker answer gets flagged rather than shipped silently.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">6. Identity links are confirmed by a person, never guessed
+                        </div>
+                        <p><span class="eng-highlight__fix">Problem:</span> GitHub handles and tracker accounts follow
+                            no shared naming pattern. An automatic wrong link would silently attribute one person's
+                            work to someone else, and nothing downstream would catch it.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> the identity service scores likely
+                            pairs and surfaces the busiest unmatched accounts first, but it only ever
+                            <em>suggests</em>. A human confirms. Bot accounts are filtered on both handle and display
+                            name, since some bots commit under a normal-looking login but a <code>[bot]</code>-tagged
+                            name.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">7. Authorization is separate from authentication, and fails
+                            closed</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> the auth provider allows open sign-up, so
+                            a successful login says nothing about whether you should see the data.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> a separate allowlist decides access,
+                            and an <strong>empty allowlist locks everyone out</strong> rather than letting everyone in
+                            by mistake. That check deliberately does not depend on the auth library or on the
+                            framework, so the preflight script can test it directly by feeding in bad addresses and
+                            confirming they are rejected.</p>
+                    </div>
+
+                    <h2>The Agent Loop</h2>
+                    <pre class="mermaid">
+flowchart TD
+    S["Start: system prompt plus question"] --> R["Send to the model"]
+    R --> C{"Did the model ask for tools?"}
+    C -->|No| T["Send the text. Stop."]
+    C -->|Yes| E["Run each tool"]
+    E --> V["Build the charts from the result"]
+    V --> A["Add the result to the conversation"]
+    A --> L{"Round limit reached?"}
+    L -->|No| R
+    L -->|Yes| X["Report the limit. Stop."]
+                    </pre>
+
+                    <h2>Three Bugs Worth Writing Up</h2>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Parallel tool calls landing on the same stream position
+                        </div>
+                        <p>One provider streams a single tool call in fragments, each chunk tagged with a position
+                            index. Another sends multiple complete calls that all report the same position,
+                            distinguished only by an id. Keying purely by position concatenated two calls into one
+                            broken JSON string, which the provider then rejected with an unhelpful 400. The fix keys
+                            by call id when one is present, falling back to the position index only for a continuation
+                            of a call already in progress — which covers both providers' behaviour.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">A 65-branch repository exhausting the hourly rate limit</div>
+                        <p>A lot of work lived on personal branches that were never merged, so syncing only the
+                            default branch missed most of it. The first attempt walked the full history of every
+                            branch on every sync, which made the rate-limit problem worse rather than better. The
+                            actual fix: sync the default branch first so its history is already stored, then skip any
+                            branch whose latest commit is already in the database.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Correct SQL, misleading answer</div>
+                        <p><code>get_overdue_tasks</code> filtered its results by project but computed the "how many
+                            tasks have due dates" total against the whole workspace — so "6 overdue out of 35 with due
+                            dates, out of 51 total" mixed one project's overdue count with the entire organisation's
+                            task count. Every number was correct on its own; together they were misleading.</p>
+                        <p>Separately, <code>renameConversation</code> and <code>deleteConversation</code> checked
+                            ownership correctly in their SQL, then decided success with <code>result.length &gt; 0</code>.
+                            TypeORM returns <code>[rows, affectedCount]</code> for updates and deletes, so that check
+                            was always true regardless of who owned the row. Reading the code would not have caught
+                            either bug. Tests that asked "does the denominator match the filter?" and "can another
+                            user delete this?" found both immediately.</p>
+                    </div>
+
+                    <h2>Tradeoffs And Honest Limits</h2>
+                    <p>Answers are only as fresh as the last sync. That is the deliberate cost of not calling the
+                        live APIs at question time, and it is why every result carries a <code>provenance</code> block
+                        saying when each source was last copied — a stale answer should announce itself rather than
+                        look current.</p>
+
+                    <p>The system is also bounded by the quality of the source data. With no time tracking in the
+                        tracker, it cannot report effort or capacity, and it says so instead of estimating. Incomplete
+                        due dates mean some tasks genuinely cannot be judged late or early. A 0% review rate is a
+                        signal about a team's habits, not about the quality of their work, and the assistant is
+                        careful not to present it as the latter.</p>
+
+                    <h2>What This Demonstrates</h2>
+                    <p>The interesting work here was not wiring up an LLM — it was deciding what the LLM is not
+                        allowed to do. Keeping every number on a path the model cannot touch, making each aggregate
+                        carry its own denominator, refusing to rank incomparable roles together, and giving the
+                        reranker a degraded path that announces itself: those are the decisions that make the output
+                        trustworthy enough to act on. Most of the rules in the system prompt exist because of a
+                        specific way an earlier answer went wrong.</p>
+                </article>
+
+                <aside class="project-sidebar">
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Project Type</div>
+                        <p style="margin:0; font-family:var(--font-primary); font-size:1rem; font-weight:500;">
+                            AI agent &amp; data platform engineering
+                        </p>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Context</div>
+                        <p style="margin:0; font-family:var(--font-primary); font-size:0.95rem;">
+                            Built during an AI engineering internship. This is a sanitised public version, with all
+                            organisation and client identifiers removed.
+                        </p>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">My Focus</div>
+                        <ul>
+                            <li>Agent loop and tool design</li>
+                            <li>Measurement layer in SQL</li>
+                            <li>Hybrid retrieval and reranking</li>
+                            <li>Incremental sync services</li>
+                            <li>Identity resolution</li>
+                            <li>Authorization that fails closed</li>
+                            <li>Provenance and caveats</li>
+                            <li>Preflight verification</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Technologies</div>
+                        <div class="skill-group__badges">
+                            <span class="tech-tag">Next.js 16</span>
+                            <span class="tech-tag">React 19</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Neon Postgres</span>
+                            <span class="tech-tag">pgvector</span>
+                            <span class="tech-tag">TypeORM</span>
+                            <span class="tech-tag">Zod</span>
+                            <span class="tech-tag">Cohere Rerank</span>
+                            <span class="tech-tag">Recharts</span>
+                            <span class="tech-tag">Vercel</span>
+                        </div>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Systems Shipped</div>
+                        <ul>
+                            <li>Streaming agent loop</li>
+                            <li>16 typed tools (Zod)</li>
+                            <li>Model-free view builder</li>
+                            <li>SQL insight layer</li>
+                            <li>Hybrid retrieval + rerank</li>
+                            <li>Diversity fallback path</li>
+                            <li>Branch-aware GitHub sync</li>
+                            <li>Corpus ingest and chunking</li>
+                            <li>Identity matching UI</li>
+                            <li>Persisted conversations</li>
+                            <li>Printable digest (no model)</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Design Stance</div>
+                        <ul>
+                            <li>Model writes text, never numbers</li>
+                            <li>Read the mirror, not the live API</li>
+                            <li>Denominators travel with counts</li>
+                            <li>No data is not bad performance</li>
+                            <li>Degrade loudly, not silently</li>
+                            <li>Authorization fails closed</li>
+                            <li>Provider-agnostic by protocol</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer__content">
+            <p class="footer__tagline">Built with Biriyani &amp; Caffeine</p>
+            <p>&copy; 2026 Nayeem Fardin</p>
+        </div>
+    </footer>
+
+    <button id="backToTopBtn" class="back-to-top" aria-label="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+    <script type="module" src="/main.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryTextColor: '#1a1a1a',
+                primaryBorderColor: '#1a1a1a',
+                lineColor: '#1a1a1a',
+                secondaryColor: '#ffe156',
+                tertiaryColor: '#fafafa',
+                fontFamily: '"Space Grotesk", sans-serif'
+            }
+        });
+
+        const backdrop = document.createElement('div');
+        backdrop.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:9998;display:none;cursor:zoom-out;';
+        document.body.appendChild(backdrop);
+
+        document.addEventListener('click', (e) => {
+            const mermaidEl = e.target.closest('.mermaid');
+            if (e.target === backdrop) {
+                const expanded = document.querySelector('.mermaid.expanded');
+                if (expanded) expanded.classList.remove('expanded');
+                backdrop.style.display = 'none';
+                document.body.style.overflow = '';
+            } else if (mermaidEl) {
+                mermaidEl.classList.toggle('expanded');
+                if (mermaidEl.classList.contains('expanded')) {
+                    backdrop.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    backdrop.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
