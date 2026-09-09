@@ -115,7 +115,7 @@
         "@type": "ItemList",
         "@id": "https://nayeemfardin.vercel.app/#projects",
         "name": "Engineering projects by Nayeem Fardin",
-        "numberOfItems": 10,
+        "numberOfItems": 11,
         "itemListElement": [
           {
             "@type": "ListItem",
@@ -182,6 +182,19 @@
             "@type": "ListItem",
             "position": 4,
             "item": {
+              "@type": "CreativeWork",
+              "name": "HomeLab",
+              "description": "Two-host self-hosted platform run as production: 19 rootless podman containers as systemd Quadlets, split-horizon DNS serving LAN and tailnet audiences from one set of names, digest-pinned images under SELinux enforcing, SMR-aware storage placement, and encrypted offsite backups verified weekly by restoring a random sample and checksumming it.",
+              "url": "https://nayeemfardin.vercel.app/homelab.html",
+              "author": {
+                "@id": "https://nayeemfardin.vercel.app/#person"
+              }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 5,
+            "item": {
               "@type": "SoftwareSourceCode",
               "name": "ShelfWatch",
               "description": "Retail inventory analysis system running fine-tuned YOLOv11L on AWS EKS as a microserviced deployment, compiled to an in-process ONNX Runtime engine with INT8 quantization for 4x CPU inference speedup and 70-90% cost savings.",
@@ -195,7 +208,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 5,
+            "position": 6,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "PixTools",
@@ -213,7 +226,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 6,
+            "position": 7,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "NeoAlarm",
@@ -231,7 +244,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 7,
+            "position": 8,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "StatusMonitor",
@@ -246,7 +259,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 8,
+            "position": 9,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "Crawler RAG DocHelper",
@@ -260,7 +273,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 9,
+            "position": 10,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "interviewPrepper",
@@ -275,7 +288,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 10,
+            "position": 11,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "RoutineMaker",
@@ -750,7 +763,42 @@
           </ul>
         </article>
 
-        <!-- Project 4: ShelfWatch -->
+        <!-- Project 4: HomeLab -->
+        <article class="brutalist-card project-card reveal" data-accent="coral">
+          <div class="project-card__header">
+            <h3 class="project-card__title">HomeLab</h3>
+            <div style="display: flex; gap: 8px;">
+              <a href="/homelab.html" class="brutalist-btn brutalist-btn--small"
+                style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
+            </div>
+          </div>
+          <div class="project-card__tags">
+            <span class="tech-tag">Podman</span>
+            <span class="tech-tag">Quadlets</span>
+            <span class="tech-tag">systemd</span>
+            <span class="tech-tag">SELinux</span>
+            <span class="tech-tag">CoreDNS</span>
+            <span class="tech-tag">Caddy</span>
+            <span class="tech-tag">Tailscale</span>
+            <span class="tech-tag">rclone</span>
+          </div>
+          <ul class="project-card__highlights">
+            <li>Two hosts running <strong>19 rootless podman containers</strong> as declarative systemd
+              <strong>Quadlets</strong> — no root daemon, no compose, everything up at boot with nobody logged in.</li>
+            <li><strong>Split-horizon DNS</strong> serves one set of <code>.home</code> names to two audiences: a LAN
+              resolver and a tailnet-only resolver both pointing at the same reverse proxy.</li>
+            <li>Images pinned by <strong><code>@sha256:</code> digest</strong> so a pull can never silently change
+              what runs; SELinux stays <strong>enforcing</strong> with per-path relabel decisions.</li>
+            <li>Offsite backups <strong>verified by restoring them</strong> — an encrypted remote exposes no usable
+              hashes, so a weekly job pulls back 15 random files, decrypts them, and checksums against the original.</li>
+            <li>Storage placement dictated by a <strong>shingled (SMR) disk</strong>: write-heavy and latency-sensitive
+              data on SSD, only large sequential data on the platter.</li>
+            <li>Incident log with real postmortems — including one where three broken discovery paths had three
+              different causes, and the fix then broke three more things.</li>
+          </ul>
+        </article>
+
+        <!-- Project 5: ShelfWatch -->
         <article class="brutalist-card project-card reveal" data-accent="yellow">
           <div class="project-card__header">
             <h3 class="project-card__title">ShelfWatch</h3>
@@ -792,7 +840,7 @@
           </ul>
         </article>
 
-        <!-- Project 5: PixTools -->
+        <!-- Project 6: PixTools -->
         <article class="brutalist-card project-card reveal" data-accent="cyan">
           <div class="project-card__header">
             <h3 class="project-card__title">PixTools</h3>
@@ -829,7 +877,7 @@
           </ul>
         </article>
 
-        <!-- Project 6: NeoAlarm -->
+        <!-- Project 7: NeoAlarm -->
         <article class="brutalist-card project-card reveal" data-accent="green">
           <div class="project-card__header">
             <h3 class="project-card__title">NeoAlarm</h3>
@@ -1058,7 +1106,7 @@
             <p>Ideally I can answer "what broke, when, and for whom" without guessing. That means queues with dead
               letters and a replay CLI that defaults to a dry run, correlation IDs threaded across services,
               Prometheus and Grafana with Loki for logs, and results that carry <code>provenance</code> — when each
-              source last synced, what was excluded, which tasks could not be judged at all. My homelab is where I
+              source last synced, what was excluded, which tasks could not be judged at all. My <a href="/homelab.html">homelab</a> is where I
               practise the unglamorous half: 19 containers with an incident log and real postmortems, and a weekly job
               that restores a random sample of the backup and checksums it, because a backup you have never restored
               is a guess.</p>
@@ -1111,7 +1159,7 @@
           <summary class="faq__question">What are you currently learning?</summary>
           <div class="faq__answer">
             <p>Operating things properly, rather than only building them. Most of that happens in a two-machine
-              homelab running 19 rootless <strong>podman</strong> containers as systemd <strong>Quadlets</strong>,
+              <a href="/homelab.html">homelab</a> running 19 rootless <strong>podman</strong> containers as systemd <strong>Quadlets</strong>,
               which has taught me more about SELinux labelling, split-horizon DNS, mount ordering, and digest-pinned
               images than any tutorial would have. I am working toward platform and reliability engineering —
               deeper Kubernetes than I have needed so far, and the distributed-systems fundamentals behind consensus,

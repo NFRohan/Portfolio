@@ -16,6 +16,7 @@ export default defineConfig({
                 retailos: resolve(__dirname, 'retailos-lite.html'),
                 deskemy: resolve(__dirname, 'deskemy.html'),
                 deliverylens: resolve(__dirname, 'deliverylens.html'),
+                homelab: resolve(__dirname, 'homelab.html'),
             },
         },
     },

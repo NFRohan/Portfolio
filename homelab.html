@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HomeLab | Nayeem Fardin</title>
+    <meta name="description"
+        content="HomeLab case study: two hosts running 19 rootless podman containers as systemd Quadlets, with split-horizon DNS, digest-pinned images, SELinux enforcing, and offsite backups verified by real restores." />
+    <meta name="author" content="Nayeem Fardin" />
+    <meta name="keywords"
+        content="homelab, rootless podman, systemd Quadlets, SELinux, split-horizon DNS, CoreDNS, Caddy, Tailscale, rclone crypt, backup verification, self-hosting, reliability engineering, Nayeem Fardin" />
+    <link rel="canonical" href="https://nayeemfardin.vercel.app/homelab.html" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="theme-color" content="#FFE156" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Article",
+                "@id": "https://nayeemfardin.vercel.app/homelab.html#article",
+                "headline": "HomeLab — Operating a Two-Host Self-Hosted Platform",
+                "name": "HomeLab — Operating a Two-Host Self-Hosted Platform",
+                "description": "Engineering case study of a two-machine self-hosted platform: 19 rootless podman containers managed as systemd Quadlets, split-horizon DNS serving two audiences from one set of names, digest-pinned images under SELinux enforcing, and an offsite backup proven by weekly restore-and-checksum rather than assumed.",
+                "url": "https://nayeemfardin.vercel.app/homelab.html",
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "https://nayeemfardin.vercel.app/homelab.html"
+                },
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://nayeemfardin.vercel.app/og-image.png"
+                },
+                "author": {
+                    "@type": "Person",
+                    "@id": "https://nayeemfardin.vercel.app/#person",
+                    "name": "Nayeem Fardin",
+                    "url": "https://nayeemfardin.vercel.app/"
+                },
+                "publisher": {
+                    "@type": "Person",
+                    "@id": "https://nayeemfardin.vercel.app/#person",
+                    "name": "Nayeem Fardin"
+                },
+                "datePublished": "2026-09-06",
+                "dateModified": "2026-09-10",
+                "inLanguage": "en",
+                "isPartOf": {
+                    "@id": "https://nayeemfardin.vercel.app/#website"
+                },
+                "about": {
+                    "@id": "https://nayeemfardin.vercel.app/homelab.html#project"
+                }
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://nayeemfardin.vercel.app/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Projects",
+                        "item": "https://nayeemfardin.vercel.app/#projects"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "HomeLab"
+                    }
+                ]
+            },
+            {
+                "@type": "CreativeWork",
+                "@id": "https://nayeemfardin.vercel.app/homelab.html#project",
+                "name": "HomeLab",
+                "description": "A two-machine self-hosted platform run as production: 19 rootless podman containers managed as systemd Quadlets with digest-pinned images under SELinux enforcing, split-horizon DNS serving LAN and tailnet audiences from one set of names, hardware-aware storage placement around a shingled disk, and nightly encrypted offsite backups verified weekly by restoring a random sample and checksumming it.",
+                "url": "https://nayeemfardin.vercel.app/homelab.html",
+                "author": { "@id": "https://nayeemfardin.vercel.app/#person" },
+                "about": [
+                    "Rootless containers",
+                    "systemd service management",
+                    "SELinux",
+                    "DNS architecture",
+                    "Backup verification",
+                    "Observability",
+                    "Incident response"
+                ]
+            }
+        ]
+    }
+    </script>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="HomeLab | Nayeem Fardin" />
+    <meta property="og:description"
+        content="Two hosts, 19 rootless podman containers as systemd Quadlets, split-horizon DNS, digest-pinned images under SELinux, and an offsite backup proven by weekly restores rather than assumed." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://nayeemfardin.vercel.app/homelab.html" />
+    <meta property="og:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+    <meta property="og:site_name" content="Nayeem Fardin" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="HomeLab — engineering case study by Nayeem Fardin" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="HomeLab | Nayeem Fardin" />
+    <meta name="twitter:description"
+        content="Two hosts, 19 rootless podman containers as systemd Quadlets, split-horizon DNS, digest-pinned images under SELinux, and an offsite backup proven by weekly restores rather than assumed." />
+    <meta name="twitter:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+    <meta name="twitter:image:alt" content="HomeLab — engineering case study by Nayeem Fardin" />
+
+    <!-- Fonts -->
+    <!-- Prevent FOUC (Flash of Unstyled Content) -->
+    <script>
+        (function () {
+            const saved = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/project-styles.css" />
+
+    <!-- Vercel Web Analytics -->
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <!-- Vercel Speed Insights -->
+    <script>
+        window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+
+<body>
+    <nav class="nav" id="nav">
+        <a href="/index.html" class="nav__logo">NF<span class="accent">.</span></a>
+        <div class="nav__links">
+            <a href="/index.html#about">About</a>
+            <a href="/index.html#projects">Projects</a>
+            <a href="/index.html#experience">Experience</a>
+            <a href="/index.html#contact">Contact</a>
+        </div>
+        <div class="nav__actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span class="theme-toggle__icon theme-toggle__icon--sun">&#9728;</span>
+                <span class="theme-toggle__icon theme-toggle__icon--moon">&#9790;</span>
+            </button>
+            <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/index.html#about">About</a>
+        <a href="/index.html#projects">Projects</a>
+        <a href="/index.html#experience">Experience</a>
+        <a href="/index.html#contact">Contact</a>
+    </div>
+
+    <main class="project-showcase">
+        <div class="container">
+            <a href="/index.html#projects" class="brutalist-back-btn">
+                <span>&#8592;</span> Back to Projects
+            </a>
+
+            <header class="project-showcase__header">
+                <p class="case-eyebrow">Infrastructure case study / two-host self-hosted platform / ongoing</p>
+                <h1 class="project-showcase__title">HomeLab</h1>
+                <p class="project-showcase__subtitle">Two machines running a photo library, a media server, and the
+                    infrastructure around them — 19 rootless containers managed as systemd units, with split-horizon
+                    DNS, digest-pinned images under SELinux, and an offsite backup that is verified by restoring it
+                    rather than by hoping. This is where I practise operating things, not just building them.</p>
+
+                <div class="case-metric-grid">
+                    <div class="case-metric">
+                        <span class="case-metric__value">19</span>
+                        <span class="case-metric__label">rootless containers as systemd Quadlets</span>
+                    </div>
+                    <div class="case-metric">
+                        <span class="case-metric__value">15</span>
+                        <span class="case-metric__label">restored files checksummed every week</span>
+                    </div>
+                    <div class="case-metric">
+                        <span class="case-metric__value">0</span>
+                        <span class="case-metric__label">inbound connections possible, by design</span>
+                    </div>
+                    <div class="case-metric">
+                        <span class="case-metric__value">2</span>
+                        <span class="case-metric__label">DNS resolvers, one set of hostnames</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="project-showcase__content">
+                <article class="project-showcase__body">
+                    <div class="case-callout">
+                        <strong>Note:</strong> the configuration for this lives in a private repository — it holds
+                        credentials and key material, and it is not something anyone else would deploy. This page is
+                        the write-up rather than a link to code.
+                    </div>
+
+                    <h2>Why This Project Exists</h2>
+                    <p>Every other project on this site is something I built. This is the one I <em>run</em>. It has
+                        users who are not me — a housemate who wants to watch something without being told about DNS
+                        — which turns out to be the entire difference. A service being down is not a ticket, it is
+                        someone asking me why it is broken.</p>
+
+                    <p>That changed how I work on it. There is an incident log with real postmortems, a runbook table
+                        mapping symptoms to the document that explains them, and a backup job whose success is
+                        displayed on a dashboard rather than buried in a log nobody reads. None of that is necessary
+                        for a hobby setup. All of it is necessary if you want to find out whether you can actually
+                        operate something.</p>
+
+                    <h2>The Two Hosts</h2>
+                    <p>A Dell OptiPlex 3060 Micro does the work: an i5-8500T with an integrated GPU for hardware
+                        video transcoding, running AlmaLinux 10 with everything containerised. A Raspberry Pi 4
+                        handles the things that must stay up when the OptiPlex is being tinkered with — DNS and
+                        filtering, the dashboard, and the metrics hub. Putting DNS on the machine that is <em>not</em>
+                        being rebuilt is the whole point of splitting them.</p>
+
+                    <p>The network sits behind CGNAT, so there is no inbound connectivity from the internet at all.
+                        That is a load-bearing assumption rather than a limitation: remote access goes over a
+                        Tailscale tailnet, and nothing is ever exposed publicly. It also has consequences that show up
+                        later, in a way I did not anticipate.</p>
+
+                    <h2>Storage: The Disk Dictates The Layout</h2>
+                    <p>There is a 119 GB SSD and a 932 GB 2.5-inch platter. The platter is
+                        <strong>drive-managed SMR</strong> — shingled media, where overlapping tracks mean a random
+                        write can force a read-modify-write of neighbouring data. Under sustained random writes it
+                        does not slow down gracefully; it stalls for seconds at a time.</p>
+
+                    <p>So placement is decided by write pattern, not by size. Anything write-heavy or
+                        latency-sensitive lives on the SSD: the Postgres database behind the photo library, generated
+                        thumbnails, every service's configuration, the transcode cache, the container image store.
+                        The platter gets only large sequential data — photo and video originals, the media library.
+                        Getting this backwards would produce a system that looks fine on paper and feels broken.</p>
+
+                    <p>The bulk disk is mounted <strong>by UUID</strong> with
+                        <code>nofail,x-systemd.device-timeout=30</code>, because device names are not stable — that
+                        disk has come up as both <code>sda</code> and <code>sdb</code> across reboots. Anything that
+                        writes to it also carries <code>RequiresMountsFor=</code>, so a service cannot start before
+                        the disk is mounted and quietly write into the root filesystem instead. That failure is
+                        particularly nasty: nothing errors, and you find out when the root filesystem fills up.</p>
+
+                    <h2>Everything Is A systemd Unit</h2>
+                    <p>All 19 containers run <strong>rootless</strong> under an unprivileged user, defined as
+                        <strong>podman Quadlets</strong> — declarative <code>.container</code> files that systemd
+                        turns into real units. There is no <code>docker-compose up</code> and no daemon running as
+                        root. Linger is enabled for the service user, so everything starts at boot with nobody logged
+                        in, and every service gets systemd's restart behaviour, ordering, and journal for free.</p>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Images are pinned by digest, not by tag</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> a tag is a moving pointer. Pulling
+                            <code>:latest</code> — or even <code>:1.2</code> — can silently change what runs, which
+                            means a restart is a potential upgrade you did not choose and cannot reproduce.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> every image is pinned by
+                            <code>@sha256:</code> digest, so a pull can never change the running software. Upgrading
+                            is a deliberate act: pull the new tag, read its digest, edit the unit file. It is more
+                            friction, and that is the point — the friction is where you decide to upgrade.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">SELinux stays enforcing, with per-path reasoning</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> the usual advice for container volume
+                            problems is to add <code>:Z</code> to the bind mount and move on, or to disable SELinux
+                            entirely. On a 900 GB volume, <code>:Z</code> is not a small decision — it relabels
+                            everything it is given.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> SELinux stays
+                            <strong>Enforcing</strong>. The bulk volume is labelled <code>container_file_t</code>
+                            once, so bind mounts of it take <strong>no</strong> <code>:Z</code> flag — relabelling
+                            ~900 GB on every container start would be brutal. Paths under the home directory are
+                            <code>user_home_t</code> and <em>do</em> need <code>:Z</code>. Two rules, each with a
+                            reason, instead of one blanket flag.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Understanding what rootless UID mapping actually does</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> containers that let you choose a UID will
+                            write files owned by whatever you pick, and mixing those across services produces a
+                            permissions mess that only shows up later.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> under rootless podman the
+                            container's root maps to the unprivileged host user, so running those containers as UID 0
+                            makes files land owned consistently by that user and confers <em>no</em> host privilege —
+                            the thing that looks alarming is actually the safe option here. Containers that insist on
+                            running as a fixed non-root user instead need an explicit
+                            <code>UserNS=keep-id</code> mapping to land in the same place.</p>
+                    </div>
+
+                    <h2>Split-Horizon DNS: Two Audiences, One Set Of Names</h2>
+                    <p>Every service answers on a <code>.home</code> name — <code>jellyfin.home</code>,
+                        <code>photos.home</code>, <code>dash.home</code>. The problem is that two different audiences
+                        need two different answers for the same name. A housemate on the LAN with no VPN needs the
+                        LAN address. My own devices, which may be anywhere, need the tailnet address.</p>
+
+                    <p>So two resolvers answer the same question differently, and both point at the same reverse
+                        proxy, which listens on every interface:</p>
+
+                    <pre class="mermaid">
+flowchart TD
+    H["Housemate on the LAN, no VPN"] --> AG["AdGuard Home on the Pi"]
+    M["My devices, on the tailnet, anywhere"] --> TS["Tailscale split-DNS rule for .home"]
+    TS --> CD["CoreDNS, tailnet-only"]
+    AG -->|"resolves to the LAN address"| CADDY["Caddy, listening on all interfaces"]
+    CD -->|"resolves to the tailnet address"| CADDY
+    CADDY --> SVC["19 services on .home names"]
+                    </pre>
+
+                    <p>The tailnet half is reached through a <strong>Tailscale split-DNS rule</strong> scoped to
+                        <code>.home</code> only, so everything else on those devices keeps using its normal DNS
+                        rather than being routed through my house. The services run plain HTTP on purpose: these are
+                        internal names that no public certificate authority can issue for, so HTTPS would mean either
+                        a private CA on every guest device or a browser warning on every visit. Unmatched hostnames
+                        get a clean 404 rather than whichever service happened to be first.</p>
+
+                    <p>DNS is deliberately <strong>not</strong> reachable from the LAN — the tailnet-only resolver
+                        must stay tailnet-only, or LAN clients would start getting tailnet addresses they cannot
+                        reach. The reverse proxy's admin API is bound to the tailnet address for the same reason.
+                        The Tailscale interface sits in the firewall's trusted zone; the LAN does not.</p>
+
+                    <div class="case-callout">
+                        <strong>This replaced something that did not work.</strong> An earlier attempt advertised the
+                        whole LAN subnet as a Tailscale route, which black-holed LAN traffic for connected devices.
+                        The split-DNS approach solves the same problem without touching routing at all.
+                    </div>
+
+                    <h2>Backups: Verified, Not Assumed</h2>
+                    <p>A nightly job pushes about 24 GB offsite, encrypted, and a weekly job proves it can actually
+                        be restored. The distinction between those two sentences is the whole section.</p>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Copy, never sync</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> a mirroring sync replicates deletions. A
+                            bad <code>rm</code>, a corrupted library, or ransomware would propagate straight to the
+                            only offsite copy and destroy it. A backup that faithfully mirrors your mistake is not a
+                            backup.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> the job uses <code>copy</code> with
+                            a timestamped <code>--backup-dir</code>. Nothing on the remote is ever deleted, and
+                            anything that <em>would</em> have been overwritten is moved aside into a dated archive
+                            folder first. The remote grows monotonically and old versions stay recoverable, at the
+                            cost of manual pruning when space gets tight.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">An encrypted remote cannot be checked the cheap way</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> the remote is layered so the storage
+                            provider only ever sees ciphertext. But an encrypted remote <strong>exposes no usable
+                            hashes</strong> — the provider holds a checksum of the ciphertext, which can never equal
+                            the checksum of the plaintext. The normal cheap content check is therefore impossible.
+                        </p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> verification does two different
+                            things instead. A size-and-existence sweep across everything is cheap and catches missing
+                            or truncated files, but cannot catch corruption that preserves length. So the job also
+                            performs <strong>a real restore</strong>: 15 random files are pulled back down,
+                            decrypted, and checksummed against the local original. That is the only check that proves
+                            the entire chain — network, encryption config, and keys — actually round-trips. A backup
+                            you have never restored is a hypothesis.</p>
+                    </div>
+
+                    <pre class="mermaid">
+flowchart TD
+    SRC["Photos, database dumps, service configs, unit files"] --> NIGHT["Nightly: copy with timestamped backup-dir"]
+    NIGHT --> ENC["Encrypted remote: provider sees ciphertext only"]
+    ENC --> WEEK["Weekly verification"]
+    WEEK --> SZ["Size and existence sweep across everything"]
+    WEEK --> RST["Restore 15 random files, decrypt, checksum"]
+    SZ --> ST["Status JSON: ok, warn, or fail"]
+    RST --> ST
+    ST --> DASH["Shown on the dashboard, not buried in a log"]
+                    </pre>
+
+                    <p>The result is published as JSON and rendered on the dashboard, with meanings that are worth
+                        distinguishing: <strong>fail</strong> means a restored file did not match or was missing —
+                        real data loss. <strong>warn</strong> usually means local files changed after the last
+                        nightly push, which is expected right after editing a config. <strong>ok</strong> means the
+                        sweep matched and the restore sample round-tripped. A single green light that conflates those
+                        would be worse than none.</p>
+
+                    <p>One performance note that mattered more than expected: enabling a single bulk listing instead
+                        of walking each directory took the size check from about <strong>nine minutes to twenty
+                        seconds</strong>. Media is deliberately excluded from the backup entirely — it is
+                        re-downloadable, it is the bulk of the disk, and at 10 Mbps upstream it would take months.
+                        Losing it costs time, not data.</p>
+
+                    <div class="case-callout">
+                        <strong>An open gap, stated rather than hidden:</strong> the encryption password and salt
+                        currently exist only on the two machines the backup is meant to protect. Without them the
+                        offsite copy is unrecoverable noise. This is a real single point of failure, it is written
+                        down as one, and it needs a copy held off both hosts.
+                    </div>
+
+                    <h2>Knowing When Something Is Wrong</h2>
+                    <p>Host metrics and per-container stats feed a dashboard on the Pi, alongside the backup status
+                        and a live log viewer that reads the rootless container socket and can tail all 19 services
+                        at once. The dashboard runs on the machine that is not the one being changed, which is the
+                        only arrangement where it is useful during an incident.</p>
+
+                    <p>One thing worth recording: the log viewer's per-container CPU percentage is
+                        <strong>wrong under podman</strong>, inflated by roughly 305×. It is noted in the runbook,
+                        because a monitoring tool that lies confidently is worse than one that says nothing — the
+                        first time you see 3000% CPU you go looking for a problem that does not exist.</p>
+
+                    <h2>A Postmortem: Three Symptoms, One Root Cause</h2>
+                    <p>The best thing in this project is an incident write-up, because the wrong theories are the
+                        valuable part. A large download sat with zero peers indefinitely. It was not the ISP, not
+                        CGNAT, and not the source — but it took discarding two plausible explanations to establish
+                        that.</p>
+
+                    <p>The affected service ran behind rootless podman's <strong>userspace port proxy</strong> on a
+                        bridge network. It sends its UDP tracker announcements and peer-discovery traffic
+                        <em>from its own listen socket</em>, and replies could not find their way back through that
+                        proxy — so every UDP announcement timed out. Meanwhile outbound UDP from an
+                        <em>ephemeral</em> port was translated normally, which is exactly why the obvious diagnostic
+                        succeeded and sent me the wrong way.</p>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Wrong theory 1: the ISP or CGNAT is filtering UDP</div>
+                        <p>It fitted the evidence well — DNS over UDP worked, and every other UDP port timed out.
+                            Killed by sending a raw protocol probe to the same trackers, which got replies from both
+                            hosts. UDP egress had never been blocked.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">Wrong theory 2: rootless podman blocks outbound UDP</div>
+                        <p>The natural next guess. Killed by running the identical probe <em>from inside the
+                            container itself</em>, which also got a reply. Container UDP egress worked fine; only
+                            that application's own announcements failed. <strong>That distinction is the entire
+                            diagnosis</strong> — the difference between a probe's ephemeral source port and the
+                            application's own listen socket.</p>
+                    </div>
+
+                    <p>A third symptom had a different cause again: local peer discovery relies on multicast, and
+                        <strong>LAN multicast does not cross the podman bridge</strong> into a container's namespace.
+                        A machine on the same switch was broadcasting the whole time and nothing in the container
+                        could hear it. And the tracker could not introduce the two either, because both sit behind
+                        the same CGNAT address and clients skip peers advertising their own external address. Three
+                        discovery paths, three different reasons, two machines one metre apart.</p>
+
+                    <p>The fix was to move that service to host networking so it owns its sockets directly instead of
+                        going through the proxy. Measured before and after: UDP trackers went from 0 working to 4–5
+                        per torrent, and the distributed hash table from 0 nodes to 122 connected. Transfer over the
+                        LAN went from about 5 MB/s to 58 MB/s once the local peer was reachable.</p>
+
+                    <p>The fix then broke three things, which is the part worth writing down. Leaving the container
+                        network meant every service that referred to it <em>by container name</em> stopped resolving
+                        — three automation services and the reverse proxy all had to be repointed. And the host's own
+                        LAN address turned out to be unreachable from inside containers: the firewall drops traffic
+                        arriving from the container bridge at that address, so the correct target is the special
+                        <code>host.containers.internal</code> name podman provides for exactly this. Finally, the
+                        reverse proxy's <code>reload</code> <strong>silently did not apply</strong> — it logged
+                        success and exited zero while continuing to serve the old configuration, confirmed by reading
+                        its live config back from the admin API. Only a restart applied it.</p>
+
+                    <div class="case-callout">
+                        <strong>The lesson worth keeping:</strong> a working low-level probe does not prove the
+                        application's path works. The probe and the application used different source sockets, so one
+                        succeeded while the other was completely dead. Test the way the application actually behaves,
+                        not the way that is convenient to test.
+                    </div>
+
+                    <h2>Known Constraints</h2>
+                    <p>Memory is the binding constraint — 7.3 GB against the photo stack's own 8 GB recommendation,
+                        with 19 containers sharing it. A 16 GB upgrade is planned, and the 8th-generation memory
+                        controller rejects single-rank ×16 modules, so the part has to be dual-rank ×8. That is the
+                        kind of detail you only learn by ordering the wrong one.</p>
+
+                    <p>CGNAT means no inbound connections, which is good for exposure and bad for anything
+                        peer-to-peer. SMR makes sustained random writes the worst-case workload for the bulk disk,
+                        so the affected service runs with preallocation on and concurrency capped to compensate.
+                        Neither is solvable at this budget; both are documented so the next surprise is a shorter
+                        investigation.</p>
+
+                    <h2>What This Demonstrates</h2>
+                    <p>Writing software and operating it are different skills, and the second one is harder to
+                        evidence. This is where I have had to actually do the unglamorous half: decide what a green
+                        light means, find out whether a backup restores, discover that a monitoring tool is lying,
+                        work out why a fix broke three unrelated things, and write it all down for the version of me
+                        who hits it again in six months. The infrastructure decisions on my other projects —
+                        graceful eviction, digest pinning, health checks, provenance on every result — mostly come
+                        from having been burned here first, where the only person paged was me.</p>
+                </article>
+
+                <aside class="project-sidebar">
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Project Type</div>
+                        <p style="margin:0; font-family:var(--font-primary); font-size:1rem; font-weight:500;">
+                            Infrastructure &amp; operations, ongoing
+                        </p>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Scale</div>
+                        <ul>
+                            <li>2 hosts, 1 tailnet</li>
+                            <li>19 rootless containers</li>
+                            <li>~1 TB storage, two tiers</li>
+                            <li>~24 GB encrypted offsite</li>
+                            <li>Non-technical users, plural</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">My Focus</div>
+                        <ul>
+                            <li>Rootless container runtime</li>
+                            <li>systemd service management</li>
+                            <li>DNS architecture</li>
+                            <li>Reverse proxy and firewalling</li>
+                            <li>SELinux policy in practice</li>
+                            <li>Backup and restore verification</li>
+                            <li>Metrics and log aggregation</li>
+                            <li>Incident response and postmortems</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Technologies</div>
+                        <div class="skill-group__badges">
+                            <span class="tech-tag">Podman</span>
+                            <span class="tech-tag">Quadlets</span>
+                            <span class="tech-tag">systemd</span>
+                            <span class="tech-tag">AlmaLinux</span>
+                            <span class="tech-tag">Debian</span>
+                            <span class="tech-tag">SELinux</span>
+                            <span class="tech-tag">firewalld</span>
+                            <span class="tech-tag">CoreDNS</span>
+                            <span class="tech-tag">AdGuard Home</span>
+                            <span class="tech-tag">Caddy</span>
+                            <span class="tech-tag">Tailscale</span>
+                            <span class="tech-tag">rclone</span>
+                            <span class="tech-tag">PostgreSQL</span>
+                            <span class="tech-tag">LVM</span>
+                            <span class="tech-tag">VAAPI</span>
+                        </div>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Operating Practices</div>
+                        <ul>
+                            <li>Images pinned by digest</li>
+                            <li>Mounts by UUID, with nofail</li>
+                            <li>RequiresMountsFor on writers</li>
+                            <li>SELinux enforcing</li>
+                            <li>Copy-never-sync backups</li>
+                            <li>Weekly restore verification</li>
+                            <li>Backup status on a dashboard</li>
+                            <li>Incident log with postmortems</li>
+                            <li>Symptom-to-document runbook</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Open Gaps</div>
+                        <ul>
+                            <li>Encryption keys held only on the protected hosts</li>
+                            <li>Memory below recommendation</li>
+                            <li>Local peer discovery unverified since the fix</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer__content">
+            <p class="footer__tagline">Built with Biriyani &amp; Caffeine</p>
+            <p>&copy; 2026 Nayeem Fardin</p>
+        </div>
+    </footer>
+
+    <button id="backToTopBtn" class="back-to-top" aria-label="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+    <script type="module" src="/main.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryTextColor: '#1a1a1a',
+                primaryBorderColor: '#1a1a1a',
+                lineColor: '#1a1a1a',
+                secondaryColor: '#ffe156',
+                tertiaryColor: '#fafafa',
+                fontFamily: '"Space Grotesk", sans-serif'
+            }
+        });
+
+        const backdrop = document.createElement('div');
+        backdrop.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:9998;display:none;cursor:zoom-out;';
+        document.body.appendChild(backdrop);
+
+        document.addEventListener('click', (e) => {
+            const mermaidEl = e.target.closest('.mermaid');
+            if (e.target === backdrop) {
+                const expanded = document.querySelector('.mermaid.expanded');
+                if (expanded) expanded.classList.remove('expanded');
+                backdrop.style.display = 'none';
+                document.body.style.overflow = '';
+            } else if (mermaidEl) {
+                mermaidEl.classList.toggle('expanded');
+                if (mermaidEl.classList.contains('expanded')) {
+                    backdrop.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    backdrop.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
