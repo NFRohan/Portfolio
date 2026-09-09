@@ -10,6 +10,14 @@
 - **Location:** Bangladesh
 - **Open to:** project collaborations, internship and new-graduate engineering roles
 
+## What I'm looking for
+
+Engineering roles in AI infrastructure, backend, or platform work — new-grad positions and internships both, from September 2026. Particular interest in inference serving and the queues around it, retrieval systems that have to be right rather than plausible, observability, distributed systems where correctness under failure is the requirement, developer platforms, and cost-aware infrastructure. Also open to project collaborations.
+
+## Currently
+
+Operating rather than only building: a two-machine homelab running 19 rootless podman containers as systemd Quadlets, with split-horizon DNS, digest-pinned images, SELinux enforcing, an incident log with postmortems, and a weekly job that restores a random sample of the offsite backup and checksums it. Working toward platform and reliability engineering — deeper Kubernetes, and the distributed-systems fundamentals behind consensus, backpressure, and failure detection.
+
 ## Focus areas
 
 Shipping AI features with real engineering rigor: computer vision, retrieval-augmented generation, and LLM pipelines built on async processing queues, Kubernetes workloads on AWS, infrastructure as code with Terraform, and instrumentation with Prometheus, Grafana, and OpenTelemetry.
