@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deskemy | Nayeem Fardin</title>
+    <meta name="description"
+        content="Deskemy case study: a Rust + Tauri offline course player that renders native libmpv video through a transparent WebView2 via DirectComposition, with FTS5 subtitle search and rename-safe progress." />
+    <meta name="author" content="Nayeem Fardin" />
+    <meta name="keywords"
+        content="Deskemy, offline course player, Tauri v2, Rust, Svelte 5, libmpv, FFI, DirectComposition, WebView2, SQLite FTS5, desktop app, Nayeem Fardin" />
+    <link rel="canonical" href="https://nayeemfardin.vercel.app/deskemy.html" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="theme-color" content="#FFE156" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Article",
+                "@id": "https://nayeemfardin.vercel.app/deskemy.html#article",
+                "headline": "Deskemy — Offline Course Player in Rust and Tauri",
+                "name": "Deskemy — Offline Course Player in Rust and Tauri",
+                "description": "Engineering case study of a Windows desktop course player built on Tauri v2 and Svelte 5, driving libmpv through Rust FFI and compositing native video beneath a transparent WebView2 with DirectComposition.",
+                "url": "https://nayeemfardin.vercel.app/deskemy.html",
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "https://nayeemfardin.vercel.app/deskemy.html"
+                },
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "https://nayeemfardin.vercel.app/og-image.png"
+                },
+                "author": {
+                    "@type": "Person",
+                    "@id": "https://nayeemfardin.vercel.app/#person",
+                    "name": "Nayeem Fardin",
+                    "url": "https://nayeemfardin.vercel.app/"
+                },
+                "publisher": {
+                    "@type": "Person",
+                    "@id": "https://nayeemfardin.vercel.app/#person",
+                    "name": "Nayeem Fardin"
+                },
+                "datePublished": "2026-07-12",
+                "dateModified": "2026-09-10",
+                "inLanguage": "en",
+                "isPartOf": {
+                    "@id": "https://nayeemfardin.vercel.app/#website"
+                },
+                "about": {
+                    "@id": "https://nayeemfardin.vercel.app/deskemy.html#project"
+                }
+            },
+            {
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "Home",
+                        "item": "https://nayeemfardin.vercel.app/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "Projects",
+                        "item": "https://nayeemfardin.vercel.app/#projects"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "name": "Deskemy"
+                    }
+                ]
+            },
+            {
+                "@type": "SoftwareApplication",
+                "@id": "https://nayeemfardin.vercel.app/deskemy.html#project",
+                "name": "Deskemy",
+                "description": "An offline player for video courses you already own. Point it at a folder and it becomes a browsable library with native playback, resume, progress tracking, subtitle search, bookmarks, and watch-time stats — fully offline, with no accounts and no telemetry.",
+                "url": "https://nayeemfardin.vercel.app/deskemy.html",
+                "applicationCategory": "EducationalApplication",
+                "applicationSubCategory": "Video Player",
+                "operatingSystem": "Windows 10, Windows 11",
+                "softwareVersion": "1.2.2",
+                "datePublished": "2026-07-12",
+                "softwareHelp": "https://github.com/NFRohan/Deskemy#readme",
+                "downloadUrl": "https://github.com/NFRohan/Deskemy/releases/latest",
+                "installUrl": "https://github.com/NFRohan/Deskemy/releases/latest",
+                "license": "https://opensource.org/licenses/MIT",
+                "programmingLanguage": ["Rust", "TypeScript", "Svelte"],
+                "author": { "@id": "https://nayeemfardin.vercel.app/#person" },
+                "sameAs": "https://github.com/NFRohan/Deskemy",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD"
+                },
+                "featureList": [
+                    "Native libmpv playback through Rust FFI",
+                    "Resume, autoplay-next, and per-course playback preferences",
+                    "Full-text search over titles and spoken subtitle text",
+                    "Timestamped bookmarks, tags, favorites, and watch history",
+                    "Rename-safe progress matched by file content rather than path",
+                    "Watch-time stats with activity heatmap, streaks, and daily goals",
+                    "Portable mode that writes nothing outside its own folder"
+                ]
+            },
+            {
+                "@type": "SoftwareSourceCode",
+                "@id": "https://nayeemfardin.vercel.app/deskemy.html#source",
+                "name": "Deskemy",
+                "description": "Source for Deskemy, an offline course player built with Tauri v2, Svelte 5, and a Rust core that drives libmpv over FFI.",
+                "codeRepository": "https://github.com/NFRohan/Deskemy",
+                "programmingLanguage": ["Rust", "TypeScript", "Svelte"],
+                "license": "https://opensource.org/licenses/MIT",
+                "author": { "@id": "https://nayeemfardin.vercel.app/#person" },
+                "about": { "@id": "https://nayeemfardin.vercel.app/deskemy.html#project" }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Deskemy | Nayeem Fardin" />
+    <meta property="og:description"
+        content="An offline course player in Rust and Tauri: native libmpv playback composited beneath a transparent WebView2, with FTS5 subtitle search and rename-safe progress." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://nayeemfardin.vercel.app/deskemy.html" />
+    <meta property="og:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+    <meta property="og:site_name" content="Nayeem Fardin" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Deskemy — engineering case study by Nayeem Fardin" />
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Deskemy | Nayeem Fardin" />
+    <meta name="twitter:description"
+        content="An offline course player in Rust and Tauri: native libmpv playback composited beneath a transparent WebView2, with FTS5 subtitle search and rename-safe progress." />
+    <meta name="twitter:image" content="https://nayeemfardin.vercel.app/og-image.png" />
+    <meta name="twitter:image:alt" content="Deskemy — engineering case study by Nayeem Fardin" />
+
+    <!-- Fonts -->
+    <!-- Prevent FOUC (Flash of Unstyled Content) -->
+    <script>
+        (function () {
+            const saved = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+        rel="stylesheet" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/project-styles.css" />
+
+    <!-- Vercel Web Analytics -->
+    <script>
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <!-- Vercel Speed Insights -->
+    <script>
+        window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+    </script>
+    <script defer src="/_vercel/speed-insights/script.js"></script>
+</head>
+
+<body>
+    <nav class="nav" id="nav">
+        <a href="/index.html" class="nav__logo">NF<span class="accent">.</span></a>
+        <div class="nav__links">
+            <a href="/index.html#about">About</a>
+            <a href="/index.html#projects">Projects</a>
+            <a href="/index.html#experience">Experience</a>
+            <a href="/index.html#contact">Contact</a>
+        </div>
+        <div class="nav__actions">
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <span class="theme-toggle__icon theme-toggle__icon--sun">&#9728;</span>
+                <span class="theme-toggle__icon theme-toggle__icon--moon">&#9790;</span>
+            </button>
+            <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="/index.html#about">About</a>
+        <a href="/index.html#projects">Projects</a>
+        <a href="/index.html#experience">Experience</a>
+        <a href="/index.html#contact">Contact</a>
+    </div>
+
+    <main class="project-showcase">
+        <div class="container">
+            <a href="/index.html#projects" class="brutalist-back-btn">
+                <span>&#8592;</span> Back to Projects
+            </a>
+
+            <header class="project-showcase__header">
+                <p class="case-eyebrow">Desktop systems case study / shipped product / Rust &amp; Tauri</p>
+                <h1 class="project-showcase__title">Deskemy</h1>
+                <p class="project-showcase__subtitle">An offline player for the video courses you already own. Point it
+                    at a folder and it becomes a browsable library with native playback, resume, subtitle search, and
+                    study tools — no accounts, no telemetry, and no network calls for your content.</p>
+
+                <div class="project-showcase__links">
+                    <a href="https://github.com/NFRohan/Deskemy" target="_blank" rel="noopener"
+                        class="brutalist-btn brutalist-btn--primary">View on GitHub &#8599;</a>
+                    <a href="https://github.com/NFRohan/Deskemy/releases/latest" target="_blank" rel="noopener"
+                        class="brutalist-btn brutalist-btn--secondary">Download for Windows &#8599;</a>
+                </div>
+
+                <div class="case-metric-grid">
+                    <div class="case-metric">
+                        <span class="case-metric__value">52</span>
+                        <span class="case-metric__label">GitHub stars from real users</span>
+                    </div>
+                    <div class="case-metric">
+                        <span class="case-metric__value">261</span>
+                        <span class="case-metric__label">installer and portable downloads</span>
+                    </div>
+                    <div class="case-metric">
+                        <span class="case-metric__value">6</span>
+                        <span class="case-metric__label">releases shipped in the first 6 days</span>
+                    </div>
+                    <div class="case-metric">
+                        <span class="case-metric__value">0</span>
+                        <span class="case-metric__label">accounts, telemetry, or content network calls</span>
+                    </div>
+                </div>
+
+                <figure class="case-hero-media">
+                    <img src="./Images/Deskemy Images/Deskemy Home.png" width="1920" height="1040"
+                        alt="Deskemy library home screen showing Continue Watching and the course grid"
+                        class="project-showcase__gallery-item" loading="eager" />
+                    <figcaption>The library: Continue Watching picks up the exact lecture you left off on, with the
+                        course grid and aggregate progress underneath.</figcaption>
+                </figure>
+            </header>
+
+            <div class="project-showcase__content">
+                <article class="project-showcase__body">
+                    <h2>Why This Project Exists</h2>
+                    <p>I had a folder of downloaded video courses and no good way to actually work through them. A
+                        generic media player forgets where you were, knows nothing about sections or lectures, and
+                        cannot tell you whether you have finished a course. The web players these courses come from
+                        need an account and a connection. What I wanted was something in between: a player that
+                        understands course structure, remembers everything, and works on a plane.</p>
+
+                    <p>So Deskemy is a desktop app that treats a folder of videos as a first-class course. It reads
+                        the folder structure into sections and ordered lectures, cleans the numeric prefixes out of
+                        the titles, attaches subtitles and resource files to the lecture they belong to, and then
+                        gets out of the way. Your files are referenced where they sit — never copied, moved, or
+                        uploaded — and everything the app records lives in one local SQLite database.</p>
+
+                    <div class="case-callout">
+                        <strong>Outcome:</strong> It found an audience I did not plan for. 52 stars, 261 installer and
+                        portable downloads across six releases, and a community-maintained Simplified Chinese
+                        translation someone forked and now keeps up on their own.
+                    </div>
+
+                    <h2>My Role</h2>
+                    <p>Solo project, end to end: the Rust core, the Svelte front end, the playback integration, the
+                        SQLite schema and search, the Windows packaging and installer, the auto-updater feed, and the
+                        release process. The interesting engineering was almost all at the boundaries — between a web
+                        UI and a native video surface, and between a media library and the filesystem underneath it.</p>
+
+                    <h2>Architecture</h2>
+                    <p>Deskemy is a Tauri v2 app: a SvelteKit SPA in a WebView2 window, talking over IPC to a Rust
+                        core that owns the database, the importer, and the player. The one thing the web layer never
+                        touches is the video itself. That is handled natively, and composited underneath the UI.</p>
+
+                    <pre class="mermaid">
+flowchart TB
+  subgraph win[Deskemy window - Tauri v2]
+    ui[SvelteKit UI - transparent WebView2]
+    subgraph core[Rust core]
+      cmd[Commands + events]
+      imp[Two-phase importer: scan, probe, persist]
+      ply[Player control via FFI]
+    end
+    dcomp[DirectComposition video surface]
+  end
+
+  mpv[libmpv-2.dll bundled]
+  db[(SQLite + FTS5 via rusqlite)]
+  thumb[(Content-addressed thumbnail cache)]
+  files[/Your course folders, referenced in place/]
+
+  ui -->|IPC| cmd
+  cmd -->|events| ui
+  cmd --> imp
+  cmd --> ply
+  cmd --> db
+  cmd --> thumb
+  imp -->|probe| mpv
+  imp --> files
+  imp --> db
+  ply --> mpv
+  ply --> db
+  mpv -->|renders| dcomp
+  dcomp -. shows through .-> ui
+                    </pre>
+
+                    <h2>Engineering Highlights</h2>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">1. Native playback: libmpv over FFI, not an HTML5 video tag
+                        </div>
+                        <p><span class="eng-highlight__fix">Problem:</span> downloaded course videos are whatever the
+                            uploader exported — arbitrary containers, codecs, and subtitle formats. A WebView's
+                            <code>&lt;video&gt;</code> element supports a narrow slice of that, so a browser-based
+                            player would either refuse to play files or force users to transcode their library.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> playback goes through
+                            <strong>libmpv</strong>, mpv's media library, loaded at runtime through FFI with
+                            <code>libloading</code> rather than linked at build time. That means codec coverage is
+                            mpv's, not the WebView's. <code>libmpv-2.dll</code> ships inside both the installer and
+                            the portable zip so there is nothing extra to install, and the loader falls back to a
+                            <code>libmpv-2.dll</code> on <code>PATH</code> or at <code>DESKEMY_LIBMPV</code> for
+                            anyone who would rather supply their own build.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">2. Compositing native video underneath a web UI</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> once video is rendered by a native library
+                            instead of the WebView, the two have to share a window. The naive approach — a native
+                            child window sitting on top — puts the video above the entire web layer, so no HTML
+                            control can ever draw over it. Overlays, the seek bar, and the contents panel would all be
+                            hidden behind the picture.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> mpv renders into a
+                            <strong>DirectComposition</strong> surface placed <em>behind</em> a
+                            <strong>transparent WebView2</strong>. The video shows through the parts of the UI that
+                            are see-through, while the player chrome, panels, and overlays stay real DOM elements
+                            layered on top. The UI keeps the flexibility of HTML and CSS, and the video path stays
+                            fully native.</p>
+                    </div>
+
+                    <figure class="case-hero-media">
+                        <img src="./Images/Deskemy Images/Deskemy Player with panels.png" width="1920" height="1080"
+                            alt="Deskemy player with the course-contents panel open over the video"
+                            class="project-showcase__gallery-item" loading="lazy" />
+                        <figcaption>The payoff: the course-contents panel and player chrome are ordinary DOM,
+                            layered over natively rendered video.</figcaption>
+                    </figure>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">3. Two-phase import so a big course never freezes the UI
+                        </div>
+                        <p><span class="eng-highlight__fix">Problem:</span> importing a course means probing every
+                            video for duration and track metadata. Probing is slow and I/O-bound. Doing it while
+                            holding the database connection would serialize the whole import behind media inspection
+                            and leave the interface unresponsive on a large folder.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> the importer runs in two phases —
+                            <strong>probe</strong>, then <strong>persist</strong>. Media probing happens off the
+                            database connection entirely, and only the resulting metadata is written in the persist
+                            phase. Before anything is committed, the user gets a preview of exactly what will be
+                            imported: sections, lectures, resources, subtitles, and total runtime, with live progress
+                            during the scan.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">4. Rename-safe progress: identity from content, not path</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> if a library row is keyed by file path,
+                            then reorganizing your folders throws away your history. Rename a directory and every
+                            lecture underneath it looks brand new — progress gone, bookmarks orphaned. For an app
+                            whose whole value is remembering things, that is the worst possible failure.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> lectures are matched by
+                            <strong>content rather than path</strong>, so a moved or renamed file keeps its watch
+                            progress and bookmarks. The thumbnail cache is content-addressed on the same principle.
+                            An optional folder auto-rescan picks up changes on its own, and a storage panel makes the
+                            cache's disk use visible and reclaimable rather than mysterious.</p>
+                    </div>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">5. Searching the words that were actually spoken</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> title search only finds a lecture if you
+                            remember roughly what it was called. Often you remember a phrase the instructor said and
+                            have no idea which of two hundred lectures it was in.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> <strong>SQLite FTS5</strong> —
+                            bundled through <code>rusqlite</code>, so there is no external database — indexes course,
+                            section, and lecture titles for full-text search. On top of that, optional
+                            <strong>subtitle search</strong> indexes the spoken text from your subtitle files and
+                            jumps straight to the matching timestamp. You search for a sentence and land on the second
+                            it was said.</p>
+                    </div>
+
+                    <figure class="case-hero-media">
+                        <img src="./Images/Deskemy Images/Deskemy Search.png" width="1920" height="1040"
+                            alt="Deskemy search results across courses, sections, lectures, and subtitle text"
+                            class="project-showcase__gallery-item" loading="lazy" />
+                        <figcaption>Search spans courses, sections, and lectures, and optionally the subtitle text
+                            underneath them.</figcaption>
+                    </figure>
+
+                    <div class="eng-highlight">
+                        <div class="eng-highlight__title">6. Two install modes, two data-residency guarantees</div>
+                        <p><span class="eng-highlight__fix">Problem:</span> "portable" is a promise about more than
+                            the executable. If an app claims to run from a USB stick but quietly writes settings to
+                            <code>%APPDATA%</code> and a key into the registry, it has left traces on a machine that
+                            was never supposed to keep any.</p>
+                        <p><span class="eng-highlight__fix">Implementation:</span> the installed build is a
+                            <strong>per-user install</strong> needing no admin rights, keeping its library under
+                            <code>%APPDATA%\com.spooksy.deskemy</code> and deliberately leaving that folder behind on
+                            uninstall so a reinstall resumes where you left off. The portable build detects a
+                            <code>.portable</code> marker beside the executable and redirects <em>all</em> state —
+                            library, settings, thumbnails — into a <code>data/</code> folder next to it. Nothing
+                            touches <code>%APPDATA%</code> or the registry; deleting the folder removes the app
+                            completely.</p>
+                    </div>
+
+                    <h2>Study Tools</h2>
+                    <p>Beyond playback, the app tracks the things that make a course feel finishable. Continue
+                        Watching resumes the exact lecture. Bookmarks are timestamped, and there are tags, favorites,
+                        and a watch history. Career Tracks group courses into an ordered path with aggregate
+                        completion. Playback preferences — speed, subtitle, and audio track — are remembered per
+                        course, and there is a full set of YouTube-style keyboard shortcuts so the mouse is optional.</p>
+
+                    <figure class="case-hero-media">
+                        <img src="./Images/Deskemy Images/Deskemy Stats.png" width="1920" height="1040"
+                            alt="Deskemy stats dashboard with watch-time streaks and an activity heatmap"
+                            class="project-showcase__gallery-item" loading="lazy" />
+                        <figcaption>Watch-time stats: an activity heatmap, streaks, and a daily goal.</figcaption>
+                    </figure>
+
+                    <div class="case-screenshot-grid">
+                        <figure class="case-shot">
+                            <img src="./Images/Deskemy Images/Deskemy Course View.png" width="1920" height="1040"
+                                alt="Deskemy course view with sections and ordered lectures"
+                                class="project-showcase__gallery-item" loading="lazy" />
+                            <figcaption>Course view: sections and ordered lectures with per-lecture progress.</figcaption>
+                        </figure>
+                        <figure class="case-shot">
+                            <img src="./Images/Deskemy Images/Deskemy player Fullscreen.png" width="1920" height="1080"
+                                alt="Deskemy fullscreen player" class="project-showcase__gallery-item"
+                                loading="lazy" />
+                            <figcaption>Fullscreen playback with the chrome dismissed.</figcaption>
+                        </figure>
+                        <figure class="case-shot">
+                            <img src="./Images/Deskemy Images/Deskemy history.png" width="1920" height="1040"
+                                alt="Deskemy watch history" class="project-showcase__gallery-item" loading="lazy" />
+                            <figcaption>Watch history across every course in the library.</figcaption>
+                        </figure>
+                        <figure class="case-shot">
+                            <img src="./Images/Deskemy Images/Deskemy Keyboard shortcut Cheatsheet.png" width="1920"
+                                height="1040" alt="Deskemy keyboard shortcuts cheat sheet"
+                                class="project-showcase__gallery-item" loading="lazy" />
+                            <figcaption>The shortcut cheat sheet, one <code>?</code> away at any time.</figcaption>
+                        </figure>
+                    </div>
+
+                    <h2>Privacy By Construction</h2>
+                    <p>There are no accounts, no telemetry, and no network requests for your content. The library,
+                        progress, bookmarks, and stats exist only in a local database, and the app works entirely
+                        offline. This is not a policy page — it is a consequence of the architecture. There is no
+                        server to send anything to.</p>
+
+                    <h2>Tradeoffs And Honest Limits</h2>
+                    <p>Deskemy is Windows-only. The DirectComposition compositing that makes the player work is a
+                        Windows API, so macOS and Linux would each need their own equivalent path rather than a
+                        recompile. Bundling <code>libmpv-2.dll</code> also makes the download noticeably larger than a
+                        pure web-stack app would be — a deliberate trade for playing files that would otherwise not
+                        play at all.</p>
+
+                    <p>Subtitle search only knows what is in your subtitle files; there is no transcription step, so
+                        a course shipped without subtitles is not searchable by speech. The community translations are
+                        maintained as separate projects, which means they can trail a release — a real cost of not
+                        having built localization into the app from the start.</p>
+
+                    <h2>What This Demonstrates</h2>
+                    <p>This is the project where I had to be most careful at the seams between a managed runtime and
+                        the operating system: loading a C library through FFI at runtime, getting a native video
+                        surface to composite correctly with a browser engine, and deciding what identity means for a
+                        file that can move. It is also the one with actual users, which changed how I worked — six
+                        releases in the first six days, because bug reports arrived from people who were not me.</p>
+                </article>
+
+                <aside class="project-sidebar">
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Project Type</div>
+                        <p style="margin:0; font-family:var(--font-primary); font-size:1rem; font-weight:500;">
+                            Desktop application &amp; systems engineering
+                        </p>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Traction</div>
+                        <ul>
+                            <li>52 GitHub stars</li>
+                            <li>261 downloads, 6 releases</li>
+                            <li>3 forks</li>
+                            <li>1 community translation</li>
+                            <li>MIT licensed</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">My Focus</div>
+                        <ul>
+                            <li>Rust core architecture</li>
+                            <li>FFI playback integration</li>
+                            <li>Native/web compositing</li>
+                            <li>SQLite schema and FTS5</li>
+                            <li>Importer pipeline</li>
+                            <li>Content-addressed identity</li>
+                            <li>Windows packaging</li>
+                            <li>Release and update feed</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Technologies</div>
+                        <div class="skill-group__badges">
+                            <span class="tech-tag">Rust</span>
+                            <span class="tech-tag">Tauri v2</span>
+                            <span class="tech-tag">Svelte 5</span>
+                            <span class="tech-tag">SvelteKit</span>
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">Tailwind v4</span>
+                            <span class="tech-tag">libmpv</span>
+                            <span class="tech-tag">libloading</span>
+                            <span class="tech-tag">SQLite</span>
+                            <span class="tech-tag">FTS5</span>
+                            <span class="tech-tag">rusqlite</span>
+                            <span class="tech-tag">DirectComposition</span>
+                            <span class="tech-tag">WebView2</span>
+                            <span class="tech-tag">NSIS</span>
+                        </div>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Systems Shipped</div>
+                        <ul>
+                            <li>Folder-to-course importer</li>
+                            <li>Native playback engine</li>
+                            <li>Progress and resume</li>
+                            <li>Full-text and subtitle search</li>
+                            <li>Bookmarks, tags, favorites</li>
+                            <li>Career Tracks</li>
+                            <li>Watch-time stats</li>
+                            <li>Thumbnail cache</li>
+                            <li>Portable mode</li>
+                            <li>Auto-updater feed</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-sidebar__section">
+                        <div class="project-sidebar__heading">Design Stance</div>
+                        <ul>
+                            <li>Files referenced, never copied</li>
+                            <li>No accounts, no telemetry</li>
+                            <li>Fully offline by construction</li>
+                            <li>Content-addressed identity</li>
+                            <li>Portable leaves no trace</li>
+                            <li>Bundled runtime, zero setup</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer__content">
+            <p class="footer__tagline">Built with Biriyani &amp; Caffeine</p>
+            <p>&copy; 2026 Nayeem Fardin</p>
+        </div>
+    </footer>
+
+    <button id="backToTopBtn" class="back-to-top" aria-label="Back to Top">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+    <script type="module" src="/main.js"></script>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'base',
+            themeVariables: {
+                primaryColor: '#ffffff',
+                primaryTextColor: '#1a1a1a',
+                primaryBorderColor: '#1a1a1a',
+                lineColor: '#1a1a1a',
+                secondaryColor: '#ffe156',
+                tertiaryColor: '#fafafa',
+                fontFamily: '"Space Grotesk", sans-serif'
+            }
+        });
+
+        const backdrop = document.createElement('div');
+        backdrop.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:9998;display:none;cursor:zoom-out;';
+        document.body.appendChild(backdrop);
+
+        document.addEventListener('click', (e) => {
+            const mermaidEl = e.target.closest('.mermaid');
+            if (e.target === backdrop) {
+                const expanded = document.querySelector('.mermaid.expanded');
+                if (expanded) expanded.classList.remove('expanded');
+                backdrop.style.display = 'none';
+                document.body.style.overflow = '';
+            } else if (mermaidEl) {
+                mermaidEl.classList.toggle('expanded');
+                if (mermaidEl.classList.contains('expanded')) {
+                    backdrop.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    backdrop.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

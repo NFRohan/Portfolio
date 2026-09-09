@@ -14,6 +14,7 @@ export default defineConfig({
                 interviewprepper: resolve(__dirname, 'interview-prepper.html'),
                 neoalarm: resolve(__dirname, 'neoalarm.html'),
                 retailos: resolve(__dirname, 'retailos-lite.html'),
+                deskemy: resolve(__dirname, 'deskemy.html'),
             },
         },
     },

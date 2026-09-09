@@ -101,7 +101,7 @@
         "@type": "ItemList",
         "@id": "https://nayeemfardin.vercel.app/#projects",
         "name": "Engineering projects by Nayeem Fardin",
-        "numberOfItems": 8,
+        "numberOfItems": 9,
         "itemListElement": [
           {
             "@type": "ListItem",
@@ -120,6 +120,24 @@
             "@type": "ListItem",
             "position": 2,
             "item": {
+              "@type": "SoftwareApplication",
+              "name": "Deskemy",
+              "description": "Offline course player for Windows built with Tauri v2, Svelte 5, and a Rust core that drives libmpv over FFI, compositing native video beneath a transparent WebView2 via DirectComposition, with SQLite FTS5 subtitle search and rename-safe progress. 52 GitHub stars and 261 downloads across 6 releases.",
+              "url": "https://nayeemfardin.vercel.app/deskemy.html",
+              "applicationCategory": "EducationalApplication",
+              "operatingSystem": "Windows 10, Windows 11",
+              "softwareVersion": "1.2.2",
+              "downloadUrl": "https://github.com/NFRohan/Deskemy/releases/latest",
+              "license": "https://opensource.org/licenses/MIT",
+              "sameAs": "https://github.com/NFRohan/Deskemy",
+              "programmingLanguage": ["Rust", "TypeScript", "Svelte"],
+              "author": { "@id": "https://nayeemfardin.vercel.app/#person" }
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "item": {
               "@type": "SoftwareSourceCode",
               "name": "ShelfWatch",
               "description": "Retail inventory analysis system running fine-tuned YOLOv11L on AWS EKS as a microserviced deployment, compiled to an in-process ONNX Runtime engine with INT8 quantization for 4x CPU inference speedup and 70-90% cost savings.",
@@ -131,7 +149,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 3,
+            "position": 4,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "PixTools",
@@ -144,7 +162,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 4,
+            "position": 5,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "NeoAlarm",
@@ -157,7 +175,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 5,
+            "position": 6,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "StatusMonitor",
@@ -170,7 +188,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 6,
+            "position": 7,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "Crawler RAG DocHelper",
@@ -182,7 +200,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 7,
+            "position": 8,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "interviewPrepper",
@@ -195,7 +213,7 @@
           },
           {
             "@type": "ListItem",
-            "position": 8,
+            "position": 9,
             "item": {
               "@type": "SoftwareSourceCode",
               "name": "RoutineMaker",
@@ -234,7 +252,7 @@
             "name": "What technologies does Nayeem Fardin work with?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Languages: Python, Go, Dart, Kotlin, JavaScript, C++, and Java. AI and ML: LangChain, PyTorch, RAG, YOLO, and ONNX Runtime. Backend and web: FastAPI, Node, Express, and React. Cloud and ops: AWS, Docker, Kubernetes, Terraform, and Linux. Systems and tooling: Kafka, RabbitMQ, Celery, Grafana, ArgoCD, and Helm. Databases: PostgreSQL, Redis, InfluxDB, Pinecone, and MongoDB."
+              "text": "Languages: Python, Go, Rust, Dart, Kotlin, JavaScript, C++, and Java. AI and ML: LangChain, PyTorch, RAG, YOLO, and ONNX Runtime. Backend and web: FastAPI, Node, Express, React, and Svelte. Desktop: Tauri v2 with a Rust core. Cloud and ops: AWS, Docker, Kubernetes, Terraform, and Linux. Systems and tooling: Kafka, RabbitMQ, Celery, Grafana, ArgoCD, and Helm. Databases: PostgreSQL, Redis, InfluxDB, Pinecone, and MongoDB."
             }
           },
           {
@@ -242,7 +260,7 @@
             "name": "What are Nayeem Fardin's most notable projects?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "RetailOS Lite, an AI-native retail execution platform with async YOLO shelf analysis and a five-signal fraud engine; ShelfWatch, a retail inventory detection system on AWS EKS delivering 4x CPU inference speedup and 70-90% cost savings; PixTools, a distributed image processing platform with a Go HTTP edge and a Terraform-provisioned K3s cluster; and NeoAlarm, a reliability-first Android alarm app built on a native Kotlin alarm engine."
+              "text": "RetailOS Lite, an AI-native retail execution platform with async YOLO shelf analysis and a five-signal fraud engine; Deskemy, a Rust and Tauri offline course player with 52 GitHub stars and 261 downloads that drives libmpv over FFI; ShelfWatch, a retail inventory detection system on AWS EKS delivering 4x CPU inference speedup and 70-90% cost savings; PixTools, a distributed image processing platform with a Go HTTP edge and a Terraform-provisioned K3s cluster; and NeoAlarm, a reliability-first Android alarm app built on a native Kotlin alarm engine."
             }
           },
           {
@@ -435,6 +453,7 @@
             <div class="skill-group__badges">
               <span class="skill-badge">Python</span>
               <span class="skill-badge">Go</span>
+              <span class="skill-badge">Rust</span>
               <span class="skill-badge">Dart</span>
               <span class="skill-badge">Kotlin</span>
               <span class="skill-badge">JavaScript</span>
@@ -447,6 +466,7 @@
             <span class="skill-group__label">Web & API</span>
             <div class="skill-group__badges">
               <span class="skill-badge">React</span>
+              <span class="skill-badge">Svelte</span>
               <span class="skill-badge">Node</span>
               <span class="skill-badge">Express</span>
               <span class="skill-badge">FastAPI</span>
@@ -492,6 +512,7 @@
               <span class="skill-badge">Grafana</span>
               <span class="skill-badge">ArgoCD</span>
               <span class="skill-badge">Helm</span>
+              <span class="skill-badge">Tauri</span>
             </div>
           </div>
 
@@ -553,7 +574,48 @@
           </ul>
         </article>
 
-        <!-- Project 2: ShelfWatch -->
+        <!-- Project 2: Deskemy -->
+        <article class="brutalist-card project-card reveal" data-accent="purple">
+          <div class="project-card__header">
+            <h3 class="project-card__title">Deskemy</h3>
+            <div style="display: flex; gap: 8px;">
+              <a href="/deskemy.html" class="brutalist-btn brutalist-btn--small"
+                style="background: var(--clr-text); color: var(--clr-surface);">Case Study →</a>
+              <a href="https://github.com/NFRohan/Deskemy" target="_blank" rel="noopener"
+                class="brutalist-btn brutalist-btn--small">GitHub ↗</a>
+            </div>
+          </div>
+          <a href="/deskemy.html" class="project-card__preview" aria-label="Open Deskemy case study">
+            <img src="./Images/Deskemy Images/Deskemy Home.png" width="1920" height="1040"
+              alt="Deskemy course library home screen preview" loading="lazy">
+          </a>
+          <div class="project-card__tags">
+            <span class="tech-tag">Rust</span>
+            <span class="tech-tag">Tauri v2</span>
+            <span class="tech-tag">Svelte 5</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">libmpv</span>
+            <span class="tech-tag">SQLite FTS5</span>
+            <span class="tech-tag">DirectComposition</span>
+            <span class="tech-tag">WebView2</span>
+          </div>
+          <ul class="project-card__highlights">
+            <li>Shipped Windows desktop course player with <strong>52 GitHub stars</strong>, <strong>261
+                downloads</strong> across 6 releases, and a community-maintained Chinese translation.</li>
+            <li>Drives <strong>libmpv</strong> through runtime <strong>Rust FFI</strong> (<code>libloading</code>)
+              instead of an HTML5 video tag, so playback covers whatever codecs a downloaded course ships with.</li>
+            <li>Composites native video on a <strong>DirectComposition</strong> surface <em>behind</em> a
+              <strong>transparent WebView2</strong>, keeping player chrome and panels as real DOM on top.</li>
+            <li>Two-phase importer (<strong>probe → persist</strong>) keeps slow media probing off the database
+              connection so scanning a large course never blocks the UI.</li>
+            <li><strong>Rename-safe progress</strong>: lectures are matched by content rather than path, so
+              reorganizing folders preserves watch history and bookmarks.</li>
+            <li><strong>SQLite FTS5</strong> full-text search over titles plus optional subtitle search that jumps
+              straight to the spoken timestamp.</li>
+          </ul>
+        </article>
+
+        <!-- Project 3: ShelfWatch -->
         <article class="brutalist-card project-card reveal" data-accent="yellow">
           <div class="project-card__header">
             <h3 class="project-card__title">ShelfWatch</h3>
@@ -595,7 +657,7 @@
           </ul>
         </article>
 
-        <!-- Project 3: PixTools -->
+        <!-- Project 4: PixTools -->
         <article class="brutalist-card project-card reveal" data-accent="cyan">
           <div class="project-card__header">
             <h3 class="project-card__title">PixTools</h3>
@@ -632,7 +694,7 @@
           </ul>
         </article>
 
-        <!-- Project 4: NeoAlarm -->
+        <!-- Project 5: NeoAlarm -->
         <article class="brutalist-card project-card reveal" data-accent="green">
           <div class="project-card__header">
             <h3 class="project-card__title">NeoAlarm</h3>
@@ -842,9 +904,10 @@
         <details class="faq__item" data-accent="green">
           <summary class="faq__question">What technologies does Nayeem Fardin work with?</summary>
           <div class="faq__answer">
-            <p><strong>Languages:</strong> Python, Go, Dart, Kotlin, JavaScript, C++, and Java.
+            <p><strong>Languages:</strong> Python, Go, Rust, Dart, Kotlin, JavaScript, C++, and Java.
               <strong>AI and ML:</strong> LangChain, PyTorch, RAG, YOLO, and ONNX Runtime.
-              <strong>Backend and web:</strong> FastAPI, Node, Express, and React.
+              <strong>Backend and web:</strong> FastAPI, Node, Express, React, and Svelte.
+              <strong>Desktop:</strong> Tauri v2 with a Rust core.
               <strong>Cloud and ops:</strong> AWS, Docker, Kubernetes, Terraform, and Linux.
               <strong>Systems and tooling:</strong> Kafka, RabbitMQ, Celery, Grafana, ArgoCD, and Helm.
               <strong>Databases:</strong> PostgreSQL, Redis, InfluxDB, Pinecone, and MongoDB.</p>
@@ -855,7 +918,9 @@
           <summary class="faq__question">What are Nayeem Fardin's most notable projects?</summary>
           <div class="faq__answer">
             <p><a href="/retailos-lite.html">RetailOS Lite</a>, an AI-native retail execution platform with async YOLO
-              shelf analysis and a five-signal fraud engine; <a href="/shelfwatch.html">ShelfWatch</a>, a retail
+              shelf analysis and a five-signal fraud engine; <a href="/deskemy.html">Deskemy</a>, a Rust and Tauri
+              offline course player with 52 GitHub stars and 261 downloads that drives libmpv over FFI;
+              <a href="/shelfwatch.html">ShelfWatch</a>, a retail
               inventory detection system on AWS EKS delivering 4× CPU inference speedup and 70–90% cost savings;
               <a href="/pixtools.html">PixTools</a>, a distributed image processing platform with a Go HTTP edge and a
               Terraform-provisioned K3s cluster; and <a href="/neoalarm.html">NeoAlarm</a>, a reliability-first Android
