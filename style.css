@@ -402,6 +402,7 @@ code {
   height: 42px;
   border: var(--border);
   background: var(--clr-surface);
+  color: var(--clr-text);
   box-shadow: var(--shadow-sm);
   cursor: pointer;
   transition: transform 0.15s, box-shadow 0.15s, background 0.15s;

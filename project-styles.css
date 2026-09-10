@@ -489,6 +489,12 @@ img.expanded {
     padding: 40px;
     cursor: zoom-out !important;
     margin: 0;
+    /* Scroll on both axes so a diagram bigger than the overlay can be panned
+       instead of being squeezed down to fit. */
+    overflow: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y pinch-zoom;
 }
 
 .mermaid.expanded svg {
@@ -559,5 +565,26 @@ img.expanded {
     .case-ascii {
         font-size: 0.7rem;
         padding: 16px;
+    }
+}
+
+/* ============================================================
+   EXPANDED DIAGRAMS ON NARROW SCREENS
+   Fitting a wide flowchart into a phone viewport scales the labels to
+   the point of being unreadable, which defeats the purpose of tapping
+   to expand. Render it at a legible width instead and let the reader
+   pan and pinch.
+   ============================================================ */
+@media (max-width: 768px) {
+    .mermaid.expanded {
+        width: 100vw;
+        height: 100vh;
+        padding: 16px;
+    }
+
+    .mermaid.expanded svg {
+        width: auto !important;
+        min-width: 860px;
+        height: auto !important;
     }
 }
