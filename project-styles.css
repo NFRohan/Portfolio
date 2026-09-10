@@ -450,8 +450,14 @@
 
 .img-backdrop.is-open {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    /* Deliberately NOT justify-content/align-items: center. When the item is
+       larger than the container those split the overflow across both edges,
+       and overflow past the start edge is not reachable by scrolling — the
+       left of the image gets clipped away with no way to pan to it. Auto
+       margins on the item centre it while it fits and collapse to zero when
+       it does not, which keeps every edge scrollable. */
+    align-items: flex-start;
+    justify-content: flex-start;
     padding: 2.5vh 2.5vw;
     overflow: auto;
     overscroll-behavior: contain;
@@ -517,6 +523,7 @@ img.expanded {
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-x pan-y pinch-zoom;
+    text-align: left;
 }
 
 .mermaid.expanded svg {
@@ -605,9 +612,11 @@ img.expanded {
     }
 
     .mermaid.expanded svg {
+        display: block;
         width: auto !important;
         min-width: 860px;
         height: auto !important;
+        margin: 0 !important;
     }
 }
 

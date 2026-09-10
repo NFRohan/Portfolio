@@ -246,8 +246,10 @@ function expandImage(img) {
 
   imgBackdrop.appendChild(img);
   imgBackdrop.classList.add('is-open');
+  // Open at the top-left. Starting mid-scroll on a wide capture looks like
+  // the left has been cropped off, which is the whole thing being fixed here.
   imgBackdrop.scrollTop = 0;
-  imgBackdrop.scrollLeft = Math.max(0, (imgBackdrop.scrollWidth - imgBackdrop.clientWidth) / 2);
+  imgBackdrop.scrollLeft = 0;
   document.body.style.overflow = 'hidden';
 }
 
