@@ -941,7 +941,10 @@ code {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
-  object-fit: cover;
+  /* contain, not cover: these are UI screenshots and dashboards, and a
+     29% horizontal crop cut real content out of the widest of them. The
+     box keeps the card grid uniform; the image is letterboxed inside it. */
+  object-fit: contain;
 }
 
 .project-card__tags {
