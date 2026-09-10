@@ -46,7 +46,7 @@
                     "name": "Nayeem Fardin"
                 },
                 "datePublished": "2026-09-06",
-                "dateModified": "2026-09-10",
+                "dateModified": "2026-09-11",
                 "inLanguage": "en",
                 "isPartOf": {
                     "@id": "https://nayeemfardin.vercel.app/#website"
@@ -184,29 +184,39 @@
             </a>
 
             <header class="project-showcase__header">
-                <p class="case-eyebrow">Infrastructure case study / two-host self-hosted platform / ongoing</p>
+                <p class="case-eyebrow">Infrastructure case study &middot; two hosts &middot; ongoing</p>
                 <h1 class="project-showcase__title">HomeLab</h1>
-                <p class="project-showcase__subtitle">Two machines running a photo library, a media server, and the
-                    infrastructure around them — 19 rootless containers managed as systemd units, with split-horizon
-                    DNS, digest-pinned images under SELinux, and an offsite backup that is verified by restoring it
-                    rather than by hoping. This is where I practise operating things, not just building them.</p>
+                <p class="project-showcase__subtitle">I wanted a cheap place to learn Linux, networking, containers,
+                    and actually operating software.</p>
+
+                <p class="case-lede">So I bought a used OptiPlex, kept a Raspberry Pi around for the
+                    boring-but-important stuff, and started putting services on it.</p>
+
+                <p class="case-lede">It now runs my photo library, media stack, monitoring, DNS, backups, and a
+                    collection of smaller services around them. 19 rootless containers, systemd/Quadlet, SELinux
+                    enforcing, split-horizon DNS, Tailscale, and encrypted offsite backups.</p>
+
+                <p class="case-lede">More importantly, other people actually use some of it. That changes things.</p>
+
+                <p class="case-lede">A broken service isn't just a broken project anymore. Someone eventually asks me
+                    why Jellyfin isn't working.</p>
 
                 <div class="case-metric-grid">
                     <div class="case-metric">
                         <span class="case-metric__value">19</span>
-                        <span class="case-metric__label">rootless containers as systemd Quadlets</span>
+                        <span class="case-metric__label">rootless containers</span>
                     </div>
                     <div class="case-metric">
                         <span class="case-metric__value">15</span>
-                        <span class="case-metric__label">restored files checksummed every week</span>
+                        <span class="case-metric__label">files restored and checksummed weekly</span>
                     </div>
                     <div class="case-metric">
                         <span class="case-metric__value">0</span>
-                        <span class="case-metric__label">inbound connections possible, by design</span>
+                        <span class="case-metric__label">publicly exposed services</span>
                     </div>
                     <div class="case-metric">
                         <span class="case-metric__value">2</span>
-                        <span class="case-metric__label">DNS resolvers, one set of hostnames</span>
+                        <span class="case-metric__label">DNS paths, one set of names</span>
                     </div>
                 </div>
 
@@ -214,339 +224,414 @@
                     <img src="/Images/HomeLab%20Images/dashboard.png" width="1782" height="710"
                         alt="Homelab dashboard showing host stats for both machines, Caddy and AdGuard Home, Beszel metrics for each host, offsite backup health, and the Immich photo library"
                         class="project-showcase__gallery-item" loading="eager" />
-                    <figcaption>The dashboard, served from the Pi so it stays reachable when the OptiPlex is the
-                        thing that is broken. The backup card is the one that matters: health, last run, bytes
-                        offsite, and how many files were actually restored and checksummed.</figcaption>
+                    <figcaption>The dashboard lives on the Pi rather than the main server, so I can still see what's
+                        happening when the OptiPlex is the thing that's broken.</figcaption>
                 </figure>
+
+                <p class="case-lede">The backup panel is probably the most useful part: last run, remote size,
+                    verification status, and how many files were actually restored and checked.</p>
             </header>
 
             <div class="project-showcase__content">
                 <article class="project-showcase__body">
                     <div class="case-callout">
-                        <strong>Note:</strong> the configuration for this lives in a private repository — it holds
-                        credentials and key material, and it is not something anyone else would deploy. This page is
-                        the write-up rather than a link to code.
+                        The configuration lives in a private repository. It contains credentials, keys, and
+                        machine-specific configuration, so this page is deliberately a case study rather than a public
+                        deployment repository.
                     </div>
 
-                    <h2>Why This Project Exists</h2>
-                    <p>Every other project on this site is something I built. This is the one I <em>run</em>. It has
-                        users who are not me — a housemate who wants to watch something without being told about DNS
-                        — which turns out to be the entire difference. A service being down is not a ticket, it is
-                        someone asking me why it is broken.</p>
+                    <h2>Why I Built This</h2>
+                    <p>Most of my projects are things I build. This is the one I have to live with.</p>
 
-                    <p>That changed how I work on it. There is an incident log with real postmortems, a runbook table
-                        mapping symptoms to the document that explains them, and a backup job whose success is
-                        displayed on a dashboard rather than buried in a log nobody reads. None of that is necessary
-                        for a hobby setup. All of it is necessary if you want to find out whether you can actually
-                        operate something.</p>
+                    <p>I started with the usual homelab motivation: learn some Linux, run some services, stop paying
+                        for cloud instances that sit there doing nothing.</p>
+
+                    <p>Then the problems started.</p>
+
+                    <p>A DNS setup that worked at home didn't work remotely. A Tailscale route black-holed traffic. A
+                        torrent client could reach UDP trackers with a test probe but couldn't actually announce
+                        itself. A monitoring tool was reporting completely ridiculous CPU numbers. A backup could
+                        finish successfully without me knowing whether the data could actually be restored.</p>
+
+                    <p>None of these were particularly exotic problems. They were just problems that don't show up
+                        when the only thing running is a demo.</p>
+
+                    <p>So I started keeping incident notes, writing actual postmortems, building runbooks, and putting
+                        operational state somewhere I could see it. That's probably been the most useful part of the
+                        project.</p>
 
                     <h2>The Two Hosts</h2>
-                    <p>A Dell OptiPlex 3060 Micro does the work: an i5-8500T with an integrated GPU for hardware
-                        video transcoding, running <strong>AlmaLinux 10</strong> with everything containerised.
-                        AlmaLinux is a deliberate choice rather than a default — it is RHEL-compatible, so the
-                        conventions I use here are the same ones I use on RHEL, and time spent on either carries
-                        directly over to the other.</p>
 
-                    <p>A Raspberry Pi 4 runs the <strong>operationally critical</strong> services: DNS and
-                        filtering, the dashboard, and the metrics hub. It has them because it is the host on
-                        <strong>battery backup</strong> — when mains power drops, name resolution and monitoring are
-                        exactly the things you cannot afford to lose, since without DNS nothing on the network
-                        resolves and without metrics you cannot see what state anything is in. The Pi also draws
-                        little enough to ride out an outage that would flatten the OptiPlex in minutes.</p>
+                    <h3>OptiPlex 3060 Micro</h3>
+                    <p>The OptiPlex does the heavy lifting. It's an i5-8500T with integrated graphics, running
+                        <strong>AlmaLinux 10</strong> and 19 rootless Podman containers.</p>
 
-                    <p>The network sits behind CGNAT, so there is no inbound connectivity from the internet at all.
-                        Remote access goes over a Tailscale tailnet, and nothing is ever exposed publicly. It also
-                        has consequences that show up later, in a way I did not anticipate.</p>
+                    <p>I deliberately went with AlmaLinux instead of whatever distro happened to be easiest. It's
+                        RHEL-compatible, so the things I'm learning here — systemd, SELinux, firewalld, storage,
+                        service management — are directly useful for the kind of Linux infrastructure work I want to
+                        do.</p>
 
-                    <h2>Storage: The Disk Dictates The Layout</h2>
-                    <p>There is a 119 GB SSD and a 932 GB 2.5-inch HDD. The HDD is
-                        <strong>drive-managed SMR</strong> — shingled media, where overlapping tracks mean a random
-                        write can force a read-modify-write of neighbouring data. Under sustained random writes it
-                        does not slow down gracefully; it stalls for seconds at a time.</p>
+                    <p>The machine has a small SSD and a ~1 TB HDD, so storage layout matters more than it would on a
+                        modern server with a pile of NVMe.</p>
 
-                    <p>So placement is decided by write pattern, not by size. Anything write-heavy or
-                        latency-sensitive lives on the SSD: the Postgres database behind the photo library, generated
-                        thumbnails, every service's configuration, the transcode cache, the container image store.
-                        The HDD gets only large sequential data — photo and video originals, the media library.
-                        Getting this backwards would produce a system that looks fine on paper and feels broken.</p>
+                    <h3>Raspberry Pi 4</h3>
+                    <p>The Pi handles the stuff I want available even when the main machine isn't:</p>
+                    <ul>
+                        <li>DNS and filtering</li>
+                        <li>monitoring</li>
+                        <li>dashboard</li>
+                        <li>operational utilities</li>
+                    </ul>
 
-                    <p>The bulk disk is mounted <strong>by UUID</strong> with
-                        <code>nofail,x-systemd.device-timeout=30</code>, because device names are not stable — that
-                        disk has come up as both <code>sda</code> and <code>sdb</code> across reboots. Anything that
-                        writes to it also carries <code>RequiresMountsFor=</code>, so a service cannot start before
-                        the disk is mounted and quietly write into the root filesystem instead. That failure is
-                        particularly nasty: nothing errors, and you find out when the root filesystem fills up.</p>
+                    <p>It's also on battery backup. That makes it a surprisingly good little infrastructure node. If
+                        the OptiPlex goes down, I still want DNS and monitoring to exist long enough to tell me
+                        why.</p>
 
-                    <h2>Everything Is A systemd Unit</h2>
-                    <p>All 19 containers run <strong>rootless</strong> under an unprivileged user, defined as
-                        <strong>podman Quadlets</strong> — declarative <code>.container</code> files that systemd
-                        turns into real units. There is no <code>docker-compose up</code> and no daemon running as
-                        root. Linger is enabled for the service user, so everything starts at boot with nobody logged
-                        in, and every service gets systemd's restart behaviour, ordering, and journal for free.</p>
+                    <p>The Pi isn't powerful. That's kind of the point.</p>
 
-                    <div class="eng-highlight">
-                        <div class="eng-highlight__title">Images are pinned by digest, not by tag</div>
-                        <p><span class="eng-highlight__fix">Problem:</span> a tag is a moving pointer. Pulling
-                            <code>:latest</code> — or even <code>:1.2</code> — can silently change what runs, which
-                            means a restart is a potential upgrade you did not choose and cannot reproduce.</p>
-                        <p><span class="eng-highlight__fix">Implementation:</span> every image is pinned by
-                            <code>@sha256:</code> digest, so a pull can never change the running software. Upgrading
-                            is a deliberate act: pull the new tag, read its digest, edit the unit file. It is more
-                            friction, and that is the point — the friction is where you decide to upgrade.</p>
-                    </div>
+                    <h2>Storage: The Disk Dictates the Layout</h2>
+                    <p>The server has roughly 119 GB of SSD and 932 GB of HDD.</p>
 
-                    <div class="eng-highlight">
-                        <div class="eng-highlight__title">SELinux stays enforcing, with per-path reasoning</div>
-                        <p><span class="eng-highlight__fix">Problem:</span> the usual advice for container volume
-                            problems is to add <code>:Z</code> to the bind mount and move on, or to disable SELinux
-                            entirely. On a 900 GB volume, <code>:Z</code> is not a small decision — it relabels
-                            everything it is given.</p>
-                        <p><span class="eng-highlight__fix">Implementation:</span> SELinux stays
-                            <strong>Enforcing</strong>. The bulk volume is labelled <code>container_file_t</code>
-                            once, so bind mounts of it take <strong>no</strong> <code>:Z</code> flag — relabelling
-                            ~900 GB on every container start would be brutal. Paths under the home directory are
-                            <code>user_home_t</code> and <em>do</em> need <code>:Z</code>. Two rules, each with a
-                            reason, instead of one blanket flag.</p>
-                    </div>
+                    <p>The HDD is an <strong>SMR</strong> drive, which is perfectly reasonable for large sequential
+                        files and considerably less exciting when you start throwing lots of random writes at it.</p>
 
-                    <div class="eng-highlight">
-                        <div class="eng-highlight__title">Understanding what rootless UID mapping actually does</div>
-                        <p><span class="eng-highlight__fix">Problem:</span> containers that let you choose a UID will
-                            write files owned by whatever you pick, and mixing those across services produces a
-                            permissions mess that only shows up later.</p>
-                        <p><span class="eng-highlight__fix">Implementation:</span> under rootless podman the
-                            container's root maps to the unprivileged host user, so running those containers as UID 0
-                            makes files land owned consistently by that user and confers <em>no</em> host privilege —
-                            the thing that looks alarming is actually the safe option here. Containers that insist on
-                            running as a fixed non-root user instead need an explicit
-                            <code>UserNS=keep-id</code> mapping to land in the same place.</p>
-                    </div>
+                    <p>So I stopped treating storage as <em>"put the big stuff on the big disk."</em> Instead, I treat
+                        it according to how it gets written.</p>
 
-                    <h2>Split-Horizon DNS: Two Audiences, One Set Of Names</h2>
-                    <p>Every service answers on a <code>.home</code> name — <code>jellyfin.home</code>,
-                        <code>photos.home</code>, <code>dash.home</code>. The problem is that two different audiences
-                        need two different answers for the same name. A housemate on the LAN with no VPN needs the
-                        LAN address. My own devices, which may be anywhere, need the tailnet address.</p>
+                    <p>The SSD gets:</p>
+                    <ul>
+                        <li>PostgreSQL</li>
+                        <li>thumbnails and generated data</li>
+                        <li>container storage</li>
+                        <li>service configuration</li>
+                        <li>transcode cache</li>
+                        <li>other latency-sensitive state</li>
+                    </ul>
 
-                    <p>So two resolvers answer the same question differently, and both point at the same reverse
-                        proxy, which listens on every interface:</p>
+                    <p>The HDD gets:</p>
+                    <ul>
+                        <li>photos</li>
+                        <li>videos</li>
+                        <li>media</li>
+                        <li>other large, mostly-sequential data</li>
+                    </ul>
 
-                    <pre class="mermaid">
-flowchart TD
-    H["Housemate on the LAN, no VPN"] --> AG["AdGuard Home on the Pi"]
-    M["My devices, on the tailnet, anywhere"] --> TS["Tailscale split-DNS rule for .home"]
-    TS --> CD["CoreDNS, tailnet-only"]
-    AG -->|"resolves to the LAN address"| CADDY["Caddy, listening on all interfaces"]
-    CD -->|"resolves to the tailnet address"| CADDY
-    CADDY --> SVC["19 services on .home names"]
-                    </pre>
+                    <p>The difference is noticeable when you get the layout wrong.</p>
 
-                    <p>The tailnet half is reached through a <strong>Tailscale split-DNS rule</strong> scoped to
-                        <code>.home</code> only, so everything else on those devices keeps using its normal DNS
-                        rather than being routed through my house. The services run plain HTTP on purpose: these are
-                        internal names that no public certificate authority can issue for, so HTTPS would mean either
-                        a private CA on every guest device or a browser warning on every visit. Unmatched hostnames
-                        get a clean 404 rather than whichever service happened to be first.</p>
+                    <p>The HDD is mounted by UUID with <code>nofail</code> and a systemd device timeout. Services that
+                        depend on it use <code>RequiresMountsFor=</code> so they cannot happily start writing into an
+                        empty directory on <code>/</code> when the disk isn't mounted.</p>
 
-                    <p>DNS is deliberately <strong>not</strong> reachable from the LAN — the tailnet-only resolver
-                        must stay tailnet-only, or LAN clients would start getting tailnet addresses they cannot
-                        reach. The reverse proxy's admin API is bound to the tailnet address for the same reason.
-                        The Tailscale interface sits in the firewall's trusted zone; the LAN does not.</p>
+                    <p>That particular failure mode is nasty because everything appears to work until you eventually
+                        wonder where all your root filesystem space went.</p>
+
+                    <h2>Why Everything Is a systemd Unit</h2>
+                    <p>I originally just wanted containers. Then I realised I also wanted them to behave like
+                        services.</p>
+
+                    <p>All 19 containers run rootless Podman and are defined as <strong>Quadlets</strong>. systemd
+                        handles startup, dependencies, restarts, logging, and ordering.</p>
+
+                    <p>No <code>docker compose up</code> sitting around as the thing keeping the system alive. No
+                        rootful container daemon. Linger means the services start without requiring me to log in
+                        first.</p>
+
+                    <p>It's a pretty boring setup. That's exactly what I wanted.</p>
+
+                    <h3>Digest-pinned images</h3>
+                    <p>I don't use floating image tags. Every image is pinned to a <code>sha256</code> digest, so
+                        restarting a service doesn't accidentally turn into an upgrade.</p>
+
+                    <p>When I want to upgrade something, I:</p>
+                    <ul>
+                        <li>read the release notes;</li>
+                        <li>compare the new configuration with what I'm running;</li>
+                        <li>pull the new image;</li>
+                        <li>update the digest;</li>
+                        <li>restart that service.</li>
+                    </ul>
+
+                    <p>It's more manual than <code>latest</code>. That's intentional.</p>
+
+                    <h2>SELinux Without Turning It Off</h2>
+                    <p>SELinux was one of the things I specifically wanted to get comfortable with.</p>
+
+                    <p>The easy homelab answer to a container permission problem is usually to add <code>:Z</code>.
+                        Or, worse, to disable SELinux. I wanted to actually understand what was happening.</p>
+
+                    <p>The large data volume gets the appropriate <code>container_file_t</code> label once, so
+                        containers can use it without repeatedly relabelling hundreds of gigabytes. Paths under the
+                        home directory follow a different rule and use <code>:Z</code> where appropriate.</p>
+
+                    <p>It's not complicated once the model makes sense. The useful part was learning to stop treating
+                        SELinux errors as something to bypass and start treating them as information about which
+                        boundary I had crossed.</p>
+
+                    <h2>Rootless Doesn't Mean "No Permissions Problems"</h2>
+                    <p>One slightly unintuitive part of the setup was figuring out how UID mapping actually
+                        behaves.</p>
+
+                    <p>With rootless Podman, container root is mapped to the unprivileged host user. So a container
+                        running as UID 0 isn't suddenly root on the host. That makes UID 0 inside some containers
+                        useful for keeping ownership consistent.</p>
+
+                    <p>Other applications insist on running as a particular non-root UID. Those use an explicit
+                        <code>UserNS=keep-id</code> mapping where necessary.</p>
+
+                    <p>The important part wasn't memorising the configuration. It was finally understanding which UID
+                        exists where.</p>
+
+                    <h2>One Name, Two Networks</h2>
+                    <p>Every service gets a simple internal name: <code>jellyfin.home</code>,
+                        <code>photos.home</code>, <code>dash.home</code>.</p>
+
+                    <p>At home, those names need to resolve to the LAN address. Away from home, my devices need the
+                        Tailscale address.</p>
+
+                    <p>I initially tried solving this with subnet routing. That was a mistake. I advertised the LAN
+                        through Tailscale, and managed to create a route that looked perfectly reasonable while
+                        silently black-holing traffic because the router wasn't forwarding it.</p>
+
+                    <p>So instead of making routing more complicated, I stopped routing. I use
+                        <strong>split-horizon DNS</strong>.</p>
+
+                    <pre class="case-ascii">                    jellyfin.home
+                         │
+              ┌──────────┴──────────┐
+              │                     │
+          LAN client             Tailscale client
+              │                     │
+        AdGuard Home            CoreDNS
+              │                     │
+        LAN address           Tailnet address
+              │                     │
+              └──────────┬──────────┘
+                         │
+                       Caddy
+                         │
+                    19 services</pre>
+
+                    <p>LAN devices don't need a VPN. My devices can use the same hostname from anywhere on the
+                        tailnet. And because the CoreDNS resolver is only reachable through Tailscale, LAN clients
+                        never accidentally receive the tailnet address.</p>
+
+                    <p>This was one of those cases where the eventual solution was simpler than the first one.</p>
+
+                    <h3>Why it's plain HTTP</h3>
+                    <p>The services aren't public. They're internal <code>.home</code> names, behind the
+                        LAN/Tailscale boundary, and I don't need a public certificate for them.</p>
+
+                    <p>I could set up a private CA and distribute trust to every device in the house. I could also
+                        explain to my housemate why their browser is complaining about a certificate. Or I could use
+                        HTTP.</p>
+
+                    <p>I chose HTTP. Not every homelab problem needs a more complicated solution just because
+                        production systems normally use HTTPS.</p>
+
+                    <h2>Backups: The Part I Actually Care About</h2>
+                    <p>Every night, roughly 24 GB of important data gets copied offsite and encrypted. Every week, the
+                        backup gets tested by actually restoring files.</p>
 
                     <div class="case-callout">
-                        <strong>This replaced something that did not work.</strong> An earlier attempt advertised the
-                        whole LAN subnet as a Tailscale route, which black-holed LAN traffic for connected devices.
-                        The split-DNS approach solves the same problem without touching routing at all.
+                        <strong>"The backup job succeeded" &ne; "I have a working backup."</strong>
                     </div>
 
-                    <h2>Backups: Verified, Not Assumed</h2>
-                    <p>A nightly job pushes about 24 GB offsite, encrypted, and a weekly job proves it can actually
-                        be restored. The distinction between those two sentences is the whole section.</p>
+                    <p>The remote uses a copy-based approach rather than mirroring. If I accidentally delete something
+                        locally, the deletion doesn't immediately become a deletion remotely. Previous versions are
+                        kept in timestamped backup directories.</p>
 
-                    <div class="eng-highlight">
-                        <div class="eng-highlight__title">Copy, never sync</div>
-                        <p><span class="eng-highlight__fix">Problem:</span> a mirroring sync replicates deletions. A
-                            bad <code>rm</code>, a corrupted library, or ransomware would propagate straight to the
-                            only offsite copy and destroy it. A backup that faithfully mirrors your mistake is not a
-                            backup.</p>
-                        <p><span class="eng-highlight__fix">Implementation:</span> the job uses <code>copy</code> with
-                            a timestamped <code>--backup-dir</code>. Nothing on the remote is ever deleted, and
-                            anything that <em>would</em> have been overwritten is moved aside into a dated archive
-                            folder first. The remote grows monotonically and old versions stay recoverable, at the
-                            cost of manual pruning when space gets tight.</p>
-                    </div>
+                    <p>It's less elegant than a perfect mirror. I'd rather have the ugly copy.</p>
 
-                    <div class="eng-highlight">
-                        <div class="eng-highlight__title">An encrypted remote cannot be checked the cheap way</div>
-                        <p><span class="eng-highlight__fix">Problem:</span> the remote is layered so the storage
-                            provider only ever sees ciphertext. But an encrypted remote <strong>exposes no usable
-                            hashes</strong> — the provider holds a checksum of the ciphertext, which can never equal
-                            the checksum of the plaintext. The normal cheap content check is therefore impossible.
-                        </p>
-                        <p><span class="eng-highlight__fix">Implementation:</span> verification does two different
-                            things instead. A size-and-existence sweep across everything is cheap and catches missing
-                            or truncated files, but cannot catch corruption that preserves length. So the job also
-                            performs <strong>a real restore</strong>: 15 random files are pulled back down,
-                            decrypted, and checksummed against the local original. That is the only check that proves
-                            the entire chain — network, encryption config, and keys — actually round-trips. A backup
-                            you have never restored is a hypothesis.</p>
-                    </div>
+                    <h3>Verification</h3>
+                    <p>The remote is encrypted, which means I can't just compare the provider's ciphertext hash with
+                        my local plaintext. So verification happens in two layers:</p>
 
-                    <pre class="mermaid">
-flowchart TD
-    SRC["Photos, database dumps, service configs, unit files"] --> NIGHT["Nightly: copy with timestamped backup-dir"]
-    NIGHT --> ENC["Encrypted remote: provider sees ciphertext only"]
-    ENC --> WEEK["Weekly verification"]
-    WEEK --> SZ["Size and existence sweep across everything"]
-    WEEK --> RST["Restore 15 random files, decrypt, checksum"]
-    SZ --> ST["Status JSON: ok, warn, or fail"]
-    RST --> ST
-    ST --> DASH["Shown on the dashboard, not buried in a log"]
-                    </pre>
+                    <ul>
+                        <li><strong>Cheap check:</strong> make sure everything exists and sizes look right.</li>
+                        <li><strong>Expensive check:</strong> randomly restore 15 files, decrypt them, and compare
+                            their checksums with the originals.</li>
+                    </ul>
 
-                    <p>The result is published as JSON and rendered on the dashboard, with meanings that are worth
-                        distinguishing: <strong>fail</strong> means a restored file did not match or was missing —
-                        real data loss. <strong>warn</strong> usually means local files changed after the last
-                        nightly push, which is expected right after editing a config. <strong>ok</strong> means the
-                        sweep matched and the restore sample round-tripped. A single green light that conflates those
-                        would be worse than none.</p>
+                    <p>The second one is the important test. If the restore works, I know the network worked, the
+                        remote data exists, the encryption configuration works, the keys work, and the restored bytes
+                        actually match what I started with.</p>
 
-                    <p>One performance note that mattered more than expected: enabling a single bulk listing instead
-                        of walking each directory took the size check from about <strong>nine minutes to twenty
-                        seconds</strong>. Media is deliberately excluded from the backup entirely — it is
-                        re-downloadable, it is the bulk of the disk, and at 10 Mbps upstream it would take months.
-                        Losing it costs time, not data.</p>
+                    <p>The result becomes JSON and goes onto the dashboard as:</p>
 
-                    <h2>Knowing When Something Is Wrong</h2>
-                    <p>Host metrics and per-container stats feed a dashboard on the Pi, alongside the backup status
-                        and a live log viewer that reads the rootless container socket and can tail all 19 services
-                        at once. The dashboard runs on the machine that is not the one being changed, which is the
-                        only arrangement where it is useful during an incident.</p>
+                    <ul>
+                        <li><strong>OK</strong> — backup and restore verification passed</li>
+                        <li><strong>WARN</strong> — expected differences, usually because local files changed after
+                            the last backup</li>
+                        <li><strong>FAIL</strong> — something is actually missing or doesn't match</li>
+                    </ul>
+
+                    <p>I don't want a dashboard that tells me everything is green because a script exited with code
+                        0.</p>
+
+                    <h3>A stupidly useful optimisation</h3>
+                    <p>The first version walked the remote directory tree individually. It took around nine minutes.
+                        Using a bulk listing dropped that to roughly twenty seconds.</p>
+
+                    <p>That's the kind of optimisation you don't think about until you have to stare at your own backup
+                        job every night.</p>
+
+                    <p>Media isn't backed up. At my current upload speed, re-uploading media I can simply download
+                        again isn't worth the time it would take. Photos, configs, databases and other irreplaceable
+                        data are the priority.</p>
+
+                    <h2>Monitoring</h2>
+                    <p>The dashboard runs on the Pi and collects:</p>
+                    <ul>
+                        <li>host metrics</li>
+                        <li>container metrics</li>
+                        <li>backup status</li>
+                        <li>service health</li>
+                        <li>logs</li>
+                    </ul>
+
+                    <p>The log viewer can tail all 19 rootless containers in one place.</p>
 
                     <figure class="case-figure">
                         <img src="/Images/HomeLab%20Images/live-logs.png" width="1908" height="762"
                             alt="Live container log viewer tailing all 19 rootless containers on the OptiPlex, with host CPU and memory headroom in the header"
                             class="project-showcase__gallery-item" loading="lazy" />
-                        <figcaption>All 19 containers in one place. The header carries the memory figure that makes
-                            the binding constraint obvious, and the highlighted line is a real failure — a job whose
-                            embedding provider is not configured — rather than a staged screenshot.</figcaption>
+                        <figcaption>All 19 containers in one place, with host CPU and memory headroom in the header.
+                        </figcaption>
                     </figure>
 
-                    <p>One thing worth recording: the log viewer's per-container CPU percentage is
-                        <strong>wrong under podman</strong>, inflated by roughly 305×. It is noted in the runbook,
-                        because a monitoring tool that lies confidently is worse than one that says nothing — the
-                        first time you see 3000% CPU you go looking for a problem that does not exist.</p>
+                    <p>And yes, the monitoring has lied to me. Podman's per-container CPU number is currently inflated
+                        by roughly <strong>305&times;</strong> in the viewer. So when something says a container is
+                        using 3000% CPU, I don't immediately start panicking. It's documented in the runbook.</p>
 
-                    <h2>A Postmortem: Three Symptoms, One Root Cause</h2>
-                    <p>The best thing in this project is an incident write-up, because the wrong theories are the
-                        valuable part. A large download sat with zero peers indefinitely. It was not the ISP, not
-                        CGNAT, and not the source — but it took discarding two plausible explanations to establish
-                        that.</p>
+                    <p>A monitoring system that confidently gives you bad information can be more dangerous than
+                        having no metric at all.</p>
 
-                    <p>The affected service ran behind rootless podman's <strong>userspace port proxy</strong> on a
-                        bridge network. It sends its UDP tracker announcements and peer-discovery traffic
-                        <em>from its own listen socket</em>, and replies could not find their way back through that
-                        proxy — so every UDP announcement timed out. Meanwhile outbound UDP from an
-                        <em>ephemeral</em> port was translated normally, which is exactly why the obvious diagnostic
-                        succeeded and sent me the wrong way.</p>
+                    <h2>The Incident That Made the Project Worth Writing About</h2>
+                    <p>This is probably my favourite part of the whole homelab.</p>
 
-                    <div class="eng-highlight">
-                        <div class="eng-highlight__title">Wrong theory 1: the ISP or CGNAT is filtering UDP</div>
-                        <p>It fitted the evidence well — DNS over UDP worked, and every other UDP port timed out.
-                            Killed by sending a raw protocol probe to the same trackers, which got replies from both
-                            hosts. UDP egress had never been blocked.</p>
-                    </div>
+                    <p>A large torrent sat at zero peers. Naturally, I blamed the ISP, CGNAT, UDP filtering, and
+                        Podman. All reasonable guesses. All wrong.</p>
 
-                    <div class="eng-highlight">
-                        <div class="eng-highlight__title">Wrong theory 2: rootless podman blocks outbound UDP</div>
-                        <p>The natural next guess. Killed by running the identical probe <em>from inside the
-                            container itself</em>, which also got a reply. Container UDP egress worked fine; only
-                            that application's own announcements failed. <strong>That distinction is the entire
-                            diagnosis</strong> — the difference between a probe's ephemeral source port and the
-                            application's own listen socket.</p>
-                    </div>
+                    <p>A raw UDP probe to the same trackers worked. Then I ran the same probe from inside the
+                        container. That worked too. So outbound UDP wasn't the problem.</p>
 
-                    <p>A third symptom had a different cause again: local peer discovery relies on multicast, and
-                        <strong>LAN multicast does not cross the podman bridge</strong> into a container's namespace.
-                        A machine on the same switch was broadcasting the whole time and nothing in the container
-                        could hear it. And the tracker could not introduce the two either, because both sit behind
-                        the same CGNAT address and clients skip peers advertising their own external address. Three
-                        discovery paths, three different reasons, two machines one metre apart.</p>
+                    <p>The difference was the <strong>source socket</strong>.</p>
 
-                    <p>The fix was to move that service to host networking so it owns its sockets directly instead of
-                        going through the proxy. Measured before and after: UDP trackers went from 0 working to 4–5
-                        per torrent, and the distributed hash table from 0 nodes to 122 connected. Transfer over the
-                        LAN went from about 5 MB/s to 58 MB/s once the local peer was reachable.</p>
+                    <p>The application was announcing from its own listening socket through rootless Podman's
+                        userspace port proxy. Replies couldn't make their way back through that path. The test probe,
+                        meanwhile, used an ephemeral source port and behaved completely normally.</p>
 
-                    <p>The fix then broke three things, which is the part worth writing down. Leaving the container
-                        network meant every service that referred to it <em>by container name</em> stopped resolving
-                        — three automation services and the reverse proxy all had to be repointed. And the host's own
-                        LAN address turned out to be unreachable from inside containers: the firewall drops traffic
-                        arriving from the container bridge at that address, so the correct target is the special
-                        <code>host.containers.internal</code> name podman provides for exactly this. Finally, the
-                        reverse proxy's <code>reload</code> <strong>silently did not apply</strong> — it logged
-                        success and exited zero while continuing to serve the old configuration, confirmed by reading
-                        its live config back from the admin API. Only a restart applied it.</p>
+                    <p>Same network. Same container. Different socket. That was the actual bug.</p>
+
+                    <p>Then there was another problem: LAN peer discovery uses multicast, and multicast wasn't
+                        crossing the Podman bridge. And the tracker couldn't help either because both clients were
+                        behind the same CGNAT address. So I had three different discovery mechanisms failing for three
+                        different reasons.</p>
+
+                    <p>The fix was moving the service to host networking. The result was pretty dramatic:</p>
+
+                    <ul>
+                        <li>UDP trackers: 0 &rarr; 4&ndash;5 per torrent</li>
+                        <li>DHT: 0 &rarr; 122 connected nodes</li>
+                        <li>LAN transfer: ~5 MB/s &rarr; ~58 MB/s</li>
+                    </ul>
+
+                    <p>And then the fix broke other things.</p>
+
+                    <p>Three services and the reverse proxy had been referring to the container by its old
+                        container-network hostname. The host's LAN address also wasn't reachable from the container the
+                        way I expected because of the firewall path, so <code>host.containers.internal</code> was the
+                        correct target. Then Caddy's reload reported success while continuing to serve the old
+                        configuration. Only restarting it actually applied the change.</p>
+
+                    <p>That incident taught me more about containers and networking than a lot of tutorials did.</p>
 
                     <div class="case-callout">
-                        <strong>The lesson worth keeping:</strong> a working low-level probe does not prove the
-                        application's path works. The probe and the application used different source sockets, so one
-                        succeeded while the other was completely dead. Test the way the application actually behaves,
-                        not the way that is convenient to test.
+                        A successful low-level test doesn't prove that the application works. If the application uses
+                        a different socket, namespace, protocol path, or discovery mechanism, test <em>that</em>.
                     </div>
 
-                    <h2>Known Constraints</h2>
-                    <p>Memory is the binding constraint — 7.3 GB against the photo stack's own 8 GB recommendation,
-                        with 19 containers sharing it. A 16 GB upgrade is planned, and the 8th-generation memory
-                        controller rejects single-rank ×16 modules, so the part has to be dual-rank ×8. That is the
-                        kind of detail you only learn by ordering the wrong one.</p>
+                    <h2>Constraints</h2>
+                    <p>This thing is still a cheap homelab. That means it has limits.</p>
 
-                    <p>CGNAT means no inbound connections, which is good for exposure and bad for anything
-                        peer-to-peer. SMR makes sustained random writes the worst-case workload for the bulk disk,
-                        so the affected service runs with preallocation on and concurrency capped to compensate.
-                        Neither is solvable at this budget; both are documented so the next surprise is a shorter
-                        investigation.</p>
+                    <h3>Memory</h3>
+                    <p>The OptiPlex currently has 8 GB RAM, which is getting uncomfortable with the photo stack and 19
+                        containers. A 16 GB upgrade is planned.</p>
 
-                    <h2>What This Demonstrates</h2>
-                    <p>Writing software and operating it are different skills, and the second one is harder to
-                        evidence. This is where I have had to actually do the unglamorous half: decide what a green
-                        light means, find out whether a backup restores, discover that a monitoring tool is lying,
-                        work out why a fix broke three unrelated things, and write it all down for the version of me
-                        who hits it again in six months. The infrastructure decisions on my other projects —
-                        graceful eviction, digest pinning, health checks, provenance on every result — mostly come
-                        from having been burned here first, where the only person paged was me.</p>
+                    <p>I also managed to learn the hard way that not every DDR4 SO-DIMM is compatible with this
+                        generation of Intel memory controllers. Apparently RAM can have lore.</p>
+
+                    <h3>CGNAT</h3>
+                    <p>There is no useful inbound IPv4 connectivity. That's annoying for peer-to-peer workloads, but
+                        it's also one reason the homelab has almost nothing exposed publicly. Remote administration
+                        goes through Tailscale.</p>
+
+                    <h3>SMR storage</h3>
+                    <p>The HDD is great for large media files. It is not where I want databases or workloads doing
+                        sustained random writes. So the storage layout is built around that limitation rather than
+                        pretending the disk is something it isn't.</p>
+
+                    <h2>What I Actually Learned</h2>
+                    <p>The biggest thing this project taught me is that building something and operating something are
+                        very different activities.</p>
+
+                    <p>Building a service is usually: <em>does it work?</em></p>
+
+                    <p>Operating it becomes:</p>
+                    <ul>
+                        <li>What happens when the disk disappears?</li>
+                        <li>What happens when DNS breaks?</li>
+                        <li>How do I know the backup worked?</li>
+                        <li>What if the monitoring is wrong?</li>
+                        <li>Can somebody else use this without asking me how it works?</li>
+                        <li>What happens when the fix itself breaks something else?</li>
+                    </ul>
+
+                    <p>I didn't set out to build some miniature enterprise platform. I wanted somewhere cheap to
+                        learn.</p>
+
+                    <p>Somewhere along the way, I ended up learning that the boring parts — backups, logs, runbooks,
+                        service dependencies, failure modes, recovery — are where most of the actual engineering
+                        is.</p>
+
+                    <p>And unlike most of my projects, this one keeps giving me bugs after I ship it. Which is
+                        probably why I've learned the most from it.</p>
                 </article>
 
                 <aside class="project-sidebar">
                     <div class="project-sidebar__section">
                         <div class="project-sidebar__heading">Project Type</div>
                         <p style="margin:0; font-family:var(--font-primary); font-size:1rem; font-weight:500;">
-                            Infrastructure &amp; operations, ongoing
+                            Infrastructure &amp; Operations &middot; Ongoing
                         </p>
                     </div>
 
                     <div class="project-sidebar__section">
                         <div class="project-sidebar__heading">Scale</div>
                         <ul>
-                            <li>2 hosts, 1 tailnet</li>
+                            <li>2 hosts</li>
+                            <li>1 tailnet</li>
                             <li>19 rootless containers</li>
-                            <li>~1 TB storage, two tiers</li>
-                            <li>~24 GB encrypted offsite</li>
-                            <li>Non-technical users, plural</li>
+                            <li>~1 TB local storage</li>
+                            <li>~24 GB encrypted offsite backup</li>
+                            <li>Multiple real users</li>
                         </ul>
                     </div>
 
                     <div class="project-sidebar__section">
                         <div class="project-sidebar__heading">My Focus</div>
                         <ul>
-                            <li>Rootless container runtime</li>
-                            <li>systemd service management</li>
+                            <li>Rootless Podman</li>
+                            <li>systemd / Quadlet</li>
+                            <li>Linux service management</li>
                             <li>DNS architecture</li>
-                            <li>Reverse proxy and firewalling</li>
-                            <li>SELinux policy in practice</li>
-                            <li>Backup and restore verification</li>
-                            <li>Metrics and log aggregation</li>
-                            <li>Incident response and postmortems</li>
+                            <li>Reverse proxying</li>
+                            <li>firewalld</li>
+                            <li>SELinux</li>
+                            <li>Storage and mount dependencies</li>
+                            <li>Backup and restore</li>
+                            <li>Monitoring and logging</li>
+                            <li>Incident response</li>
                         </ul>
                     </div>
 
@@ -554,7 +639,7 @@ flowchart TD
                         <div class="project-sidebar__heading">Technologies</div>
                         <div class="skill-group__badges">
                             <span class="tech-tag">Podman</span>
-                            <span class="tech-tag">Quadlets</span>
+                            <span class="tech-tag">Quadlet</span>
                             <span class="tech-tag">systemd</span>
                             <span class="tech-tag">AlmaLinux</span>
                             <span class="tech-tag">Debian</span>
@@ -574,23 +659,26 @@ flowchart TD
                     <div class="project-sidebar__section">
                         <div class="project-sidebar__heading">Operating Practices</div>
                         <ul>
-                            <li>Images pinned by digest</li>
-                            <li>Mounts by UUID, with nofail</li>
-                            <li>RequiresMountsFor on writers</li>
+                            <li>Digest-pinned container images</li>
+                            <li>UUID-based mounts</li>
+                            <li><code>nofail</code> + systemd device timeouts</li>
+                            <li><code>RequiresMountsFor=</code></li>
                             <li>SELinux enforcing</li>
-                            <li>Copy-never-sync backups</li>
+                            <li>Rootless containers</li>
+                            <li>Copy-based offsite backups</li>
                             <li>Weekly restore verification</li>
-                            <li>Backup status on a dashboard</li>
-                            <li>Incident log with postmortems</li>
-                            <li>Symptom-to-document runbook</li>
+                            <li>Dashboarded backup status</li>
+                            <li>Incident logs and postmortems</li>
+                            <li>Symptom-based runbooks</li>
                         </ul>
                     </div>
 
                     <div class="project-sidebar__section">
                         <div class="project-sidebar__heading">Open Gaps</div>
                         <ul>
-                            <li>Memory below recommendation</li>
-                            <li>Local peer discovery unverified since the fix</li>
+                            <li>More RAM</li>
+                            <li>Better verification of local peer discovery</li>
+                            <li>More work to make the setup resilient to hardware failure</li>
                         </ul>
                     </div>
                 </aside>
@@ -614,45 +702,6 @@ flowchart TD
     </button>
 
     <script type="module" src="/main.js"></script>
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({
-            startOnLoad: true,
-            theme: 'base',
-            themeVariables: {
-                primaryColor: '#ffffff',
-                primaryTextColor: '#1a1a1a',
-                primaryBorderColor: '#1a1a1a',
-                lineColor: '#1a1a1a',
-                secondaryColor: '#ffe156',
-                tertiaryColor: '#fafafa',
-                fontFamily: '"Space Grotesk", sans-serif'
-            }
-        });
-
-        const backdrop = document.createElement('div');
-        backdrop.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:9998;display:none;cursor:zoom-out;';
-        document.body.appendChild(backdrop);
-
-        document.addEventListener('click', (e) => {
-            const mermaidEl = e.target.closest('.mermaid');
-            if (e.target === backdrop) {
-                const expanded = document.querySelector('.mermaid.expanded');
-                if (expanded) expanded.classList.remove('expanded');
-                backdrop.style.display = 'none';
-                document.body.style.overflow = '';
-            } else if (mermaidEl) {
-                mermaidEl.classList.toggle('expanded');
-                if (mermaidEl.classList.contains('expanded')) {
-                    backdrop.style.display = 'block';
-                    document.body.style.overflow = 'hidden';
-                } else {
-                    backdrop.style.display = 'none';
-                    document.body.style.overflow = '';
-                }
-            }
-        });
-    </script>
 </body>
 
 </html>

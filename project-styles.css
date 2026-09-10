@@ -528,3 +528,36 @@ img.expanded {
         grid-template-columns: 1fr;
     }
 }
+
+/* ============================================================
+   CASE STUDY: LEDE PARAGRAPHS & ASCII DIAGRAMS
+   ============================================================ */
+.case-lede {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--clr-text-muted);
+    max-width: 800px;
+    margin-bottom: 20px;
+}
+
+.case-ascii {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    white-space: pre;
+    tab-size: 4;
+    background: var(--clr-surface);
+    color: var(--clr-text);
+    border: var(--border-thick);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin: 32px 0;
+    overflow-x: auto;
+}
+
+@media (max-width: 640px) {
+    .case-ascii {
+        font-size: 0.7rem;
+        padding: 16px;
+    }
+}
