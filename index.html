@@ -350,7 +350,7 @@
             "name": "Why are your projects so infrastructure-heavy?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Because that is where things actually break, and I find that part genuinely interesting rather than a chore. Spot instances need graceful eviction or you lose work. A 65-branch repository will exhaust GitHub's hourly rate limit unless the sync is incremental and watermarked. Container images pinned by tag can silently change what runs, so mine are pinned by @sha256: digest. A shingled drive stalls for seconds under random writes, so write-heavy data belongs on the SSD and only sequential bulk goes on the platter. None of that shows up in a feature list, and all of it decides whether the thing stays up."
+              "text": "Because that is where things actually break, and I find that part genuinely interesting rather than a chore. Spot instances need graceful eviction or you lose work. A 65-branch repository will exhaust GitHub's hourly rate limit unless the sync is incremental and watermarked. Container images pinned by tag can silently change what runs, so mine are pinned by @sha256: digest. A shingled drive stalls for seconds under random writes, so write-heavy data belongs on the SSD and only sequential bulk goes on the HDD. None of that shows up in a feature list, and all of it decides whether the thing stays up."
             }
           },
           {
@@ -792,7 +792,7 @@
             <li>Offsite backups <strong>verified by restoring them</strong> — an encrypted remote exposes no usable
               hashes, so a weekly job pulls back 15 random files, decrypts them, and checksums against the original.</li>
             <li>Storage placement dictated by a <strong>shingled (SMR) disk</strong>: write-heavy and latency-sensitive
-              data on SSD, only large sequential data on the platter.</li>
+              data on SSD, only large sequential data on the HDD.</li>
             <li>Incident log with real postmortems — including one where three broken discovery paths had three
               different causes, and the fix then broke three more things.</li>
           </ul>
@@ -1121,7 +1121,7 @@
               GitHub's hourly rate limit unless the sync is incremental and watermarked. Container images pinned by
               tag can silently change what runs, so mine are pinned by <code>@sha256:</code> digest. A shingled drive
               stalls for seconds under random writes, so write-heavy data belongs on the SSD and only sequential bulk
-              goes on the platter. None of that shows up in a feature list, and all of it decides whether the thing
+              goes on the HDD. None of that shows up in a feature list, and all of it decides whether the thing
               stays up.</p>
           </div>
         </details>

@@ -233,18 +233,24 @@
 
                     <h2>The Two Hosts</h2>
                     <p>A Dell OptiPlex 3060 Micro does the work: an i5-8500T with an integrated GPU for hardware
-                        video transcoding, running AlmaLinux 10 with everything containerised. A Raspberry Pi 4
-                        handles the things that must stay up when the OptiPlex is being tinkered with — DNS and
-                        filtering, the dashboard, and the metrics hub. Putting DNS on the machine that is <em>not</em>
-                        being rebuilt is the whole point of splitting them.</p>
+                        video transcoding, running <strong>AlmaLinux 10</strong> with everything containerised.
+                        AlmaLinux is a deliberate choice rather than a default — it is RHEL-compatible, so the
+                        conventions I use here are the same ones I use on RHEL, and time spent on either carries
+                        directly over to the other.</p>
+
+                    <p>A Raspberry Pi 4 runs the <strong>operationally critical</strong> services: DNS and
+                        filtering, the dashboard, and the metrics hub. It has them because it is the host on
+                        <strong>battery backup</strong> — when mains power drops, name resolution and monitoring are
+                        exactly the things you cannot afford to lose, since without DNS nothing on the network
+                        resolves and without metrics you cannot see what state anything is in. The Pi also draws
+                        little enough to ride out an outage that would flatten the OptiPlex in minutes.</p>
 
                     <p>The network sits behind CGNAT, so there is no inbound connectivity from the internet at all.
-                        That is a load-bearing assumption rather than a limitation: remote access goes over a
-                        Tailscale tailnet, and nothing is ever exposed publicly. It also has consequences that show up
-                        later, in a way I did not anticipate.</p>
+                        Remote access goes over a Tailscale tailnet, and nothing is ever exposed publicly. It also
+                        has consequences that show up later, in a way I did not anticipate.</p>
 
                     <h2>Storage: The Disk Dictates The Layout</h2>
-                    <p>There is a 119 GB SSD and a 932 GB 2.5-inch platter. The platter is
+                    <p>There is a 119 GB SSD and a 932 GB 2.5-inch HDD. The HDD is
                         <strong>drive-managed SMR</strong> — shingled media, where overlapping tracks mean a random
                         write can force a read-modify-write of neighbouring data. Under sustained random writes it
                         does not slow down gracefully; it stalls for seconds at a time.</p>
@@ -252,7 +258,7 @@
                     <p>So placement is decided by write pattern, not by size. Anything write-heavy or
                         latency-sensitive lives on the SSD: the Postgres database behind the photo library, generated
                         thumbnails, every service's configuration, the transcode cache, the container image store.
-                        The platter gets only large sequential data — photo and video originals, the media library.
+                        The HDD gets only large sequential data — photo and video originals, the media library.
                         Getting this backwards would produce a system that looks fine on paper and feels broken.</p>
 
                     <p>The bulk disk is mounted <strong>by UUID</strong> with
@@ -401,13 +407,6 @@ flowchart TD
                         seconds</strong>. Media is deliberately excluded from the backup entirely — it is
                         re-downloadable, it is the bulk of the disk, and at 10 Mbps upstream it would take months.
                         Losing it costs time, not data.</p>
-
-                    <div class="case-callout">
-                        <strong>An open gap, stated rather than hidden:</strong> the encryption password and salt
-                        currently exist only on the two machines the backup is meant to protect. Without them the
-                        offsite copy is unrecoverable noise. This is a real single point of failure, it is written
-                        down as one, and it needs a copy held off both hosts.
-                    </div>
 
                     <h2>Knowing When Something Is Wrong</h2>
                     <p>Host metrics and per-container stats feed a dashboard on the Pi, alongside the backup status
@@ -572,7 +571,6 @@ flowchart TD
                     <div class="project-sidebar__section">
                         <div class="project-sidebar__heading">Open Gaps</div>
                         <ul>
-                            <li>Encryption keys held only on the protected hosts</li>
                             <li>Memory below recommendation</li>
                             <li>Local peer discovery unverified since the fix</li>
                         </ul>
