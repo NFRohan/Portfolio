@@ -219,34 +219,61 @@ if (backToTopBtn) {
 }
 
 // ---------- Interactive Project Images (Event Delegation) ----------
+// The image is moved into the backdrop while expanded, so the backdrop can be
+// the scroll container. A position: fixed image cannot be panned, which left
+// wide screenshots unreadable on a phone.
 const imgBackdrop = document.createElement('div');
-imgBackdrop.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:9998;display:none;cursor:zoom-out;';
+imgBackdrop.className = 'img-backdrop';
 document.body.appendChild(imgBackdrop);
 
-document.addEventListener('click', (e) => {
-  // Check if click was on a zoomable image
-  if (e.target.matches('.eng-highlight__image, .project-showcase__gallery-item')) {
-    const img = e.target;
-    img.classList.add('zoomable-img'); // ensure class is there
-    img.classList.toggle('expanded');
+const ZOOMABLE = '.eng-highlight__image, .project-showcase__gallery-item';
+let imgHome = null; // where to put the image back
+let scrollBeforeExpand = 0;
 
-    if (img.classList.contains('expanded')) {
-      imgBackdrop.style.display = 'block';
-      document.body.style.overflow = 'hidden';
-    } else {
-      imgBackdrop.style.display = 'none';
-      document.body.style.overflow = '';
-    }
+function expandImage(img) {
+  if (imgHome) collapseImage();
+
+  // Lifting the image out collapses the figure it came from, which changes
+  // the document height. Remember where we were so closing does not land
+  // the reader somewhere else on the page.
+  scrollBeforeExpand = window.scrollY;
+  imgHome = { parent: img.parentNode, next: img.nextSibling };
+
+  // A wide capture needs to render bigger than the viewport to stay legible;
+  // a tall one (phone screenshot) already reads at full width.
+  const wide = img.naturalWidth >= img.naturalHeight * 1.2;
+  img.classList.add('zoomable-img', 'expanded', wide ? 'expanded--wide' : 'expanded--tall');
+
+  imgBackdrop.appendChild(img);
+  imgBackdrop.classList.add('is-open');
+  imgBackdrop.scrollTop = 0;
+  imgBackdrop.scrollLeft = Math.max(0, (imgBackdrop.scrollWidth - imgBackdrop.clientWidth) / 2);
+  document.body.style.overflow = 'hidden';
+}
+
+function collapseImage() {
+  const img = imgBackdrop.querySelector('img.expanded');
+  if (img) {
+    img.classList.remove('expanded', 'expanded--wide', 'expanded--tall');
+    if (imgHome) imgHome.parent.insertBefore(img, imgHome.next);
   }
-  // Check if click was on the backdrop OR an already expanded image
-  else if (e.target === imgBackdrop || e.target.matches('img.expanded')) {
-    const expandedImg = document.querySelector('img.expanded');
-    if (expandedImg) {
-      expandedImg.classList.remove('expanded');
-      imgBackdrop.style.display = 'none';
-      document.body.style.overflow = '';
-    }
+  imgHome = null;
+  imgBackdrop.classList.remove('is-open');
+  document.body.style.overflow = '';
+  window.scrollTo({ top: scrollBeforeExpand, behavior: 'auto' });
+}
+
+document.addEventListener('click', (e) => {
+  if (!imgHome && e.target.matches(ZOOMABLE)) {
+    expandImage(e.target);
+  } else if (imgHome && (e.target === imgBackdrop || e.target.matches('img.expanded'))) {
+    collapseImage();
   }
+});
+
+// A full-screen overlay needs a keyboard way out.
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && imgHome) collapseImage();
 });
 
 // ---------- Metric Count-Up ----------

@@ -435,22 +435,44 @@
     box-shadow: 6px 6px 0 #d3d3d3;
 }
 
-img.expanded {
+/* The expanded image is moved into .img-backdrop, which is the scroll
+   container. It therefore sits in normal flow rather than being position:
+   fixed — a fixed element cannot be panned, which is what made large
+   screenshots unreadable on a phone. */
+.img-backdrop {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) !important;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9998;
+    display: none;
+    cursor: zoom-out;
+}
+
+.img-backdrop.is-open {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5vh 2.5vw;
+    overflow: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y pinch-zoom;
+}
+
+img.expanded {
+    position: static;
+    transform: none !important;
     max-width: 95vw;
     max-height: 95vh;
     width: auto;
     height: auto;
-    z-index: 9999;
+    flex: 0 0 auto;
+    margin: auto !important;
     padding: 16px;
     background: var(--clr-surface);
     border: var(--border-thick);
     box-shadow: 16px 16px 0 #000 !important;
     cursor: zoom-out !important;
-    margin: 0 !important;
     object-fit: contain;
 }
 
@@ -586,5 +608,29 @@ img.expanded {
         width: auto !important;
         min-width: 860px;
         height: auto !important;
+    }
+}
+
+/* ============================================================
+   EXPANDED IMAGES ON NARROW SCREENS
+   Same problem as the diagrams: fitting a 1900px screenshot into a phone
+   viewport leaves it unreadable. Wide captures render at a legible width
+   and pan; tall ones (phone screenshots) already read fine at full width,
+   so those only need to pan vertically.
+   ============================================================ */
+@media (max-width: 768px) {
+    img.expanded {
+        max-width: none;
+        max-height: none;
+        padding: 8px;
+        box-shadow: none !important;
+    }
+
+    img.expanded.expanded--tall {
+        width: 100%;
+    }
+
+    img.expanded.expanded--wide {
+        width: 900px;
     }
 }
