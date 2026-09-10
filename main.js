@@ -2,6 +2,13 @@
    main.js — Interactions for Neobrutalist Portfolio
    ============================================================ */
 
+// ---------- Motion Preference ----------
+// CSS handles the declarative animations; this covers the ones only JS can
+// stop (a setInterval) or choose (smooth vs instant scrolling).
+const reduceMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+const prefersReducedMotion = () => reduceMotionQuery.matches;
+const scrollBehavior = () => (prefersReducedMotion() ? 'auto' : 'smooth');
+
 // ---------- Dark Mode Toggle ----------
 const themeToggle = document.getElementById('themeToggle');
 const htmlEl = document.documentElement;
@@ -57,19 +64,55 @@ if (subtitleEl) {
   subtitleEl.innerHTML = `<span class="subtitle-text">${subtitles[0]}</span>`;
   subtitleEl.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
 
-  setInterval(rotateSubtitle, 2800);
+  // Indefinite motion, so it has to be stoppable rather than just fast.
+  let subtitleTimer = null;
+
+  const startRotation = () => {
+    if (subtitleTimer || prefersReducedMotion()) return;
+    subtitleTimer = setInterval(rotateSubtitle, 2800);
+  };
+
+  const stopRotation = () => {
+    if (!subtitleTimer) return;
+    clearInterval(subtitleTimer);
+    subtitleTimer = null;
+    subtitleEl.innerHTML = `<span class="subtitle-text">${subtitles[currentSubtitleIndex]}</span>`;
+    subtitleEl.style.opacity = '1';
+    subtitleEl.style.transform = 'none';
+  };
+
+  startRotation();
+  reduceMotionQuery.addEventListener('change', () => {
+    prefersReducedMotion() ? stopRotation() : startRotation();
+  });
 }
 
 // ---------- Scroll Reveal (IntersectionObserver) ----------
 const revealElements = document.querySelectorAll('.reveal');
 
 const revealObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        revealObserver.unobserve(entry.target); // animate once
+  (entries, observer) => {
+    // Stagger only across elements entering in the same batch. Indexing by
+    // DOM position instead would leave a lone element waiting on a delay
+    // meant for neighbours that scrolled past long ago.
+    const entering = entries.filter((entry) => entry.isIntersecting);
+
+    entering.forEach((entry, i) => {
+      const el = entry.target;
+      const delay = entering.length > 1 && !prefersReducedMotion() ? Math.min(i * 70, 350) : 0;
+
+      if (delay) {
+        el.style.transitionDelay = `${delay}ms`;
+        // Most of these are also .brutalist-card, whose hover press shares the
+        // same transition. Leaving the delay set would make hover feel broken,
+        // so drop it once the reveal has run.
+        setTimeout(() => {
+          el.style.transitionDelay = '';
+        }, delay + 700);
       }
+
+      el.classList.add('visible');
+      observer.unobserve(el); // animate once
     });
   },
   { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
@@ -119,7 +162,7 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     if (target) {
       const navHeight = nav.offsetHeight;
       const targetPosition = target.getBoundingClientRect().top + window.scrollY - navHeight;
-      window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+      window.scrollTo({ top: targetPosition, behavior: scrollBehavior() });
     }
   });
 });
@@ -171,7 +214,7 @@ if (backToTopBtn) {
   });
 
   backToTopBtn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: scrollBehavior() });
   });
 }
 
@@ -205,3 +248,78 @@ document.addEventListener('click', (e) => {
     }
   }
 });
+
+// ---------- Metric Count-Up ----------
+// The authored value stays in the HTML, so with JS off (or reduced motion on)
+// the correct figure is already on screen and nothing here needs to run.
+const metricEls = document.querySelectorAll('.case-metric__value');
+
+if (metricEls.length && !prefersReducedMotion()) {
+  const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+
+  const countUp = (el) => {
+    const authored = el.textContent.trim();
+    // Preserve any prefix or suffix — "~6s", "9+", "55h" — and animate the digits only.
+    const parts = authored.match(/^(\D*?)(\d[\d,]*)(.*)$/);
+    if (!parts) return;
+
+    const [, prefix, digits, suffix] = parts;
+    const target = parseInt(digits.replace(/,/g, ''), 10);
+    if (!Number.isFinite(target) || target < 2) return; // nothing worth counting to
+
+    const grouped = digits.includes(',');
+    const duration = 900;
+    const started = performance.now();
+
+    const tick = (now) => {
+      const progress = Math.min((now - started) / duration, 1);
+      const value = Math.round(target * easeOut(progress));
+      el.textContent = prefix + (grouped ? value.toLocaleString() : value) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = authored; // land exactly on the authored string
+    };
+
+    requestAnimationFrame(tick);
+  };
+
+  const metricObserver = new IntersectionObserver(
+    (entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        countUp(entry.target);
+        observer.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.6 }
+  );
+
+  metricEls.forEach((el) => metricObserver.observe(el));
+}
+
+// ---------- Reading Progress (case-study pages only) ----------
+if (document.querySelector('.project-showcase')) {
+  const bar = document.createElement('div');
+  bar.className = 'read-progress';
+  bar.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(bar);
+
+  let queued = false;
+
+  const paint = () => {
+    queued = false;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const ratio = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+    bar.style.transform = `scaleX(${ratio})`;
+  };
+
+  // rAF-throttled and passive, so scrolling a long case study stays cheap.
+  const onScroll = () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(paint);
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  paint();
+}
