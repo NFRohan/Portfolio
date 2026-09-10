@@ -209,6 +209,15 @@
                         <span class="case-metric__label">DNS resolvers, one set of hostnames</span>
                     </div>
                 </div>
+
+                <figure class="case-hero-media">
+                    <img src="/Images/HomeLab%20Images/dashboard.png" width="1782" height="710"
+                        alt="Homelab dashboard showing host stats for both machines, Caddy and AdGuard Home, Beszel metrics for each host, offsite backup health, and the Immich photo library"
+                        class="project-showcase__gallery-item" loading="eager" />
+                    <figcaption>The dashboard, served from the Pi so it stays reachable when the OptiPlex is the
+                        thing that is broken. The backup card is the one that matters: health, last run, bytes
+                        offsite, and how many files were actually restored and checksummed.</figcaption>
+                </figure>
             </header>
 
             <div class="project-showcase__content">
@@ -413,6 +422,15 @@ flowchart TD
                         and a live log viewer that reads the rootless container socket and can tail all 19 services
                         at once. The dashboard runs on the machine that is not the one being changed, which is the
                         only arrangement where it is useful during an incident.</p>
+
+                    <figure class="case-figure">
+                        <img src="/Images/HomeLab%20Images/live-logs.png" width="1908" height="762"
+                            alt="Live container log viewer tailing all 19 rootless containers on the OptiPlex, with host CPU and memory headroom in the header"
+                            class="project-showcase__gallery-item" loading="lazy" />
+                        <figcaption>All 19 containers in one place. The header carries the memory figure that makes
+                            the binding constraint obvious, and the highlighted line is a real failure — a job whose
+                            embedding provider is not configured — rather than a staged screenshot.</figcaption>
+                    </figure>
 
                     <p>One thing worth recording: the log viewer's per-container CPU percentage is
                         <strong>wrong under podman</strong>, inflated by roughly 305×. It is noted in the runbook,
