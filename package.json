@@ -2,11 +2,12 @@
   "name": "portfolio",
   "private": true,
   "version": "1.0.0",
-  "description": "Neobrutalist portfolio — Nayeem Fardin",
+  "description": "Neobrutalist portfolio \u2014 Nayeem Fardin",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "devDependencies": {
     "vite": "^7.3.1"
