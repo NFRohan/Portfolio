@@ -35,7 +35,7 @@ Shipping AI features with real engineering rigor: computer vision, retrieval-aug
 
 ## Experience
 
-- **AI Native Engineering Intern — Intelligent Machines** (June 2026 – September 2026). Production-grade AI-native systems across computer vision, document intelligence, and enterprise integration pipelines for trade marketing and distribution platforms. Intelligent Machines ships 59 production systems across 16 enterprise clients in 6 countries, including Unilever, bKash, and Banglalink.
+- **AI Native Engineering Intern — Intelligent Machines** (June 2026 – August 2026, completed). Built production-grade AI-native systems across computer vision, document intelligence, and enterprise integration pipelines for trade marketing and distribution platforms. Intelligent Machines ships 59 production systems across 16 enterprise clients in 6 countries, including Unilever, bKash, and Banglalink.
 - **CyberSecurity Intern — Backdoor Private Limited** (October 2025). Digital forensics recovery of deleted artifacts with FTK Imager and Autopsy; security assessments of Android apps with MobSF and web platforms with Burp Suite and SQLMap.
 
 ## Education
