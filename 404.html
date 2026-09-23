@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page not found | Nayeem Fardin</title>
+  <meta name="description"
+    content="This page does not exist on Nayeem Fardin's portfolio. Head back to the homepage or browse the engineering case studies on AI systems and infrastructure." />
+  <!-- Served for every unmatched URL, so it must never be indexed itself. -->
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#FFE156" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1A1A1A" media="(prefers-color-scheme: dark)" />
+
+  <script>
+    (function () {
+      const saved = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', saved);
+      document.documentElement.classList.add('js');
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap"
+    rel="stylesheet" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/style.css" />
+
+  <style>
+    .notfound {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+    }
+
+    .notfound__code {
+      font-family: var(--ff-heading);
+      font-size: clamp(6rem, 22vw, 14rem);
+      font-weight: 700;
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+      color: var(--clr-text);
+    }
+
+    .notfound__lede {
+      font-family: var(--ff-body);
+      font-weight: 500;
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: var(--clr-text-muted);
+      max-width: 620px;
+      margin: 24px 0 32px;
+      line-height: 1.6;
+    }
+
+    .notfound__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 56px;
+    }
+
+    .notfound__heading {
+      font-family: var(--ff-heading);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      margin-bottom: 16px;
+    }
+
+    .notfound__links {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .notfound__links a {
+      display: block;
+      padding: 14px 18px;
+      border: var(--border);
+      background: var(--clr-surface);
+      color: var(--clr-text);
+      font-family: var(--ff-heading);
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .notfound__links a:hover {
+      transform: translate(2px, 2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .notfound__links span {
+      display: block;
+      font-family: var(--ff-body);
+      font-weight: 400;
+      font-size: 0.85rem;
+      color: var(--clr-text-muted);
+      margin-top: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="nav" id="nav">
+    <a href="/" class="nav__logo">NF<span class="accent">.</span></a>
+    <div class="nav__links">
+      <a href="/#about">About</a>
+      <a href="/#projects">Projects</a>
+      <a href="/#experience">Experience</a>
+      <a href="/#contact">Contact</a>
+    </div>
+    <div class="nav__actions">
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <span class="theme-toggle__icon theme-toggle__icon--sun">☀️</span>
+        <span class="theme-toggle__icon theme-toggle__icon--moon">🌙</span>
+      </button>
+      <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="/#about">About</a>
+    <a href="/#projects">Projects</a>
+    <a href="/#experience">Experience</a>
+    <a href="/#contact">Contact</a>
+  </div>
+
+  <main class="notfound">
+    <div class="container">
+      <p class="notfound__code">404<span class="accent">.</span></p>
+      <h1 class="notfound__lede">This page doesn't exist. It may have moved, or the link had a typo somewhere
+        along the way.</h1>
+
+      <div class="notfound__actions">
+        <a href="/" class="brutalist-btn brutalist-btn--primary">Back to home</a>
+        <a href="/#projects" class="brutalist-btn brutalist-btn--secondary">See all projects</a>
+      </div>
+
+      <p class="notfound__heading">Case studies</p>
+      <ul class="notfound__links">
+        <li><a href="/retailos-lite.html">RetailOS Lite<span>AI-native retail execution</span></a></li>
+        <li><a href="/deliverylens.html">DeliveryLens<span>AI assistant grounded in SQL</span></a></li>
+        <li><a href="/deskemy.html">Deskemy<span>Offline course player</span></a></li>
+        <li><a href="/homelab.html">HomeLab<span>Operating a self-hosted platform</span></a></li>
+        <li><a href="/shelfwatch.html">ShelfWatch<span>Retail detection on AWS EKS</span></a></li>
+        <li><a href="/pixtools.html">PixTools<span>Distributed image processing</span></a></li>
+      </ul>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p>Built with Biriyani &amp; Caffeine.</p>
+      <p>&copy; 2026 Nayeem Fardin</p>
+    </div>
+  </footer>
+
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>

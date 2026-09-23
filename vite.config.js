@@ -17,6 +17,8 @@ export default defineConfig({
                 deskemy: resolve(__dirname, 'deskemy.html'),
                 deliverylens: resolve(__dirname, 'deliverylens.html'),
                 homelab: resolve(__dirname, 'homelab.html'),
+                // Vercel serves dist/404.html for any unmatched route.
+                notfound: resolve(__dirname, '404.html'),
             },
         },
     },
