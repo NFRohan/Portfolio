@@ -9,7 +9,10 @@
  * The key is deliberately public. It is verified by hosting the same value at
  * https://<host>/<key>.txt, which proves control of the domain.
  *
- *   npm run indexnow
+ *   npm run indexnow                          # every URL in the sitemap
+ *   npm run indexnow -- deskemy.html /        # only these (paths or full URLs)
+ *
+ * IndexNow is meant for URLs that changed, so prefer passing just those.
  */
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -21,7 +24,19 @@ const ENDPOINT = 'https://api.indexnow.org/indexnow';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const sitemap = readFileSync(join(root, 'public', 'sitemap.xml'), 'utf8');
-const urlList = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1].trim());
+const inSitemap = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1].trim());
+
+const args = process.argv.slice(2);
+const toUrl = (a) => (/^https?:\/\//.test(a) ? a : `https://${HOST}/${a.replace(/^\//, '')}`);
+const urlList = args.length ? args.map(toUrl) : inSitemap;
+
+const unknown = urlList.filter((u) => !inSitemap.includes(u));
+if (unknown.length) {
+  console.error('Not in public/sitemap.xml, so not submitting:
+  ' + unknown.join('
+  '));
+  process.exit(1);
+}
 
 if (!urlList.length) {
   console.error('No <loc> entries found in public/sitemap.xml — nothing to submit.');
