@@ -167,18 +167,17 @@
             "item": {
               "@type": "SoftwareApplication",
               "name": "Deskemy",
-              "description": "Offline course player for Windows built with Tauri v2, Svelte 5, and a Rust core that drives libmpv over FFI, compositing native video beneath a transparent WebView2 via DirectComposition, with SQLite FTS5 subtitle search and rename-safe progress. 52 GitHub stars and 261 downloads across 6 releases.",
+              "description": "Offline course player for Windows, rebuilt for 2.0 from Tauri and WebView2 to a native Slint interface in which libmpv renders into the UI's own OpenGL context. Signed, opt-in updates, an in-place upgrade from 1.x, a mini player, and SQLite FTS5 subtitle search. 52 GitHub stars and 343 downloads across 7 releases.",
               "url": "https://nayeemfardin.vercel.app/deskemy.html",
               "applicationCategory": "EducationalApplication",
               "operatingSystem": "Windows 10, Windows 11",
-              "softwareVersion": "1.2.2",
+              "softwareVersion": "2.0.0",
               "downloadUrl": "https://github.com/NFRohan/Deskemy/releases/latest",
               "license": "https://opensource.org/licenses/MIT",
               "sameAs": "https://github.com/NFRohan/Deskemy",
               "programmingLanguage": [
                 "Rust",
-                "TypeScript",
-                "Svelte"
+                "Slint"
               ],
               "author": {
                 "@id": "https://nayeemfardin.vercel.app/#person"
@@ -373,7 +372,7 @@
             "name": "What's the weirdest thing you've built?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Deskemy, an offline course player for Windows. It plays through libmpv loaded over FFI at runtime rather than an HTML5 video element, so it handles whatever codecs a downloaded course ships with. The video renders to a DirectComposition surface behind a transparent WebView2, which is what lets the player chrome and panels stay ordinary DOM layered on top. Progress survives renames because lectures are matched by content rather than path, and SQLite FTS5 indexes the subtitle text so you can search for a sentence and land on the second it was said. It picked up 52 stars, 261 downloads, and a community-maintained Chinese translation, which I did not expect."
+              "text": "Deskemy, an offline course player for Windows, because I have now solved the same problem in it three times. It plays through libmpv rather than an HTML5 video element, so it handles whatever codecs a downloaded course ships with — but then something has to draw the controls over that video. The first version put the video in a separate window above a web view, and the picture lagged the layout on every resize. Version 1.x composited the video beneath a transparent web view, which fixed it but only on Windows. 2.0 rebuilt the whole interface in Slint so the video renders into the UI's own OpenGL context and the problem simply stops existing. It has 52 stars, 343 downloads, and a community-maintained Chinese translation, which I did not expect."
             }
           },
           {
@@ -747,27 +746,26 @@
           </a>
           <div class="project-card__tags">
             <span class="tech-tag">Rust</span>
-            <span class="tech-tag">Tauri v2</span>
-            <span class="tech-tag">Svelte 5</span>
-            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">Slint</span>
             <span class="tech-tag">libmpv</span>
+            <span class="tech-tag">OpenGL</span>
+            <span class="tech-tag">Skia</span>
             <span class="tech-tag">SQLite FTS5</span>
-            <span class="tech-tag">DirectComposition</span>
-            <span class="tech-tag">WebView2</span>
+            <span class="tech-tag">minisign</span>
           </div>
           <ul class="project-card__highlights">
-            <li>Shipped Windows desktop course player with <strong>52 GitHub stars</strong>, <strong>261
-                downloads</strong> across 6 releases, and a community-maintained Chinese translation.</li>
-            <li>Drives <strong>libmpv</strong> through runtime <strong>Rust FFI</strong> (<code>libloading</code>)
-              instead of an HTML5 video tag, so playback covers whatever codecs a downloaded course ships with.</li>
-            <li>Composites native video on a <strong>DirectComposition</strong> surface <em>behind</em> a
-              <strong>transparent WebView2</strong>, keeping player chrome and panels as real DOM on top.</li>
-            <li>Two-phase importer (<strong>probe → persist</strong>) keeps slow media probing off the database
-              connection so scanning a large course never blocks the UI.</li>
-            <li><strong>Rename-safe progress</strong>: lectures are matched by content rather than path, so
-              reorganizing folders preserves watch history and bookmarks.</li>
-            <li><strong>SQLite FTS5</strong> full-text search over titles plus optional subtitle search that jumps
-              straight to the spoken timestamp.</li>
+            <li>Shipped Windows desktop course player with <strong>52 GitHub stars</strong>, <strong>343
+                downloads</strong> across 7 releases, and a community-maintained Chinese translation.</li>
+            <li><strong>2.0 is a full interface rebuild</strong>: from Tauri and WebView2 to a native
+              <strong>Slint</strong> UI, removing the Windows-only compositor that was blocking Linux and macOS.</li>
+            <li>libmpv's render API draws straight into the <strong>UI's own OpenGL context</strong>, so the controls,
+              subtitles and panels over the video are just ordinary elements on every platform.</li>
+            <li>Rewrote without a flag day: a <strong>UI-agnostic core crate</strong> shared by the old and new apps
+              while the old one kept shipping.</li>
+            <li>Upgrades 1.x installs <strong>in place</strong> without losing a library; updates are opt-in and
+              <strong>signed</strong>, and the app rejects any that fail verification.</li>
+            <li>Also: an always-on-top <strong>mini player</strong>, a two-phase importer, rename-safe progress, and
+              <strong>SQLite FTS5</strong> search over spoken subtitle text.</li>
           </ul>
         </article>
 
@@ -1158,13 +1156,14 @@
         <details class="faq__item" data-accent="yellow">
           <summary class="faq__question">What's the weirdest thing you've built?</summary>
           <div class="faq__answer">
-            <p><a href="/deskemy.html">Deskemy</a>, an offline course player for Windows. It plays through libmpv
-              loaded over FFI at runtime rather than an HTML5 video element, so it handles whatever codecs a
-              downloaded course ships with. The video renders to a DirectComposition surface <em>behind</em> a
-              transparent WebView2, which is what lets the player chrome and panels stay ordinary DOM layered on top.
-              Progress survives renames because lectures are matched by content rather than path, and SQLite FTS5
-              indexes the subtitle text so you can search for a sentence and land on the second it was said. It picked
-              up 52 stars, 261 downloads, and a community-maintained Chinese translation, which I did not expect.</p>
+            <p><a href="/deskemy.html">Deskemy</a>, an offline course player for Windows, because I have now
+              solved the same problem in it three times. It plays through libmpv rather than an HTML5 video element, so
+              it handles whatever codecs a downloaded course ships with — but then something has to draw the controls
+              over that video. The first version put the video in a separate window above a web view, and the picture lagged
+              the layout on every resize. Version 1.x composited the video beneath a transparent web view, which fixed
+              it but only on Windows. 2.0 rebuilt the whole interface in Slint so the video renders into the UI's own
+              OpenGL context and the problem simply stops existing. It has 52 stars, 343 downloads, and a
+              community-maintained Chinese translation, which I did not expect.</p>
           </div>
         </details>
 
