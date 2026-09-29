@@ -32,9 +32,8 @@ const urlList = args.length ? args.map(toUrl) : inSitemap;
 
 const unknown = urlList.filter((u) => !inSitemap.includes(u));
 if (unknown.length) {
-  console.error('Not in public/sitemap.xml, so not submitting:
-  ' + unknown.join('
-  '));
+  console.error('Not in public/sitemap.xml, so not submitting:');
+  unknown.forEach((u) => console.error('  ' + u));
   process.exit(1);
 }
 
