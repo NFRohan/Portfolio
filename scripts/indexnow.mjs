@@ -10,7 +10,10 @@
  * https://<host>/<key>.txt, which proves control of the domain.
  *
  *   npm run indexnow                          # every URL in the sitemap
- *   npm run indexnow -- deskemy.html /        # only these (paths or full URLs)
+ *   npm run indexnow -- deskemy.html          # only these (paths or full URLs)
+ *
+ * For the homepage pass the full URL, https://nayeemfardin.vercel.app/ — in
+ * Git Bash a bare "/" is rewritten to a Windows path before Node sees it.
  *
  * IndexNow is meant for URLs that changed, so prefer passing just those.
  */
