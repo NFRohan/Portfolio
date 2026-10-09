@@ -1,6 +1,6 @@
 # Nayeem Fardin
 
-> AI-Native Systems Engineer and Computer Science & Engineering undergraduate at Islamic University of Technology (IUT), Bangladesh, graduating September 2026. Builds computer-vision, RAG, and LLM systems on production-grade backend foundations, with a focus on async queues, observability, resilient failure modes, and cost-conscious architecture.
+> AI-Native Systems Engineer. Junior Software Engineer at Intelligent Machines and Computer Science & Engineering graduate of Islamic University of Technology (IUT), Bangladesh, class of 2026. Builds computer-vision, RAG, and LLM systems on production-grade backend foundations, with a focus on async queues, observability, resilient failure modes, and cost-conscious architecture.
 
 - **Site:** https://nayeemfardin.vercel.app/
 - **Email:** nayeemfardin00@gmail.com
@@ -42,7 +42,7 @@ Shipping AI features with real engineering rigor: computer vision, retrieval-aug
 
 ## Education
 
-- **B.Sc. in Computer Science & Engineering** — Islamic University of Technology (IUT), expected September 2026.
+- **B.Sc. in Computer Science & Engineering** — Islamic University of Technology (IUT), graduated 2026 (results published October 2026).
 
 ## Projects
 
