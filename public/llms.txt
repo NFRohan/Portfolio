@@ -8,11 +8,12 @@
 - **LinkedIn:** https://www.linkedin.com/in/nayeem-fardin-bb902a202/
 - **Resume (PDF):** https://nayeemfardin.vercel.app/resume.pdf
 - **Location:** Bangladesh
-- **Open to:** project collaborations, internship and new-graduate engineering roles
+- **Current role:** Junior Software Engineer, Intelligent Machines (since October 2026)
+- **Open to:** project collaborations and open-source work
 
-## What I'm looking for
+## What I want to work on
 
-Engineering roles in AI infrastructure, backend, or platform work — new-grad positions and internships both, from September 2026. Particular interest in inference serving and the queues around it, retrieval systems that have to be right rather than plausible, observability, distributed systems where correctness under failure is the requirement, developer platforms, and cost-aware infrastructure. Also open to project collaborations.
+AI infrastructure, backend, and platform work. Particular interest in inference serving and the queues around it, retrieval systems that have to be right rather than plausible, observability, distributed systems where correctness under failure is the requirement, developer platforms, and cost-aware infrastructure.
 
 ## Currently
 
@@ -35,7 +36,8 @@ Shipping AI features with real engineering rigor: computer vision, retrieval-aug
 
 ## Experience
 
-- **AI Native Engineering Intern — Intelligent Machines** (June 2026 – August 2026, completed). Built production-grade AI-native systems across computer vision, document intelligence, and enterprise integration pipelines for trade marketing and distribution platforms. Intelligent Machines ships 59 production systems across 16 enterprise clients in 6 countries, including Unilever, bKash, and Banglalink.
+- **Junior Software Engineer — Intelligent Machines** (October 2026 – present). Promoted from the internship below to a full-time role building and scaling AI-first enterprise products, across frontend, backend, database and API development, plus cloud infrastructure and DevOps on AWS and GCP.
+- **AI Native Engineering Intern — Intelligent Machines** (June 2026 – September 2026, completed). Built production-grade AI-native systems across computer vision, document intelligence, and enterprise integration pipelines for trade marketing and distribution platforms. Intelligent Machines ships 59 production systems across 16 enterprise clients in 6 countries, including Unilever, bKash, and Banglalink.
 - **CyberSecurity Intern — Backdoor Private Limited** (October 2025). Digital forensics recovery of deleted artifacts with FTK Imager and Autopsy; security assessments of Android apps with MobSF and web platforms with Burp Suite and SQLMap.
 
 ## Education
